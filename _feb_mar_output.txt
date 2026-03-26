@@ -1,0 +1,150 @@
+﻿================================================================================
+ PROMETHEUS TRADING REPORT: FEB 1 - MAR 16, 2026
+================================================================================
+
+Total trades Feb 1 - now: 123
+Closed: 71 | Still pending: 52
+Wins: 21 | Losses: 6 | Breakeven: 44
+Win Rate (excl breakeven): 21/27=77.8%
+Win Rate (all closed): 29.6%
+Total PnL (closed): $1.7863
+
+--------------------------------------------------------------------------------
+SYMBOL        TRADES  CLOSED   WINS   LOSS   WIN%          PNL     BROKER
+--------------------------------------------------------------------------------
+AAPL               4       2      2      0   100% $     0.4036     Alpaca
+AAVE/USD           3       3      0      0     -- $     0.0000     Alpaca
+AMD                5       3      3      0   100% $     0.8854     Alpaca
+AMZN               6       4      4      0   100% $     0.4273     Alpaca
+AVAX/USD           4       4      0      0     -- $     0.0000     Alpaca
+BTC/USD           17       1      1      0   100% $     0.2094     Alpaca
+CRV/USD            1       1      0      0     -- $     0.0000     Alpaca
+DIA                4       1      0      1     0% $    -0.6039     Alpaca
+DOGE/USD           4       4      0      0     -- $     0.0000     Alpaca
+ETH/USD            6       6      0      0     -- $     0.0000     Alpaca
+GOOGL              3       2      2      0   100% $     0.3301     Alpaca
+IWM                3       2      2      0   100% $     0.0242     Alpaca
+LINK/USD           9       9      0      0     -- $     0.0000     Alpaca
+META               3       2      1      1    50% $     0.2093     Alpaca
+MSFT               4       0      0      0     -- $     0.0000     Alpaca
+NFLX               7       1      1      0   100% $     0.0622     Alpaca
+NVDA               6       4      3      1    75% $     0.2258     Alpaca
+PEPE/USD           2       2      0      0     -- $     0.0000     Alpaca
+QQQ                4       2      2      0   100% $     0.1726     Alpaca
+SOL/USD            7       7      0      0     -- $     0.0000     Alpaca
+SPY                4       0      0      0     -- $     0.0000     Alpaca
+SUSHI/USD          4       4      0      0     -- $     0.0000     Alpaca
+TSLA               6       3      0      3     0% $    -0.5598     Alpaca
+UNI/USD            4       4      0      0     -- $     0.0000     Alpaca
+USDC/USD           1       0      0      0     -- $     0.0000     Alpaca
+USDT/USD           2       0      0      0     -- $     0.0000     Alpaca
+
+--------------------------------------------------------------------------------
+BY WEEK:
+--------------------------------------------------------------------------------
+  2026-W05: 51 trades, 43 closed, 0W/0L, PnL: $0.0000 -- DOGE/USD, CRV/USD, BTC/USD, SOL/USD, AAPL, AVAX/USD
+  2026-W07: 42 trades, 21 closed, 17W/4L, PnL: $1.6356 -- TSLA, AMZN, SPY, NFLX, NVDA, MSFT
+  2026-W08: 5 trades, 1 closed, 0W/1L, PnL: $-0.6372 -- BTC/USD, NVDA
+  2026-W09: 7 trades, 0 closed, 0W/0L, PnL: $0.0000 -- USDC/USD, USDT/USD, BTC/USD
+  2026-W10: 18 trades, 6 closed, 4W/1L, PnL: $0.7879 -- TSLA, BTC/USD, AMZN, SOL/USD, SPY, NFLX
+
+--------------------------------------------------------------------------------
+LAST 30 TRADES (NEWEST FIRST):
+--------------------------------------------------------------------------------
+DATE                 SYM        ACT        PRICE       EXIT        PNL STATUS   BROKER    
+2026-03-13 10:02     NFLX       BUY       $94.28     $95.50    $0.0622 pending  Alpaca    
+2026-03-13 09:30     BTC/USD    BUY    $70449.30  $73308.04    $0.2094 pending  Alpaca    
+2026-03-12 21:12     SOL/USD    BUY       $86.65     $86.65         -- closed   Alpaca    
+2026-03-12 20:55     NFLX       SELL      $94.81         --         -- pending  Alpaca    
+2026-03-12 17:33     SPY        BUY      $667.85         --         -- pending  Alpaca    
+2026-03-12 17:24     TSLA       SELL     $396.77         --         -- pending  Alpaca    
+2026-03-12 08:10     QQQ        SELL     $607.04         --         -- pending  Alpaca    
+2026-03-12 07:58     TSLA       BUY      $407.84    $396.77   $-0.1416 closed   Alpaca    
+2026-03-11 06:06     NFLX       BUY       $96.94         --         -- pending  Alpaca    
+2026-03-11 05:44     DIA        BUY      $477.67         --         -- pending  Alpaca    
+2026-03-10 23:48     NFLX       BUY       $96.94         --         -- pending  Alpaca    
+2026-03-10 21:01     AMZN       BUY      $214.25         --         -- pending  Alpaca    
+2026-03-10 19:29     MSFT       BUY      $406.39         --         -- pending  Alpaca    
+2026-03-10 18:02     BTC/USD    BUY    $68429.21         --         -- pending  Alpaca    
+2026-03-10 17:23     NVDA       SELL     $185.91         --         -- pending  Alpaca    
+2026-03-10 07:45     TSLA       SELL     $398.10         --         -- pending  Alpaca    
+2026-03-10 05:38     AMD        BUY      $202.27    $204.24    $0.2645 pending  Alpaca    
+2026-03-10 03:51     NVDA       BUY      $182.12    $185.91    $0.3934 closed   Alpaca    
+2026-03-06 19:33     BTC/USD    BUY    $70876.41         --         -- pending  Alpaca    
+2026-03-03 18:56     USDC/USD   BUY        $1.00         --         -- pending  Alpaca    
+2026-03-03 17:46     USDT/USD   BUY        $1.00         --         -- pending  Alpaca    
+2026-03-03 17:40     BTC/USD    BUY    $68820.46         --         -- pending  Alpaca    
+2026-03-02 20:19     BTC/USD    BUY    $65765.11         --         -- pending  Alpaca    
+2026-03-01 15:32     BTC/USD    BUY    $66992.98         --         -- pending  Alpaca    
+2026-03-01 05:38     BTC/USD    BUY    $66992.98         --         -- pending  Alpaca    
+2026-02-27 19:28     BTC/USD    BUY    $67451.85         --         -- pending  Alpaca    
+2026-02-27 17:49     BTC/USD    BUY    $67451.85         --         -- pending  Alpaca    
+2026-02-27 16:02     BTC/USD    BUY    $67451.85         --         -- pending  Alpaca    
+2026-02-26 23:26     NVDA       BUY      $184.86    $173.20   $-0.6372 pending  Alpaca    
+2026-02-26 22:11     BTC/USD    BUY    $67915.31         --         -- pending  Alpaca    
+
+--------------------------------------------------------------------------------
+PENDING/OPEN ORDERS (52):
+--------------------------------------------------------------------------------
+  2026-02-01 00:00 | AAPL       | SELL  | $259.91 | broker=Alpaca | conf=0.6810027100271003
+  2026-02-01 01:57 | BTC/USD    | BUY   | $84099.59 | broker=Alpaca | conf=0.7135294117647059
+  2026-02-01 02:17 | BTC/USD    | BUY   | $78604.10 | broker=Alpaca | conf=0.7799999999999999
+  2026-02-01 15:11 | BTC/USD    | BUY   | $78604.10 | broker=Alpaca | conf=0.7135294117647059
+  2026-02-01 15:53 | BTC/USD    | BUY   | $78604.10 | broker=Alpaca | conf=0.7135294117647059
+  2026-02-01 16:18 | USDT/USD   | BUY   | $1.00 | broker=Alpaca | conf=0.7135294117647059
+  2026-02-01 16:27 | BTC/USD    | BUY   | $78604.10 | broker=Alpaca | conf=0.7799999999999999
+  2026-02-01 16:54 | BTC/USD    | BUY   | $78604.10 | broker=Alpaca | conf=0.7135294117647059
+  2026-02-16 07:17 | SPY        | BUY   | $681.61 | broker=Alpaca | conf=0.9081810142825385
+  2026-02-16 07:17 | NFLX       | BUY   | $76.84 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-16 07:18 | DIA        | BUY   | $495.33 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-16 07:18 | AMD        | BUY   | $207.14 | broker=Alpaca | conf=0.9081810142825385
+  2026-02-16 07:23 | SPY        | BUY   | $681.61 | broker=Alpaca | conf=0.9081810142825385
+  2026-02-16 07:23 | NFLX       | BUY   | $76.84 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-17 16:32 | IWM        | SELL  | $263.10 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-17 16:32 | SPY        | SELL  | $680.98 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-17 16:32 | QQQ        | SELL  | $598.28 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-17 16:38 | MSFT       | BUY   | $399.55 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 03:00 | MSFT       | SELL  | $396.76 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 03:00 | AAPL       | SELL  | $263.93 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:34 | NFLX       | SELL  | $76.44 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:34 | GOOGL      | SELL  | $303.62 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:35 | TSLA       | SELL  | $411.14 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:35 | DIA        | SELL  | $496.24 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:35 | AMD        | SELL  | $196.01 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:35 | NVDA       | SELL  | $188.14 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:46 | META       | SELL  | $633.43 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-18 16:52 | MSFT       | BUY   | $397.61 | broker=Alpaca | conf=0.8151054243231087
+  2026-02-19 03:03 | AMZN       | SELL  | $204.70 | broker=Alpaca | conf=0.8147539610268711
+  2026-02-26 22:11 | BTC/USD    | BUY   | $67915.31 | broker=Alpaca | conf=0.8206911209338725
+  2026-02-27 16:02 | BTC/USD    | BUY   | $67451.85 | broker=Alpaca | conf=0.7824687986299992
+  2026-02-27 17:49 | BTC/USD    | BUY   | $67451.85 | broker=Alpaca | conf=0.8203948174247175
+  2026-02-27 19:28 | BTC/USD    | BUY   | $67451.85 | broker=Alpaca | conf=0.8203948174247175
+  2026-03-01 05:38 | BTC/USD    | BUY   | $66992.98 | broker=Alpaca | conf=0.783653915950232
+  2026-03-01 15:32 | BTC/USD    | BUY   | $66992.98 | broker=Alpaca | conf=0.8039719143296218
+  2026-03-02 20:19 | BTC/USD    | BUY   | $65765.11 | broker=Alpaca | conf=0.8005332706008828
+  2026-03-03 17:40 | BTC/USD    | BUY   | $68820.46 | broker=Alpaca | conf=0.781269463799436
+  2026-03-03 17:46 | USDT/USD   | BUY   | $1.00 | broker=Alpaca | conf=0.7854493092316361
+  2026-03-03 18:56 | USDC/USD   | BUY   | $1.00 | broker=Alpaca | conf=0.7856493653766637
+  2026-03-06 19:33 | BTC/USD    | BUY   | $70876.41 | broker=Alpaca | conf=0.8157960738037814
+  2026-03-10 07:45 | TSLA       | SELL  | $398.10 | broker=Alpaca | conf=0.716487908827083
+  2026-03-10 17:23 | NVDA       | SELL  | $185.91 | broker=Alpaca | conf=0.7143413684357868
+  2026-03-10 18:02 | BTC/USD    | BUY   | $68429.21 | broker=Alpaca | conf=0.7418816412606717
+  2026-03-10 19:29 | MSFT       | BUY   | $406.39 | broker=Alpaca | conf=0.7172720924108134
+  2026-03-10 21:01 | AMZN       | BUY   | $214.25 | broker=Alpaca | conf=0.7161561576912003
+  2026-03-10 23:48 | NFLX       | BUY   | $96.94 | broker=Alpaca | conf=0.7161561576912003
+  2026-03-11 05:44 | DIA        | BUY   | $477.67 | broker=Alpaca | conf=0.7346140553695151
+  2026-03-11 06:06 | NFLX       | BUY   | $96.94 | broker=Alpaca | conf=0.7346140553695151
+  2026-03-12 08:10 | QQQ        | SELL  | $607.04 | broker=Alpaca | conf=0.7173781874120928
+  2026-03-12 17:24 | TSLA       | SELL  | $396.77 | broker=Alpaca | conf=0.7471794524646944
+  2026-03-12 17:33 | SPY        | BUY   | $667.85 | broker=Alpaca | conf=0.7647886302197784
+  2026-03-12 20:55 | NFLX       | SELL  | $94.81 | broker=Alpaca | conf=0.7173781874120928
+
+================================================================================
+ ALL-TIME STATS
+================================================================================
+Total trades: 616
+Closed: 325 | Pending: 291
+Wins: 52 | Losses: 44 | Win Rate: 54.2%
+Total PnL: $4.5115
+Last trade: 2026-03-13T10:02:34.638654
+Days since last trade: 3

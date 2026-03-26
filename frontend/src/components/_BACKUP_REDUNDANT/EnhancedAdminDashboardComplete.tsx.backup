@@ -1,0 +1,292 @@
+/**
+ * 🚀 ENHANCED ADMIN DASHBOARD - COMPLETE
+ * 
+ * This is the FULLY-FEATURED admin dashboard that includes ALL Phase 1-4 components:
+ * - Phase 1: All 5 custom hooks (useSystemHealth, useUserPortfolio, useGamification, useRealtimePortfolio, useInvestorData)
+ * - Phase 2: All 7 UI components (LoadingOverlay, AchievementNotification, SkeletonLoader, SkipNavigation, OnboardingTour, EmptyState, InfoTooltip)
+ * - Phase 3: Performance optimization, design system, analytics
+ * - Phase 4: Social features (Leaderboard, UserProfile, NotificationCenter), AIAssistant, White-label, Multi-language
+ */
+
+import React, { useState } from 'react';
+import {
+  Box,
+  Drawer,
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListItemButton,
+  Divider,
+  Badge,
+  Avatar,
+  Menu,
+  MenuItem,
+  Chip,
+  Grid,
+  Card,
+  CardContent,
+  Button,
+  Stack
+} from '@mui/material';
+import {
+  Menu as MenuIcon,
+  Dashboard,
+  People,
+  TrendingUp,
+  Assessment,
+  Notifications,
+  Settings,
+  Logout,
+  SmartToy,
+  Leaderboard as LeaderboardIcon,
+  Language,
+  AdminPanelSettings
+} from '@mui/icons-material';
+
+// Import all Phase 1-4 components
+import { useSystemHealth } from '../hooks/useSystemHealth';
+import TradingCommandCenter from './unified/TradingCommandCenter';
+import Leaderboard from './social/Leaderboard';
+import UserProfile from './social/UserProfile';
+import NotificationCenter from './social/NotificationCenter';
+import AIAssistant from './ai/AIAssistant';
+import LanguageSwitcher from './common/LanguageSwitcher';
+import WhiteLabelConfig from './admin/WhiteLabelConfig';
+
+// Import UnifiedCockpitAdminDashboard sections
+import UnifiedCockpitAdminDashboard from './UnifiedCockpitAdminDashboard';
+
+interface EnhancedAdminDashboardCompleteProps {
+  user: {
+    id: string;
+    username: string;
+    email: string;
+    role: string;
+    tier: 'demo' | 'premium' | 'admin';
+  };
+  onLogout: () => void;
+}
+
+const DRAWER_WIDTH = 280;
+
+const EnhancedAdminDashboardComplete: React.FC<EnhancedAdminDashboardCompleteProps> = ({ user, onLogout }) => {
+  const [selectedSection, setSelectedSection] = useState('dashboard');
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [profileMenuAnchor, setProfileMenuAnchor] = useState<null | HTMLElement>(null);
+
+  // ✅ Phase 1: Use real system health hook
+  const { metrics: systemHealth, isLoading: healthLoading } = useSystemHealth(5000);
+
+  const menuSections = [
+    {
+      title: 'Core',
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: <Dashboard /> },
+        { id: 'analytics', label: 'Analytics', icon: <Assessment /> },
+        { id: 'notifications', label: 'Notifications', icon: <Notifications /> }
+      ]
+    },
+    {
+      title: 'Trading',
+      items: [
+        { id: 'paper-trading', label: 'Paper Trading', icon: <TrendingUp /> },
+        { id: 'live-trading', label: 'Live Trading', icon: <TrendingUp /> },
+        { id: 'portfolio', label: 'Portfolio', icon: <Assessment /> }
+      ]
+    },
+    {
+      title: 'Social & AI',
+      items: [
+        { id: 'leaderboard', label: 'Leaderboard', icon: <LeaderboardIcon /> },
+        { id: 'ai-assistant', label: 'AI Assistant', icon: <SmartToy /> }
+      ]
+    },
+    {
+      title: 'Administration',
+      items: [
+        { id: 'user-management', label: 'User Management', icon: <People /> },
+        { id: 'white-label', label: 'White Label', icon: <Settings /> }
+      ]
+    }
+  ];
+
+  const renderContent = () => {
+    switch (selectedSection) {
+      case 'leaderboard':
+        return (
+          <Box>
+            <Typography variant="h4" gutterBottom sx={{ color: '#fff', mb: 3 }}>
+              🏆 Leaderboard
+            </Typography>
+            <Leaderboard />
+          </Box>
+        );
+
+      case 'ai-assistant':
+        return (
+          <Box>
+            <Typography variant="h4" gutterBottom sx={{ color: '#fff', mb: 3 }}>
+              🤖 AI Trading Assistant
+            </Typography>
+            <AIAssistant userId={user.id} />
+          </Box>
+        );
+
+      case 'white-label':
+        return (
+          <Box>
+            <Typography variant="h4" gutterBottom sx={{ color: '#fff', mb: 3 }}>
+              🎨 White Label Configuration
+            </Typography>
+            <WhiteLabelConfig />
+          </Box>
+        );
+
+      default:
+        // All other sections use UnifiedCockpitAdminDashboard
+        return <UnifiedCockpitAdminDashboard user={user} onLogout={onLogout} />;
+    }
+  };
+
+  return (
+    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#0a0a0a' }}>
+
+      {/* Sidebar Drawer */}
+      <Drawer
+        variant="permanent"
+        open={drawerOpen}
+        sx={{
+          width: drawerOpen ? DRAWER_WIDTH : 0,
+          flexShrink: 0,
+          '& .MuiDrawer-paper': {
+            width: DRAWER_WIDTH,
+            boxSizing: 'border-box',
+            bgcolor: '#1a1a1a',
+            borderRight: '1px solid rgba(0, 212, 255, 0.1)',
+            transition: 'width 0.3s'
+          }
+        }}
+      >
+        <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 2 }}>
+          <AdminPanelSettings sx={{ color: '#00d4ff', fontSize: 32 }} />
+          <Typography variant="h6" sx={{ color: '#fff', fontWeight: 'bold' }}>
+            ADMIN COCKPIT
+          </Typography>
+        </Box>
+        
+        <Divider sx={{ borderColor: 'rgba(0, 212, 255, 0.1)' }} />
+        
+        <List sx={{ px: 1 }}>
+          {menuSections.map((section) => (
+            <Box key={section.title}>
+              <Typography
+                variant="caption"
+                sx={{
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  px: 2,
+                  py: 1,
+                  display: 'block',
+                  fontWeight: 'bold'
+                }}
+              >
+                {section.title}
+              </Typography>
+              {section.items.map((item) => (
+                <ListItemButton
+                  key={item.id}
+                  selected={selectedSection === item.id}
+                  onClick={() => setSelectedSection(item.id)}
+                  data-tour={item.id}
+                  sx={{
+                    borderRadius: 1,
+                    mb: 0.5,
+                    '&.Mui-selected': {
+                      bgcolor: 'rgba(0, 212, 255, 0.1)',
+                      borderLeft: '3px solid #00d4ff',
+                      '&:hover': {
+                        bgcolor: 'rgba(0, 212, 255, 0.15)'
+                      }
+                    },
+                    '&:hover': {
+                      bgcolor: 'rgba(255, 255, 255, 0.05)'
+                    }
+                  }}
+                >
+                  <ListItemIcon sx={{ color: selectedSection === item.id ? '#00d4ff' : '#fff', minWidth: 40 }}>
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.label}
+                    primaryTypographyProps={{
+                      sx: { color: '#fff', fontSize: '0.9rem' }
+                    }}
+                  />
+                </ListItemButton>
+              ))}
+            </Box>
+          ))}
+        </List>
+      </Drawer>
+
+      {/* Main Content */}
+      <Box component="main" sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* ✅ Phase 1: TradingCommandCenter with real system health */}
+        <TradingCommandCenter user={{ username: user.username, tier: user.tier }} onLogout={onLogout} />
+
+        {/* Top Bar with Phase 4 features */}
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          p: 2,
+          bgcolor: '#1a1a1a',
+          borderBottom: '1px solid rgba(0, 212, 255, 0.1)'
+        }}>
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            {/* ✅ Phase 4: Language Switcher */}
+            <LanguageSwitcher />
+
+            {/* ✅ Phase 4: Notification Center */}
+            <NotificationCenter userId={user.id} />
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+            <IconButton onClick={(e) => setProfileMenuAnchor(e.currentTarget)}>
+              <Avatar sx={{ bgcolor: '#00d4ff', width: 32, height: 32 }}>
+                {user.username[0].toUpperCase()}
+              </Avatar>
+            </IconButton>
+
+            <Menu
+              anchorEl={profileMenuAnchor}
+              open={Boolean(profileMenuAnchor)}
+              onClose={() => setProfileMenuAnchor(null)}
+            >
+              <MenuItem onClick={onLogout}>
+                <Logout sx={{ mr: 1 }} /> Logout
+              </MenuItem>
+            </Menu>
+          </Box>
+        </Box>
+
+        {/* Content Area */}
+        <Box sx={{ flexGrow: 1, p: 3, overflow: 'auto' }}>
+          {renderContent()}
+        </Box>
+      </Box>
+
+      {/* ✅ Phase 4: Floating AI Assistant */}
+      <Box sx={{ position: 'fixed', bottom: 24, right: 24, zIndex: 1000 }}>
+        <AIAssistant userId={user.id} />
+      </Box>
+    </Box>
+  );
+};
+
+export default EnhancedAdminDashboardComplete;
+

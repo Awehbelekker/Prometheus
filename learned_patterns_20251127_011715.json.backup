@@ -1,0 +1,922 @@
+{
+  "regime_patterns": {},
+  "volatility_patterns": {},
+  "trend_patterns": {
+    "SPY_1": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 154,
+          "downtrend_periods": 47,
+          "trend_strength_avg": 0.024124316264877484
+        }
+      }
+    ],
+    "QQQ_1": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 154,
+          "downtrend_periods": 47,
+          "trend_strength_avg": 0.031015416892792743
+        }
+      }
+    ],
+    "AAPL_1": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 113,
+          "downtrend_periods": 88,
+          "trend_strength_avg": 0.03339993012129771
+        }
+      }
+    ],
+    "MSFT_1": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 116,
+          "downtrend_periods": 85,
+          "trend_strength_avg": 0.03390596582145921
+        }
+      }
+    ],
+    "TSLA_1": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 117,
+          "downtrend_periods": 84,
+          "trend_strength_avg": 0.08029497846708948
+        }
+      }
+    ],
+    "SPY_5": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 848,
+          "downtrend_periods": 358,
+          "trend_strength_avg": 0.020041186436164315
+        }
+      }
+    ],
+    "QQQ_5": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 802,
+          "downtrend_periods": 404,
+          "trend_strength_avg": 0.02664391869473077
+        }
+      }
+    ],
+    "AAPL_5": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 695,
+          "downtrend_periods": 511,
+          "trend_strength_avg": 0.03253966925264985
+        }
+      }
+    ],
+    "MSFT_5": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 736,
+          "downtrend_periods": 470,
+          "trend_strength_avg": 0.029189249933787728
+        }
+      }
+    ],
+    "TSLA_5": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 645,
+          "downtrend_periods": 561,
+          "trend_strength_avg": 0.07817678590503192
+        }
+      }
+    ],
+    "SPY_10": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 1808,
+          "downtrend_periods": 657,
+          "trend_strength_avg": 0.01960052725094222
+        }
+      }
+    ],
+    "QQQ_10": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 1795,
+          "downtrend_periods": 670,
+          "trend_strength_avg": 0.025150509966197148
+        }
+      }
+    ],
+    "AAPL_10": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 1608,
+          "downtrend_periods": 857,
+          "trend_strength_avg": 0.03687910924033947
+        }
+      }
+    ],
+    "MSFT_10": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 1772,
+          "downtrend_periods": 693,
+          "trend_strength_avg": 0.02702669040688677
+        }
+      }
+    ],
+    "TSLA_10": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 1370,
+          "downtrend_periods": 1095,
+          "trend_strength_avg": 0.07697335966150208
+        }
+      }
+    ],
+    "SPY_20": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 3479,
+          "downtrend_periods": 1500,
+          "trend_strength_avg": 0.01938531132987048
+        }
+      }
+    ],
+    "QQQ_20": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 3482,
+          "downtrend_periods": 1497,
+          "trend_strength_avg": 0.02431423489866012
+        }
+      }
+    ],
+    "AAPL_20": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 3226,
+          "downtrend_periods": 1753,
+          "trend_strength_avg": 0.04010956595788555
+        }
+      }
+    ],
+    "MSFT_20": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 3251,
+          "downtrend_periods": 1728,
+          "trend_strength_avg": 0.028292244396651366
+        }
+      }
+    ],
+    "TSLA_20": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 2201,
+          "downtrend_periods": 1629,
+          "trend_strength_avg": 0.07231249332672535
+        }
+      }
+    ],
+    "SPY_50": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 5593,
+          "downtrend_periods": 2623,
+          "trend_strength_avg": 0.018815248379262475
+        }
+      }
+    ],
+    "QQQ_50": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 4381,
+          "downtrend_periods": 2293,
+          "trend_strength_avg": 0.028265328083863665
+        }
+      }
+    ],
+    "AAPL_50": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 6768,
+          "downtrend_periods": 4515,
+          "trend_strength_avg": 0.05365077932257565
+        }
+      }
+    ],
+    "MSFT_50": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 6308,
+          "downtrend_periods": 3649,
+          "trend_strength_avg": 0.03632773498406727
+        }
+      }
+    ],
+    "TSLA_50": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 2201,
+          "downtrend_periods": 1629,
+          "trend_strength_avg": 0.07231249332672535
+        }
+      }
+    ],
+    "SPY_100": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 5593,
+          "downtrend_periods": 2623,
+          "trend_strength_avg": 0.018815250297524986
+        }
+      }
+    ],
+    "QQQ_100": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 4381,
+          "downtrend_periods": 2293,
+          "trend_strength_avg": 0.02826532731569094
+        }
+      }
+    ],
+    "AAPL_100": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 6768,
+          "downtrend_periods": 4515,
+          "trend_strength_avg": 0.053650777144488175
+        }
+      }
+    ],
+    "MSFT_100": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 6308,
+          "downtrend_periods": 3649,
+          "trend_strength_avg": 0.03632773448613711
+        }
+      }
+    ],
+    "TSLA_100": [
+      {
+        "angle": "trend_identification",
+        "pattern_type": "trend_strength",
+        "characteristics": {
+          "uptrend_periods": 2201,
+          "downtrend_periods": 1629,
+          "trend_strength_avg": 0.07231249332672535
+        }
+      }
+    ]
+  },
+  "volume_patterns": {
+    "SPY_1": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 17,
+          "volume_spike_frequency": 0.068,
+          "avg_volume_ratio": 1.031701499737329
+        }
+      }
+    ],
+    "QQQ_1": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 22,
+          "volume_spike_frequency": 0.088,
+          "avg_volume_ratio": 1.0405035464084615
+        }
+      }
+    ],
+    "AAPL_1": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 25,
+          "volume_spike_frequency": 0.1,
+          "avg_volume_ratio": 1.004834254176148
+        }
+      }
+    ],
+    "MSFT_1": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 20,
+          "volume_spike_frequency": 0.08,
+          "avg_volume_ratio": 1.0087271301450251
+        }
+      }
+    ],
+    "TSLA_1": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 11,
+          "volume_spike_frequency": 0.044,
+          "avg_volume_ratio": 0.9986765699878275
+        }
+      }
+    ],
+    "SPY_5": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 86,
+          "volume_spike_frequency": 0.06852589641434263,
+          "avg_volume_ratio": 1.010981593051946
+        }
+      }
+    ],
+    "QQQ_5": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 89,
+          "volume_spike_frequency": 0.07091633466135458,
+          "avg_volume_ratio": 1.0155215842298444
+        }
+      }
+    ],
+    "AAPL_5": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 89,
+          "volume_spike_frequency": 0.07091633466135458,
+          "avg_volume_ratio": 1.000318203514588
+        }
+      }
+    ],
+    "MSFT_5": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 96,
+          "volume_spike_frequency": 0.07649402390438247,
+          "avg_volume_ratio": 1.0046404003002827
+        }
+      }
+    ],
+    "TSLA_5": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 75,
+          "volume_spike_frequency": 0.05976095617529881,
+          "avg_volume_ratio": 1.0007137170171079
+        }
+      }
+    ],
+    "SPY_10": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 194,
+          "volume_spike_frequency": 0.07716785998408911,
+          "avg_volume_ratio": 1.00795046294847
+        }
+      }
+    ],
+    "QQQ_10": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 214,
+          "volume_spike_frequency": 0.08512330946698489,
+          "avg_volume_ratio": 1.012849159152036
+        }
+      }
+    ],
+    "AAPL_10": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 211,
+          "volume_spike_frequency": 0.08392999204455051,
+          "avg_volume_ratio": 1.0034627905936686
+        }
+      }
+    ],
+    "MSFT_10": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 204,
+          "volume_spike_frequency": 0.081145584725537,
+          "avg_volume_ratio": 1.0056783834291148
+        }
+      }
+    ],
+    "TSLA_10": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 240,
+          "volume_spike_frequency": 0.0954653937947494,
+          "avg_volume_ratio": 1.0124375266037955
+        }
+      }
+    ],
+    "SPY_20": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 414,
+          "volume_spike_frequency": 0.08233890214797136,
+          "avg_volume_ratio": 1.0108049549916798
+        }
+      }
+    ],
+    "QQQ_20": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 423,
+          "volume_spike_frequency": 0.08412887828162291,
+          "avg_volume_ratio": 1.0099920305671763
+        }
+      }
+    ],
+    "AAPL_20": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 434,
+          "volume_spike_frequency": 0.08631662688941925,
+          "avg_volume_ratio": 1.0038815503429874
+        }
+      }
+    ],
+    "MSFT_20": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 418,
+          "volume_spike_frequency": 0.08313444709626094,
+          "avg_volume_ratio": 1.0064069034997662
+        }
+      }
+    ],
+    "TSLA_20": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 415,
+          "volume_spike_frequency": 0.10698633668471255,
+          "avg_volume_ratio": 1.0155704136714576
+        }
+      }
+    ],
+    "SPY_50": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 800,
+          "volume_spike_frequency": 0.09679370840895342,
+          "avg_volume_ratio": 1.016068530367902
+        }
+      }
+    ],
+    "QQQ_50": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 514,
+          "volume_spike_frequency": 0.0764539640041648,
+          "avg_volume_ratio": 1.0116478708923429
+        }
+      }
+    ],
+    "AAPL_50": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 1329,
+          "volume_spike_frequency": 0.11727850335333569,
+          "avg_volume_ratio": 1.013561539432361
+        }
+      }
+    ],
+    "MSFT_50": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 974,
+          "volume_spike_frequency": 0.09734159504297421,
+          "avg_volume_ratio": 1.0096184415361509
+        }
+      }
+    ],
+    "TSLA_50": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 415,
+          "volume_spike_frequency": 0.10698633668471255,
+          "avg_volume_ratio": 1.0155704136714576
+        }
+      }
+    ],
+    "SPY_100": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 800,
+          "volume_spike_frequency": 0.09679370840895342,
+          "avg_volume_ratio": 1.016068530367902
+        }
+      }
+    ],
+    "QQQ_100": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 514,
+          "volume_spike_frequency": 0.0764539640041648,
+          "avg_volume_ratio": 1.0116478708923429
+        }
+      }
+    ],
+    "AAPL_100": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 1329,
+          "volume_spike_frequency": 0.11727850335333569,
+          "avg_volume_ratio": 1.013561539432361
+        }
+      }
+    ],
+    "MSFT_100": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 974,
+          "volume_spike_frequency": 0.09734159504297421,
+          "avg_volume_ratio": 1.0096184415361509
+        }
+      }
+    ],
+    "TSLA_100": [
+      {
+        "angle": "volume_analysis",
+        "pattern_type": "volume_confirmation",
+        "characteristics": {
+          "high_volume_periods": 415,
+          "volume_spike_frequency": 0.10698633668471255,
+          "avg_volume_ratio": 1.0155704136714576
+        }
+      }
+    ]
+  },
+  "correlation_patterns": {},
+  "seasonal_patterns": {
+    "SPY_5": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "QQQ_5": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "AAPL_5": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "7",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "MSFT_5": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "5",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "TSLA_5": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "9",
+          "worst_month": "2"
+        }
+      }
+    ],
+    "SPY_10": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "QQQ_10": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "7",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "AAPL_10": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "7",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "MSFT_10": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "5",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "TSLA_10": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "6",
+          "worst_month": "3"
+        }
+      }
+    ],
+    "SPY_20": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "7",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "QQQ_20": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "7",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "AAPL_20": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "7",
+          "worst_month": "1"
+        }
+      }
+    ],
+    "MSFT_20": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "10",
+          "worst_month": "2"
+        }
+      }
+    ],
+    "TSLA_20": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "3"
+        }
+      }
+    ],
+    "SPY_50": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "QQQ_50": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "10",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "AAPL_50": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "10",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "MSFT_50": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "1",
+          "worst_month": "2"
+        }
+      }
+    ],
+    "TSLA_50": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "3"
+        }
+      }
+    ],
+    "SPY_100": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "QQQ_100": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "10",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "AAPL_100": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "10",
+          "worst_month": "9"
+        }
+      }
+    ],
+    "MSFT_100": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "1",
+          "worst_month": "2"
+        }
+      }
+    ],
+    "TSLA_100": [
+      {
+        "angle": "seasonal_patterns",
+        "pattern_type": "monthly_seasonality",
+        "characteristics": {
+          "best_month": "11",
+          "worst_month": "3"
+        }
+      }
+    ]
+  },
+  "timeframe_patterns": {}
+}

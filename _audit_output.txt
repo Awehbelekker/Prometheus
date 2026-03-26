@@ -1,0 +1,16 @@
+﻿=== CONFIDENCE CALIBRATION AUDIT ===
+
+.venv_directml_test\Scripts\python.exe : Traceback (most recent call last):
+At line:1 char:1
++ .venv_directml_test\Scripts\python.exe _audit_confidence.py 2>&1 | Ou ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last) 
+   ::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File 
+"C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\_audit_confidence.py", line 
+11, in <module>
+    r = db.execute("""
+        ^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: max_confidence

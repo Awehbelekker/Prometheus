@@ -1,0 +1,86 @@
+================================================================================
+  🔧 IB GATEWAY API ENABLE CHECKLIST
+================================================================================
+
+FOLLOW THESE STEPS EXACTLY:
+
+[ ] Step 1: IB Gateway is running and logged in (account U21922116)
+
+[ ] Step 2: Click the GEAR ICON (⚙️) or "Configure" button
+
+[ ] Step 3: Click "API" in the left sidebar
+
+[ ] Step 4: Click "Settings" under API
+
+[ ] Step 5: CHECK this box:
+    ✅ "Enable ActiveX and Socket Clients"
+
+[ ] Step 6: UNCHECK this box:
+    ❌ "Read-Only API"
+
+[ ] Step 7: Set Socket Port to: 7496
+
+[ ] Step 8: Add 127.0.0.1 to Trusted IP Addresses
+
+[ ] Step 9: Click "OK" button
+
+[ ] Step 10: Click "Apply" if prompted
+
+[ ] Step 11: CLOSE IB Gateway completely
+
+[ ] Step 12: Wait 5 seconds
+
+[ ] Step 13: OPEN IB Gateway again
+
+[ ] Step 14: Login with account U21922116
+
+[ ] Step 15: Wait for full connection
+
+================================================================================
+  ✅ TEST THE CONNECTION
+================================================================================
+
+Run this command:
+
+    python test_ib_connection_simple.py
+
+Expected output:
+
+    ✅ CONNECTED! Next order ID: 1
+    ✅ CONNECTION SUCCESSFUL!
+    📊 IB Gateway is working!
+    💡 Ready for live trading
+
+================================================================================
+  🚀 START TRADING
+================================================================================
+
+If test passes, run:
+
+    python auto_start_ib_trading.py
+
+You'll see:
+
+    ✅ Connected to IB!
+    💰 Cash: $250.00
+    🤖 Starting autonomous trading...
+    📊 Placing: BUY 1 SIRI
+    ✅ FILLED at $4.25
+
+================================================================================
+  📊 QUICK SETTINGS REFERENCE
+================================================================================
+
+API Settings should look like this:
+
+    ✅ Enable ActiveX and Socket Clients: CHECKED
+    ❌ Read-Only API: UNCHECKED
+    📡 Socket Port: 7496
+    🔒 Trusted IP: 127.0.0.1
+
+================================================================================
+
+THAT'S IT! Once you complete these steps, we can start live trading!
+
+================================================================================
+

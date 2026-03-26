@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROMETHEUS - Create Invitation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+        
+        .logo p {
+            opacity: 0.8;
+            font-size: 1.1em;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #e0e0e0;
+        }
+        
+        input[type="email"],
+        input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        input[type="email"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+            border-color: #4ecdc4;
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result.success {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+        
+        .result.error {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+        }
+        
+        .invitation-details {
+            margin-top: 15px;
+        }
+        
+        .invitation-details p {
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        
+        .copy-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #4ecdc4;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <h1>PROMETHEUS</h1>
+            <p>Trading Platform Invitation System</p>
+        </div>
+        
+        <form id="invitationForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="user@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="John Doe" required>
+            </div>
+            
+            <button type="submit" class="btn" id="submitBtn">Create Invitation</button>
+        </form>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Creating invitation...</p>
+        </div>
+        
+        <div class="result" id="result">
+            <div id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('invitationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const result = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            
+            // Show loading
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            
+            try {
+                const response = await fetch('http://localhost:8000/api/simple-invite', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, name })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultContent.innerHTML = `
+                        <h3>✅ Invitation Created Successfully!</h3>
+                        <div class="invitation-details">
+                            <p><strong>Email:</strong> ${data.email}</p>
+                            <p><strong>Name:</strong> ${data.name}</p>
+                            <p><strong>Invitation Code:</strong> ${data.invitation_code} 
+                                <button class="copy-btn" onclick="copyToClipboard('${data.invitation_code}')">Copy</button>
+                            </p>
+                            <p><strong>Registration Link:</strong><br>
+                                <span style="font-size: 12px;">${data.registration_link}</span>
+                                <button class="copy-btn" onclick="copyToClipboard('${data.registration_link}')">Copy Link</button>
+                            </p>
+                        </div>
+                    `;
+                    result.className = 'result success';
+                    
+                    // Clear form
+                    document.getElementById('email').value = '';
+                    document.getElementById('name').value = '';
+                } else {
+                    resultContent.innerHTML = `
+                        <h3>❌ Error Creating Invitation</h3>
+                        <p>${data.message || data.error || 'Unknown error occurred'}</p>
+                    `;
+                    result.className = 'result error';
+                }
+                
+            } catch (error) {
+                resultContent.innerHTML = `
+                    <h3>❌ Connection Error</h3>
+                    <p>Failed to connect to the server. Please make sure the backend is running on port 8000.</p>
+                    <p>Error: ${error.message}</p>
+                `;
+                result.className = 'result error';
+            }
+            
+            // Hide loading and show result
+            loading.style.display = 'none';
+            result.style.display = 'block';
+            submitBtn.disabled = false;
+        });
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                // Show temporary feedback
+                const originalText = event.target.textContent;
+                event.target.textContent = 'Copied!';
+                setTimeout(() => {
+                    event.target.textContent = originalText;
+                }, 2000);
+            }).catch(function(err) {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy to clipboard');
+            });
+        }
+    </script>
+</body>
+</html>

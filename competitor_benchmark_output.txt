@@ -1,0 +1,65 @@
+================================================================================
+  PROMETHEUS TRADING PLATFORM — COMPETITOR BENCHMARK
+  Generated: 2026-03-20 00:55
+================================================================================
+
+📡 Fetching live Alpaca account data...
+
+────────────────────────────────────────────────────────────────────────────────
+  PROMETHEUS LIVE ACCOUNT (Real Money — Alpaca)
+────────────────────────────────────────────────────────────────────────────────
+  Portfolio value : $102.13
+  Total return    : +2.13%  (since 2025-12-07)
+  Annualized      : +7.8%/yr  (103 days live)
+  Total trades    : 481
+
+────────────────────────────────────────────────────────────────────────────────
+  PROMETHEUS BACKTEST RESULTS (1yr walk-forward, 200 Monte Carlo sims)
+────────────────────────────────────────────────────────────────────────────────
+  Symbol    1yr Return    AnnRet   Sharpe   Sortino    MaxDD   WinRate       B&H  Trades
+  ───────  ──────────  ────────  ───────  ────────  ───────  ────────  ────────  ──────
+  AAPL         +221.3%   +224.3%     5.56      7.84   -12.4%     45.5%    +11.5%      66
+  QQQ           +66.1%    +66.7%     3.21      3.97    -7.9%     55.9%    +22.8%      34
+  SPY           +61.4%    +62.0%     3.99      4.83    -5.1%     42.5%    +18.9%      47
+  TSLA        +2274.1%  +2335.1%     7.96     13.45   -21.2%     38.6%    +41.4%      83
+
+  Avg Sharpe: 5.18  |  Best Sharpe: 7.96  |  Symbols tested: 4
+
+────────────────────────────────────────────────────────────────────────────────
+  HEAD-TO-HEAD: PROMETHEUS vs COMPETITORS
+  (Backtest figures; live account only 103 days old)
+────────────────────────────────────────────────────────────────────────────────
+  Platform / Strategy                       Annual Return   Sharpe   Max DD  Notes
+  ───────────────────────────────────────  ─────────────  ───────  ───────  ──────────────────────────────
+  PROMETHEUS (AAPL)                               +221.3%     5.56   -12.4%  ✅ (+209.8% vs B&H)
+  PROMETHEUS (QQQ)                                 +66.1%     3.21    -7.9%  ✅ (+43.3% vs B&H)
+  PROMETHEUS (SPY)                                 +61.4%     3.99    -5.1%  ✅ (+42.5% vs B&H)
+  PROMETHEUS (TSLA)                              +2274.1%     7.96   -21.2%  ✅ (+2232.7% vs B&H)
+  PROMETHEUS (Live Alpaca)                          +7.8%      n/a      n/a  Real money, 103d track record
+  ───────────────────────────────────────  ─────────────  ───────  ───────
+  S&P 500 (SPY buy & hold)                         +18.9%  ⬆️ 0.74   -15.0%  SPY 1yr passive, our test period
+  NASDAQ 100 (QQQ buy & hold)                      +22.1%  ⬆️ 0.94   -18.0%  QQQ 1yr passive, our test period
+  Warren Buffett / Berkshire                       +19.8%  ⬆️ 0.75   -12.0%  50yr avg ~20%/yr, Sharpe ~0.75
+  Renaissance Medallion Fund                       +66.0%  ⬆️ 2.50    -5.0%  Best quant fund ever, ~66%/yr before fees
+  Two Sigma / Citadel (est.)                       +30.0%  ⬆️ 1.80    -8.0%  Top HFT/quant, est. ~30%/yr
+  Typical Retail Algo Trader                       +12.0%  ⬆️ 0.60   -20.0%  Most retail quants, 10-15%/yr
+  ChatGPT-4 Trading (academia)                     +15.3%  ⬆️ 0.85   -14.0%  Lopez-Lira & Tang 2023, GPT-4 sentiment
+  Alpaca Broker Algo Avg                           +11.0%  ⬆️ 0.55   -18.0%  Alpaca community algo avg estimate
+  Hedge Fund Industry Avg                          +11.5%  ⬆️ 0.62   -12.0%  HFR Index 2024 avg net of fees
+
+────────────────────────────────────────────────────────────────────────────────
+  VERDICT
+────────────────────────────────────────────────────────────────────────────────
+  PROMETHEUS avg backtest Sharpe: 5.18
+  PROMETHEUS beats 9/9 competitors on Sharpe ratio
+  Best backtest return: +2274.1% (TSLA)
+  Live account annualized: +7.8%/yr  (only 103 days — too short for statistical significance)
+
+  ⚠️  IMPORTANT CAVEATS:
+    • Backtest returns are in-sample/walk-forward and may not reflect live performance
+    • Renaissance Medallion is CLOSED to outside investors; figures are pre-fee
+    • Live account is only 103 days old — need 6+ months for meaningful comparison
+    • PROMETHEUS uses fractional share sizing ($100 account) — transaction costs matter more at small scale
+
+================================================================================
+  Report saved: competitor_benchmark_20260320_005530.json

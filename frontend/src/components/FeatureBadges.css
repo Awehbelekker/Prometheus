@@ -1,0 +1,74 @@
+.feature-badges {
+  padding: 0.75rem 1rem;
+  background: #1e1e24;
+  border: 1px solid #333;
+  border-radius: 8px;
+  font-family: system-ui, sans-serif;
+  color: #e0e0e0;
+  margin-bottom: 1rem;
+}
+.feature-badges h4 {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #fafafa;
+}
+.badges-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.feature-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid #555;
+  border-radius: 999px;
+  background: #2a2a33;
+  font-size: 0.7rem;
+  line-height: 1;
+  position: relative;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+.feature-badge .name {
+  font-weight: 500;
+  letter-spacing: .3px;
+}
+.feature-badge .mode {
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+}
+.feature-badge .usage {
+  background: #121218;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 0.55rem;
+  font-weight: 500;
+  opacity: .85;
+}
+.feature-badge.mode-active {
+  border-color: #2e7d32;
+}
+.feature-badge.mode-fallback {
+  border-color: #ed6c02;
+}
+.feature-badge.mode-missing {
+  border-color: #555;
+  opacity: .55;
+}
+.feature-badges.loading, .feature-badges.error {
+  font-size: 0.8rem;
+}
+.fallback-note {
+  margin-top: 0.5rem;
+  font-size: 0.65rem;
+  opacity: .75;
+  font-style: italic;
+}

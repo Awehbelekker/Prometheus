@@ -1,0 +1,13 @@
+tunnel: 5ad70171-4c9d-4cd0-8c83-93031bb10484
+credentials-file: C:\Users\Judy\.cloudflared\5ad70171-4c9d-4cd0-8c83-93031bb10484.json
+
+ingress:
+  # API backend - api.prometheus-trader.com
+  - hostname: api.prometheus-trader.com
+    service: http://localhost:8000
+    originRequest:
+      httpHostHeader: localhost:8000
+      noTLSVerify: true
+
+  # Catch-all rule (required)
+  - service: http_status:404

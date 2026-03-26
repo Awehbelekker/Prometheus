@@ -1,0 +1,1764 @@
+﻿python : INFO:core.llm_service:[CHECK] AI configuration loaded successfully
+At line:1 char:1
++ python unified_production_server.py 2>&1 | Out-File -FilePath server_ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:core.llm_s...ed successfully 
+   :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO:core.llm_service:≡ƒñû Real AI providers available: ['gpt_oss', 'openai', 
+'anthropic']
+INFO:core.llm_service:[CHECK] GPT-OSS provider initialized with endpoint: 
+http://localhost:11434
+INFO:core.llm_service:≡ƒÜÇ GPT-OSS provider initialized (PRIORITY)
+INFO:core.llm_service:[CHECK] OpenAI provider initialized with key: 
+sk-proj-fG4H...AscA
+INFO:core.llm_service:OpenAI provider initialized
+INFO:core.llm_service:Anthropic provider initialized
+INFO:core.llm_service:Γ£à Initialized 3 REAL AI provider(s): 
+[<AIProvider.GPT_OSS: 'gpt_oss'>, <AIProvider.OPENAI: 'openai'>, 
+<AIProvider.ANTHROPIC: 'anthropic'>]
+INFO:core.reasoning.thinkmesh_production:Auto-detected API keys: ['openai', 
+'anthropic', 'google']
+INFO:core.reasoning.thinkmesh_production:ThinkMesh successfully imported from 
+Awehbelekker repository with enhanced features
+INFO:httpx:HTTP Request: GET https://raw.githubusercontent.com/BerriAI/litellm/
+main/model_prices_and_context_window.json "HTTP/1.1 200 OK"
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒôÜ Using Embedded 
+Knowledge Base for knowledge retrieval (RAGFlow fallback)
+2026-02-21 14:38:20.141151: I tensorflow/core/util/port.cc:153] oneDNN custom 
+operations are on. You may see slightly different numerical results due to 
+floating-point round-off errors from different computation orders. To turn 
+them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/attr_value.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/tensor.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/resource_handle.proto. Please update the gencode to 
+avoid compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/tensor_shape.proto. Please update the gencode to 
+avoid compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/types.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/full_type.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/function.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/node_def.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/op_def.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/graph.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/graph_debug_info.proto. Please update the gencode to 
+avoid compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/versions.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/protobuf/config.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+xla/tsl/protobuf/coordination_config.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/cost_graph.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/step_stats.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/allocation_description.proto. Please update the 
+gencode to avoid compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/framework/tensor_description.proto. Please update the gencode 
+to avoid compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/protobuf/cluster.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-packages\google\
+protobuf\runtime_version.py:98: UserWarning: Protobuf gencode version 5.28.3 
+is exactly one major version older than the runtime version 6.31.1 at 
+tensorflow/core/protobuf/debug.proto. Please update the gencode to avoid 
+compatibility violations in the next runtime release.
+  warnings.warn(
+2026-02-21 14:38:22.779992: I tensorflow/core/util/port.cc:153] oneDNN custom 
+operations are on. You may see slightly different numerical results due to 
+floating-point round-off errors from different computation orders. To turn 
+them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:From C:\Users\Judy\AppData\Local\Programs\Python\Python313\L
+ib\site-packages\tf_keras\src\losses.py:2976: The name 
+tf.losses.sparse_softmax_cross_entropy is deprecated. Please use 
+tf.compat.v1.losses.sparse_softmax_cross_entropy instead.
+
+WARNING:core.polygon_premium_provider:[WARNING]∩╕Å Polygon.io Premium S3 
+credentials not found
+INFO:core.polygon_premium_provider:[CHECK] Polygon.io API key configured
+WARNING:core.unified_learning_coordinator:[WARNING]∩╕Å Advanced Learning 
+Engine not available
+INFO:revolutionary_master_engine:[CHECK] AI Enhancement System available - 46 
+pre-trained models, 3 intelligence agents, unified learning
+INFO:core.database_manager:[CHECK] Database manager initialized: 
+prometheus_trading.db
+INFO:core.auth_service:JWT module in use: path=C:\Users\Judy\AppData\Local\Prog
+rams\Python\Python313\Lib\site-packages\jwt\__init__.py, version=2.8.0
+INFO:core.auth_service:Authentication tables initialized successfully
+INFO:core.auth.unified_auth_service:≡ƒöÉ Unified Authentication Service 
+initialized
+INFO:core.internal_paper_trading:[CHECK] Database initialized
+INFO:core.internal_paper_trading:≡ƒÄ» Internal Paper Trading Engine 
+initialized with REAL market data only
+INFO:core.reasoning.thinkmesh_adapter:ThinkMesh Import Strategy 1: Direct 
+import
+INFO:core.reasoning.thinkmesh_adapter:[CHECK] ThinkMesh successfully loaded 
+via direct import
+Warning: Invitation service not available: cannot import name 'UnifiedAuthService' from 'core.auth.unified_auth_service' (C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\core\auth\unified_auth_service.py)
+Import warning: attempted relative import beyond top-level package
+Some advanced features may not be available
+{"timestamp": "2026-02-21T12:38:40.180170Z", "level": "INFO", "logger": "prometheus.unified", "message": "{\"event\": \"cors_config\", \"allow_origins\": [\"http://localhost:3000\", \"http://localhost:3001\", \"http://localhost:3002\", \"https://prometheus-trade.com\", \"https://app.prometheus-trade.com\", \"https://api.prometheus-trade.com\", \"https://ws.prometheus-trade.com\", \"https://admin.prometheus-trade.com\", \"https://trade.prometheus-trade.com\", \"https://docs.prometheus-trade.com\", \"http://prometheus-trade.com\", \"http://app.prometheus-trade.com\", \"http://api.prometheus-trade.com\", \"http://ws.prometheus-trade.com\", \"http://admin.prometheus-trade.com\", \"http://trade.prometheus-trade.com\", \"http://docs.prometheus-trade.com\", \"https://app.prometheus-trader.com\", \"https://prometheus-trader.com\", \"https://api.prometheus-trader.com\", \"http://app.prometheus-trader.com\", \"http://api.prometheus-trader.com\"], \"allow_origin_regex\": \".*\"}"}
+{"timestamp": "2026-02-21T12:38:40.185617Z", "level": "INFO", "logger": "prometheus.unified", "message": "GPT-OSS AI Trading endpoints enabled"}
+{"timestamp": "2026-02-21T12:38:40.189213Z", "level": "INFO", "logger": "prometheus.unified", "message": "Internal Paper Trading endpoints enabled"}
+{"timestamp": "2026-02-21T12:38:40.191408Z", "level": "INFO", "logger": "prometheus.unified", "message": "Live Trading Admin endpoints enabled"}
+{"timestamp": "2026-02-21T12:38:40.191570Z", "level": "WARNING", "logger": "prometheus.unified", "message": "Dual-Tier Admin router failed to load: name 'admin_router' is not defined"}
+{"timestamp": "2026-02-21T12:38:40.191685Z", "level": "WARNING", "logger": "prometheus.unified", "message": "Dual-Tier User router failed to load: name 'user_router' is not defined"}
+Trading endpoints loaded successfully
+{"timestamp": "2026-02-21T12:38:40.299110Z", "level": "INFO", "logger": "prometheus.unified", "message": "Interactive Brokers and Unified Broker endpoints loaded"}
+PROMETHEUS TRADING APP - UNIFIED PRODUCTION SERVER
+============================================================
+Backend API: http://localhost:8000
+API Docs: http://localhost:8000/docs
+Frontend: http://localhost:3000
+REVOLUTIONARY ENGINES: READY TO GENERATE MAXIMUM PROFITS!
+============================================================
+Environment variables loaded
+
+≡ƒôè Server Configuration:
+   Workers: 1 (ENABLED)
+   Concurrency Limit: 100
+   Max Requests (per worker): 10000
+   Expected Memory: ~500MB total
+============================================================
+INFO:core.reasoning.thinkmesh_adapter:ThinkMesh Import Strategy 1: Direct 
+import
+INFO:core.reasoning.thinkmesh_adapter:[CHECK] ThinkMesh successfully loaded 
+via direct import
+Warning: Invitation service not available: cannot import name 'UnifiedAuthService' from 'core.auth.unified_auth_service' (C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\core\auth\unified_auth_service.py)
+Import warning: attempted relative import beyond top-level package
+Some advanced features may not be available
+{"timestamp": "2026-02-21T12:38:40.397709Z", "level": "INFO", "logger": "prometheus.unified", "message": "{\"event\": \"cors_config\", \"allow_origins\": [\"http://localhost:3000\", \"http://localhost:3001\", \"http://localhost:3002\", \"https://prometheus-trade.com\", \"https://app.prometheus-trade.com\", \"https://api.prometheus-trade.com\", \"https://ws.prometheus-trade.com\", \"https://admin.prometheus-trade.com\", \"https://trade.prometheus-trade.com\", \"https://docs.prometheus-trade.com\", \"http://prometheus-trade.com\", \"http://app.prometheus-trade.com\", \"http://api.prometheus-trade.com\", \"http://ws.prometheus-trade.com\", \"http://admin.prometheus-trade.com\", \"http://trade.prometheus-trade.com\", \"http://docs.prometheus-trade.com\", \"https://app.prometheus-trader.com\", \"https://prometheus-trader.com\", \"https://api.prometheus-trader.com\", \"http://app.prometheus-trader.com\", \"http://api.prometheus-trader.com\"], \"allow_origin_regex\": \".*\"}"}
+{"timestamp": "2026-02-21T12:38:40.401671Z", "level": "INFO", "logger": "prometheus.unified", "message": "GPT-OSS AI Trading endpoints enabled"}
+{"timestamp": "2026-02-21T12:38:40.405970Z", "level": "INFO", "logger": "prometheus.unified", "message": "Internal Paper Trading endpoints enabled"}
+{"timestamp": "2026-02-21T12:38:40.407405Z", "level": "INFO", "logger": "prometheus.unified", "message": "Live Trading Admin endpoints enabled"}
+{"timestamp": "2026-02-21T12:38:40.407547Z", "level": "WARNING", "logger": "prometheus.unified", "message": "Dual-Tier Admin router failed to load: name 'admin_router' is not defined"}
+{"timestamp": "2026-02-21T12:38:40.407636Z", "level": "WARNING", "logger": "prometheus.unified", "message": "Dual-Tier User router failed to load: name 'user_router' is not defined"}
+Trading endpoints loaded successfully
+{"timestamp": "2026-02-21T12:38:40.505760Z", "level": "INFO", "logger": "prometheus.unified", "message": "Interactive Brokers and Unified Broker endpoints loaded"}
+INFO:     Started server process [10424]
+INFO:     Waiting for application startup.
+{"timestamp": "2026-02-21T12:38:40.531735Z", "level": "INFO", "logger": "prometheus.unified", "message": " Starting Prometheus Trading App - Production Server"}
+INFO:revolutionary_master_engine:≡ƒÜÇ Initializing Revolutionary Engines...
+INFO:revolutionary_master_engine:≡ƒºá Initializing AI Coordination Systems...
+INFO:core.reasoning.thinkmesh_production:Thread pool initialized for ThinkMesh 
+execution
+INFO:core.reasoning.thinkmesh_production:Production ThinkMesh adapter 
+initialized successfully with all enhancements
+INFO:core.ai_coordinator:Γ£à ThinkMesh adapter initialized successfully
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+portfolio_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent risk_supervisor 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+market_regime_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_4 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:[CHECK] CrewAI trading team 
+initialized successfully
+INFO:core.hierarchical_agent_coordinator:Γ£à CrewAI teams initialized 
+successfully
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Hierarchical Agent Coordinator 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒôè Supervisor agents: 3
+INFO:core.hierarchical_agent_coordinator:≡ƒöÑ Execution agents: 17
+INFO:core.hierarchical_agent_coordinator:≡ƒÜÇ CrewAI integration ACTIVE - 
+Enhanced coordination enabled
+INFO:revolutionary_master_engine:≡ƒö« Initializing Oracle and Intelligence 
+Systems...
+INFO:core.embedded_knowledge_base:≡ƒôÜ Embedded Knowledge Base initialized
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒôÜ Embedded 
+Knowledge Base initialized successfully
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cpu
+INFO:sentence_transformers.SentenceTransformer:Load pretrained 
+SentenceTransformer: all-MiniLM-L6-v2
+INFO:revolutionary_features.oracle.market_oracle_engine:[CHECK] Embedding 
+model initialized for enhanced knowledge retrieval
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒö« Market Oracle 
+Engine initialized with knowledge retrieval: Embedded KB
+INFO:core.fred_api:Γ£à FRED API initialized with API key - REAL economic data 
+enabled
+INFO:core.fred_api:Γ£à FRED API initialized with API key - REAL economic data 
+enabled
+INFO:core.real_world_data_orchestrator:Γ£à FRED API loaded - REAL economic data
+INFO:core.sec_edgar_api:Γ£à SEC Edgar API initialized - FREE insider trading 
+data enabled
+INFO:core.sec_edgar_api:Γ£à SEC Edgar API initialized - FREE insider trading 
+data enabled
+INFO:core.real_world_data_orchestrator:Γ£à SEC Edgar API loaded - FREE insider 
+trading
+INFO:core.enhanced_social_filter:Γ£à Twitter filter initialized with 51 
+quality accounts
+INFO:core.enhanced_social_filter:Γ£à Reddit filter initialized with 12 
+monitored subreddits
+INFO:core.enhanced_social_filter:Γ£à Enhanced Social Filter initialized - 95% 
+noise reduction active
+INFO:core.enhanced_social_filter:Γ£à Twitter filter initialized with 51 
+quality accounts
+INFO:core.enhanced_social_filter:Γ£à Reddit filter initialized with 12 
+monitored subreddits
+INFO:core.enhanced_social_filter:Γ£à Enhanced Social Filter initialized - 95% 
+noise reduction active
+INFO:core.real_world_data_orchestrator:Γ£à Enhanced Social Filter loaded - 95% 
+noise reduction
+INFO:core.rss_news_feeds:Γ£à RSS News Feeds initialized with 10 sources
+INFO:core.rss_news_feeds:Γ£à RSS News Feeds initialized with 10 sources
+INFO:core.real_world_data_orchestrator:Γ£à RSS News Feeds loaded - FREE news
+WARNING:core.newsapi_integration:[WARNING]∩╕Å NewsAPI integration disabled (no 
+API key)
+INFO:core.reddit_data_source:Γ£à Reddit API credentials loaded from environment
+INFO:core.reddit_data_source:≡ƒô▒ Reddit Data Source initialized
+INFO:core.google_trends_data_source:[CHECK] Google Trends API initialized
+INFO:core.google_trends_data_source:≡ƒöì Google Trends Data Source initialized
+INFO:core.coingecko_data_source:≡ƒ¬Ö CoinGecko Data Source initialized
+INFO:core.real_world_data_orchestrator:[CHECK] New data sources integrated: 
+Reddit, Google Trends, CoinGecko
+WARNING:core.real_world_data_orchestrator:[WARNING]∩╕Å Could not load enhanced 
+relevance scorer: cannot import name 'EnhancedRelevanceScorer' from 
+'core.enhanced_relevance_scorer' (C:\Users\Judy\Desktop\PROMETHEUS-Trading-Plat
+form\core\enhanced_relevance_scorer.py)
+INFO:core.real_world_data_orchestrator:≡ƒîì Real-World Data Orchestrator 
+initialized with 9+ global intelligence sources
+INFO:revolutionary_master_engine:[CHECK] Enhanced Master Database Initialized
+INFO:revolutionary_master_engine:[CHECK] Engine Metrics Initialized
+INFO:revolutionary_master_engine:[CHECK] Master Engine Initialization Complete
+Fallback DatabaseManager initialized
+ Fallback AuthService initialized (demo mode)
+Revolutionary Options Database initialized!
+Revolutionary Options Database initialized!
+{"timestamp": "2026-02-21T12:38:47.301298Z", "level": "INFO", "logger": "prometheus.unified", "message": " Revolutionary engines initialized"}
+INFO:core.fred_api:Γ£à FRED API initialized with API key - REAL economic data 
+enabled
+INFO:core.real_world_data_orchestrator:Γ£à FRED API loaded - REAL economic data
+INFO:core.sec_edgar_api:Γ£à SEC Edgar API initialized - FREE insider trading 
+data enabled
+INFO:core.real_world_data_orchestrator:Γ£à SEC Edgar API loaded - FREE insider 
+trading
+INFO:core.enhanced_social_filter:Γ£à Twitter filter initialized with 51 
+quality accounts
+INFO:core.enhanced_social_filter:Γ£à Reddit filter initialized with 12 
+monitored subreddits
+INFO:core.enhanced_social_filter:Γ£à Enhanced Social Filter initialized - 95% 
+noise reduction active
+INFO:core.real_world_data_orchestrator:Γ£à Enhanced Social Filter loaded - 95% 
+noise reduction
+INFO:core.rss_news_feeds:Γ£à RSS News Feeds initialized with 10 sources
+INFO:core.real_world_data_orchestrator:Γ£à RSS News Feeds loaded - FREE news
+INFO:core.reddit_data_source:Γ£à Reddit API credentials loaded from environment
+INFO:core.reddit_data_source:≡ƒô▒ Reddit Data Source initialized
+INFO:core.google_trends_data_source:[CHECK] Google Trends API initialized
+INFO:core.google_trends_data_source:≡ƒöì Google Trends Data Source initialized
+INFO:core.coingecko_data_source:≡ƒ¬Ö CoinGecko Data Source initialized
+INFO:core.real_world_data_orchestrator:[CHECK] New data sources integrated: 
+Reddit, Google Trends, CoinGecko
+WARNING:core.real_world_data_orchestrator:[WARNING]∩╕Å Could not load enhanced 
+relevance scorer: cannot import name 'EnhancedRelevanceScorer' from 
+'core.enhanced_relevance_scorer' (C:\Users\Judy\Desktop\PROMETHEUS-Trading-Plat
+form\core\enhanced_relevance_scorer.py)
+INFO:core.real_world_data_orchestrator:≡ƒîì Real-World Data Orchestrator 
+initialized with 9+ global intelligence sources
+{"timestamp": "2026-02-21T12:38:49.022310Z", "level": "INFO", "logger": "prometheus.unified", "message": " Data Intelligence Orchestrator initialized (Twitter, Reddit, Google Trends, News, etc.)"}
+Traceback (most recent call last):
+  File 
+"C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\core\auth_service.py", line 
+807, in create_default_admin
+    result = auth_service_to_use.db_manager.fetch_one(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DatabaseManager' object has no attribute 'fetch_one'
+ERROR:core.auth_service:Failed to create default admin: 'DatabaseManager' 
+object has no attribute 'fetch_one'
+INFO:revolutionary_features.ai_learning.advanced_learning_engine:Initialized 
+base AI personality: Prometheus AI
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (high level, 500 iterations)
+DEBUG: create_default_admin called with auth_service_instance: <unified_production_server.AuthService object at 0x0000021FDE6DC1A0>
+[DEBUG] create_default_admin exception: 'DatabaseManager' object has no attribute 'fetch_one'
+ Fallback TradingEngine initialized
+{"timestamp": "2026-02-21T12:38:49.024694Z", "level": "INFO", "logger": "prometheus.unified", "message": " Revolutionary features initialized"}
+[CHECK] All hedge-fund extension tables already exist.
+{"timestamp": "2026-02-21T12:38:49.033925Z", "level": "INFO", "logger": "prometheus.unified", "message": " Hedge-fund schema verified/initialized"}
+{"timestamp": "2026-02-21T12:38:49.034088Z", "level": "INFO", "logger": "prometheus.unified", "message": " All core services initialized"}
+{"timestamp": "2026-02-21T12:38:49.034177Z", "level": "INFO", "logger": "prometheus.unified", "message": " Background valuation task disabled for testing"}
+
+================================================================================
+LIFESPAN: Initializing PROMETHEUS Trading System
+================================================================================
+LIFESPAN: Step 1 - Importing trading system...
+INFO:core.real_ai_trading_intelligence:≡ƒºá Real AI Trading Intelligence 
+initialized
+INFO:core.real_ai_trading_intelligence:≡ƒºá Real AI Trading Intelligence 
+initialized
+INFO:core.ai_trading_intelligence:[CHECK] Real GPT-OSS Trading Intelligence 
+initialized
+INFO:core.ai_trading_intelligence:[CHECK] OpenAI Trading Intelligence 
+initialized
+INFO:core.reasoning.thinkmesh_adapter:ThinkMesh Import Strategy 1: Direct 
+import
+INFO:core.reasoning.thinkmesh_adapter:[CHECK] ThinkMesh successfully loaded 
+via direct import
+INFO:core.advanced_trading_engine:GPT-OSS backend available for local inference
+INFO:core.persistent_trading_engine:Database initialized successfully
+INFO:core.persistent_trading_engine:Loaded 0 user portfolios
+INFO:core.user_portfolio_manager:User portfolio database initialized
+INFO:core.wealth_management_system:Wealth management database initialized
+INFO:core.access_control_manager:Access control database initialized
+INFO:core.portfolio_persistence_layer:Portfolio persistence database 
+initialized
+INFO:core.portfolio_persistence_layer:Restored 0 active sessions
+INFO:core.n8n_workflow_manager:[CHECK] Initialized 8 workflow templates
+INFO:core.n8n_workflow_manager:≡ƒöä N8N Workflow Manager initialized with 
+performance optimization
+INFO:core.n8n_workflow_manager:≡ƒôì N8N URL: http://localhost:5678
+INFO:core.n8n_workflow_manager:≡ƒöº Workflow templates: 8
+INFO:core.n8n_workflow_manager:ΓÜí Max concurrent workflows: 20
+INFO:core.advanced_monitoring:Prometheus metrics server started on port 9090
+INFO:core.advanced_monitoring:Metrics collector initialized (Prometheus: True)
+INFO:core.advanced_monitoring:Set thresholds for system.cpu_percent: 
+warning=80.0, critical=95.0
+INFO:core.advanced_monitoring:Set thresholds for system.memory_percent: 
+warning=85.0, critical=95.0
+INFO:core.advanced_monitoring:Set thresholds for system.disk_percent: 
+warning=90.0, critical=98.0
+INFO:launch_ultimate_prometheus_LIVE_TRADING:[CHECK] Running in INTEGRATED 
+mode - no separate API server
+INFO:launch_ultimate_prometheus_LIVE_TRADING: SHORT SELLING capability enabled
+INFO:launch_ultimate_prometheus_LIVE_TRADING: Learning database initialized 
+with full schema
+INFO:launch_ultimate_prometheus_LIVE_TRADING:≡ƒôÑ Loaded position tracking for 
+13 symbols from database
+INFO:launch_ultimate_prometheus_LIVE_TRADING:   position_highs: ['IWM', 'SPY', 
+'NFLX', 'TSLA', 'MSFT', 'META', 'DIA', 'NVDA', 'AAPL', 'QQQ', 'AMZN', 'AMD', 
+'GOOGL']
+INFO:launch_ultimate_prometheus_LIVE_TRADING:   position_entry_times: ['IWM', 
+'SPY', 'NFLX', 'TSLA', 'MSFT', 'META', 'DIA', 'NVDA', 'AAPL', 'QQQ', 'AMZN', 
+'AMD', 'GOOGL']
+INFO:launch_ultimate_prometheus_LIVE_TRADING:   scaled_positions: ['IWM', 
+'SPY', 'NFLX', 'TSLA', 'MSFT', 'META', 'DIA', 'NVDA', 'AAPL', 'QQQ', 'AMZN', 
+'AMD', 'GOOGL']
+INFO:launch_ultimate_prometheus_LIVE_TRADING:   dca_counts: ['IWM', 'SPY', 
+'NFLX', 'TSLA', 'MSFT', 'META', 'DIA', 'NVDA', 'AAPL', 'QQQ', 'AMZN', 'AMD', 
+'GOOGL']
+INFO:launch_ultimate_prometheus_LIVE_TRADING:   position_trade_ids: ['IWM', 
+'SPY', 'NFLX', 'TSLA', 'MSFT', 'META', 'DIA', 'NVDA', 'AAPL', 'QQQ', 'AMZN', 
+'AMD', 'GOOGL']
+INFO:launch_ultimate_prometheus_LIVE_TRADING:==================================
+==============================================
+INFO:launch_ultimate_prometheus_LIVE_TRADING: PROMETHEUS ULTIMATE LIVE TRADING 
+LAUNCHER
+INFO:launch_ultimate_prometheus_LIVE_TRADING:==================================
+==============================================
+INFO:launch_ultimate_prometheus_LIVE_TRADING:Mode: LIVE TRADING with REAL MONEY
+INFO:launch_ultimate_prometheus_LIVE_TRADING:IB Account: U21922116
+INFO:launch_ultimate_prometheus_LIVE_TRADING:Risk Limits: {'daily_loss_limit': 
+25, 'position_size_pct': 0.15, 'max_positions': 15, 'stop_loss_pct': 0.015, 
+'max_portfolio_risk': 0.2, 'max_correlated_positions': 3, 'max_drawdown_pct': 
+0.1, 'min_confidence': 0.72, 'take_profit_pct': 0.02, 'trailing_stop_pct': 
+0.01, 'max_trades_per_hour': 30}
+INFO:launch_ultimate_prometheus_LIVE_TRADING:==================================
+==============================================
+INFO:core.real_ai_trading_intelligence:≡ƒºá Real AI Trading Intelligence 
+initialized
+INFO:core.ai_trading_intelligence:[CHECK] Real GPT-OSS Trading Intelligence 
+initialized
+INFO:core.ai_trading_intelligence:[CHECK] OpenAI Trading Intelligence 
+initialized
+INFO:core.reasoning.thinkmesh_adapter:ThinkMesh Import Strategy 1: Direct 
+import
+INFO:core.reasoning.thinkmesh_adapter:[CHECK] ThinkMesh successfully loaded 
+via direct import
+INFO:core.advanced_trading_engine:GPT-OSS backend available for local inference
+INFO:revolutionary_features.ai_learning.advanced_learning_engine:Initialized 
+base AI personality: Prometheus AI
+INFO:core.continuous_learning_engine:≡ƒºá Continuous Learning Engine 
+initialized
+INFO:core.continuous_learning_engine:≡ƒôè Learning mode: balanced
+INFO:core.continuous_learning_engine:[LIGHTNING] Initial learning rate: 0.01
+INFO:revolutionary_features.ai_consciousness.ai_consciousness_engine:≡ƒºá AI 
+Consciousness Engine ENABLED - Advanced meta-cognition active
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (high level, 500 iterations)
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒôÜ Embedded 
+Knowledge Base initialized successfully
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cpu
+INFO:sentence_transformers.SentenceTransformer:Load pretrained 
+SentenceTransformer: all-MiniLM-L6-v2
+INFO:revolutionary_features.oracle.market_oracle_engine:[CHECK] Embedding 
+model initialized for enhanced knowledge retrieval
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒö« Market Oracle 
+Engine initialized with knowledge retrieval: Embedded KB
+INFO:launch_ultimate_prometheus_LIVE_TRADING:Γ£à CPT-OSS (GPT-OSS) initialized 
+and ready for trading signals
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+portfolio_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent risk_supervisor 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+market_regime_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_4 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:[CHECK] CrewAI trading team 
+initialized successfully
+INFO:core.hierarchical_agent_coordinator:Γ£à CrewAI teams initialized 
+successfully
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Hierarchical Agent Coordinator 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒôè Supervisor agents: 3
+INFO:core.hierarchical_agent_coordinator:≡ƒöÑ Execution agents: 17
+INFO:core.hierarchical_agent_coordinator:≡ƒÜÇ CrewAI integration ACTIVE - 
+Enhanced coordination enabled
+INFO:launch_ultimate_prometheus_LIVE_TRADING:Γ£à Agent Coordinator initialized 
+- 17 execution agents + 3 supervisor agents
+INFO:core.fred_api:Γ£à FRED API initialized with API key - REAL economic data 
+enabled
+INFO:core.real_world_data_orchestrator:Γ£à FRED API loaded - REAL economic data
+INFO:core.sec_edgar_api:Γ£à SEC Edgar API initialized - FREE insider trading 
+data enabled
+INFO:core.real_world_data_orchestrator:Γ£à SEC Edgar API loaded - FREE insider 
+trading
+INFO:core.enhanced_social_filter:Γ£à Twitter filter initialized with 51 
+quality accounts
+INFO:core.enhanced_social_filter:Γ£à Reddit filter initialized with 12 
+monitored subreddits
+INFO:core.enhanced_social_filter:Γ£à Enhanced Social Filter initialized - 95% 
+noise reduction active
+INFO:core.real_world_data_orchestrator:Γ£à Enhanced Social Filter loaded - 95% 
+noise reduction
+INFO:core.rss_news_feeds:Γ£à RSS News Feeds initialized with 10 sources
+INFO:core.real_world_data_orchestrator:Γ£à RSS News Feeds loaded - FREE news
+INFO:core.reddit_data_source:Γ£à Reddit API credentials loaded from environment
+INFO:core.reddit_data_source:≡ƒô▒ Reddit Data Source initialized
+INFO:core.google_trends_data_source:[CHECK] Google Trends API initialized
+INFO:core.google_trends_data_source:≡ƒöì Google Trends Data Source initialized
+INFO:core.coingecko_data_source:≡ƒ¬Ö CoinGecko Data Source initialized
+INFO:core.real_world_data_orchestrator:[CHECK] New data sources integrated: 
+Reddit, Google Trends, CoinGecko
+WARNING:core.real_world_data_orchestrator:[WARNING]∩╕Å Could not load enhanced 
+relevance scorer: cannot import name 'EnhancedRelevanceScorer' from 
+'core.enhanced_relevance_scorer' (C:\Users\Judy\Desktop\PROMETHEUS-Trading-Plat
+form\core\enhanced_relevance_scorer.py)
+INFO:core.real_world_data_orchestrator:≡ƒîì Real-World Data Orchestrator 
+initialized with 9+ global intelligence sources
+INFO:core.google_trends_data_source:[CHECK] Google Trends API initialized
+INFO:core.google_trends_data_source:≡ƒöì Google Trends Data Source initialized
+INFO:core.reddit_data_source:Γ£à Reddit API credentials loaded from environment
+INFO:core.reddit_data_source:≡ƒô▒ Reddit Data Source initialized
+INFO:core.coingecko_data_source:≡ƒ¬Ö CoinGecko Data Source initialized
+INFO:core.yahoo_finance_data_source:≡ƒôè Yahoo Finance Data Source initialized
+INFO:core.n8n_workflow_manager:[CHECK] Initialized 8 workflow templates
+INFO:core.n8n_workflow_manager:≡ƒöä N8N Workflow Manager initialized with 
+performance optimization
+INFO:core.n8n_workflow_manager:≡ƒôì N8N URL: http://localhost:5678
+INFO:core.n8n_workflow_manager:≡ƒöº Workflow templates: 8
+INFO:core.n8n_workflow_manager:ΓÜí Max concurrent workflows: 20
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent 
+prometheus_gap_detector initialized
+INFO:core.market_intelligence_agents:≡ƒöì Gap Detection Agent initialized: 
+prometheus_gap_detector
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent 
+prometheus_opportunity_scanner initialized
+INFO:core.market_intelligence_agents:≡ƒÄ» Opportunity Scanner Agent 
+initialized: prometheus_opportunity_scanner
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+prometheus_market_researcher initialized
+INFO:core.market_intelligence_agents:≡ƒôè Market Research Agent initialized: 
+prometheus_market_researcher
+INFO:launch_ultimate_prometheus_LIVE_TRADING:Γ£à Market Intelligence Agents 
+initialized
+INFO:launch_ultimate_prometheus_LIVE_TRADING:Γ£à Alpaca API key found (26 
+chars)
+INFO:launch_ultimate_prometheus_LIVE_TRADING:Γ£à Alpaca secret key found (44 
+chars)
+INFO:brokers.alpaca_broker:[24/5] Alpaca 24/5 trading: ENABLED
+INFO:brokers.alpaca_broker:Γ£à Alpaca connection validation successful - 
+Account: 910544927
+INFO:brokers.alpaca_broker:Γ£à Connected to Alpaca Live
+INFO:brokers.alpaca_broker:≡ƒîÖ Alpaca 24/5 trading ENABLED (Sun 8PM - Fri 4AM)
+INFO:services.performance_monitor:Performance Monitor initialized
+INFO:monitoring.ib_execution_tracker:Γ£à Integrated with existing performance 
+monitoring
+INFO:monitoring.ib_execution_tracker:IB Execution Tracker initialized
+INFO:brokers.interactive_brokers_broker:Γ£à IB Execution Tracker integrated
+INFO:brokers.interactive_brokers_broker:[CHECK] Overnight trading config loaded
+INFO:brokers.interactive_brokers_broker:Connecting to IB at 127.0.0.1:4002 
+(client_id: 1)
+INFO:ibapi.client:sent startApi
+INFO:ibapi.client:REQUEST startApi {}
+INFO:ibapi.client:SENDING startApi b'\x00\x00\x00\x0871\x002\x001\x00\x00'
+INFO:ibapi.wrapper:ANSWER connectAck {}
+INFO:brokers.interactive_brokers_broker:Γ£à IB client connected - waiting for 
+order ID...
+INFO:ibapi.wrapper:ANSWER managedAccounts {'accountsList': 
+'U21922116,U22261894,'}
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:usfarm.nj - Market data farm connection is OK
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:hfarm - Market data farm connection is OK
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:jfarm - Market data farm connection is OK
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:usfuture - Market data farm connection is OK
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:usopt.nj - Market data farm connection is OK
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:cashfarm - Market data farm connection is OK
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:eufarmnj - Market data farm connection is OK
+INFO:brokers.interactive_brokers_broker:IB Info 2104: Market data farm 
+connection is OK:usfarm - Market data farm connection is OK
+WARNING:brokers.interactive_brokers_broker:IB Error 2106: HMDS data farm 
+connection is OK:euhmds - Market data farm connection is broken
+WARNING:brokers.interactive_brokers_broker:IB Error 2106: HMDS data farm 
+connection is OK:fundfarm - Market data farm connection is broken
+WARNING:brokers.interactive_brokers_broker:IB Error 2106: HMDS data farm 
+connection is OK:ushmds - Market data farm connection is broken
+INFO:brokers.interactive_brokers_broker:IB Info 2158: Sec-def data farm 
+connection is OK:secdefnj - Sec-def data farm connection is OK
+INFO:brokers.interactive_brokers_broker:Γ£à IB ready - next order ID: 1
+INFO:ibapi.client:REQUEST reqAccountUpdates {'subscribe': True, 'acctCode': 
+'U21922116'}
+INFO:ibapi.client:SENDING reqAccountUpdates 
+b'\x00\x00\x00\x106\x002\x001\x00U21922116\x00'
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccountCode = U21922116 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccountOrGroup = U21922116 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccountOrGroup = U21922116 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccountReady = true () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccountType = INDIVIDUAL () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedCash = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedCash = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedCash-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedCash-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedCash-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedDividend = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedDividend-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedDividend-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AccruedDividend-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AvailableFunds = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AvailableFunds-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AvailableFunds-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AvailableFunds-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+AvailableFundsReducedByLikeOwned = 1.7976931348623157E308 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Billable = 
+0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Billable-C 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Billable-S 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Billable-Z 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+BuyingPower = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+CashBalance = 246.82 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+CashBalance = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ColumnPrio-C = 2 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ColumnPrio-S = 1 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ColumnPrio-Z = 7 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+CorporateBondValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+CorporateBondValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+Cryptocurrency = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+Cryptocurrency = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Currency = 
+BASE (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Currency = 
+USD (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Cushion = 
+1 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+EquityWithLoanValue = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+EquityWithLoanValue-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+EquityWithLoanValue-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+EquityWithLoanValue-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ExcessLiquidity = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ExcessLiquidity-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ExcessLiquidity-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ExcessLiquidity-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ExchangeRate = 1.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+ExchangeRate = 1.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullAvailableFunds = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullAvailableFunds-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullAvailableFunds-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullAvailableFunds-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullAvailableFundsReducedByLikeOwned = 1.7976931348623157E308 (USD) for 
+U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullExcessLiquidity = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullExcessLiquidity-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullExcessLiquidity-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullExcessLiquidity-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullInitMarginReq = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullInitMarginReq-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullInitMarginReq-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullInitMarginReq-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullMaintMarginReq = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullMaintMarginReq-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullMaintMarginReq-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullMaintMarginReq-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FullMarginDeficitInLikeOwned = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: FundValue 
+= 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: FundValue 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FutureOptionValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FutureOptionValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: FuturesPNL 
+= 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: FuturesPNL 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FxCashBalance = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+FxCashBalance = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+GrossPositionValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+GrossPositionValue-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Guarantee 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+Guarantee-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+Guarantee-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+Guarantee-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IncentiveCoupons = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IncentiveCoupons-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IncentiveCoupons-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IncentiveCoupons-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IndianStockHaircut = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IndianStockHaircut-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IndianStockHaircut-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IndianStockHaircut-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+InitMarginReq = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+InitMarginReq-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+InitMarginReq-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+InitMarginReq-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IssuerOptionValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+IssuerOptionValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: Leverage-S 
+= 0.00 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadAvailableFunds = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadAvailableFunds-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadAvailableFunds-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadAvailableFunds-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadAvailableFundsReducedByLikeOwned = 1.7976931348623157E308 (USD) for 
+U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadExcessLiquidity = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadExcessLiquidity-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadExcessLiquidity-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadExcessLiquidity-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadInitMarginReq = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadInitMarginReq-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadInitMarginReq-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadInitMarginReq-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadMaintMarginReq = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadMaintMarginReq-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadMaintMarginReq-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadMaintMarginReq-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadMarginDeficitInLikeOwned = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+LookAheadNextChange = 0 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MaintMarginReq = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MaintMarginReq-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MaintMarginReq-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MaintMarginReq-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MarginDeficitInLikeOwned = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MoneyMarketFundValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MoneyMarketFundValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MutualFundValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+MutualFundValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NLVAndMarginInReview = false () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetDividend = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetDividend = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetLiquidation = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetLiquidation-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetLiquidation-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetLiquidation-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetLiquidationByCurrency = 246.82 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetLiquidationByCurrency = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+NetLiquidationUncertainty = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+OptionMarketValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+OptionMarketValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PASharesValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PASharesValue-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PASharesValue-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PASharesValue-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PhysicalCertificateValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PhysicalCertificateValue-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PhysicalCertificateValue-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PhysicalCertificateValue-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationExcess = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationExcess-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationExcess-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationExcess-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationMargin = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationMargin-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationMargin-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+PostExpirationMargin-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+RealCurrency = BASE (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+RealCurrency = USD (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+RealizedPnL = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+RealizedPnL = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SegmentTitle-C = US Commodities () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SegmentTitle-S = US Securities () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SegmentTitle-Z = Crypto at ZeroHash () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SettledCash = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SettledCash-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SettledCashByDate = 20260221:246.82 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SettledCashByDate-C = 20260221:0 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SettledCashByDate-S = 20260221:246.82 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+SettledCashByDate-Z = 20260221:0 () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+StockMarketValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+StockMarketValue = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: TBillValue 
+= 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: TBillValue 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: TBondValue 
+= 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: TBondValue 
+= 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalCashBalance = 246.82 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalCashBalance = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalCashValue = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalCashValue-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalCashValue-S = 246.82 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalCashValue-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalDebitCardPendingCharges = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalDebitCardPendingCharges-C = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalDebitCardPendingCharges-S = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TotalDebitCardPendingCharges-Z = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+TradingType-S = STKCASH () for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+UnrealizedPnL = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+UnrealizedPnL = 0.00 (USD) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+WarrantValue = 0.00 (BASE) for U21922116
+INFO:brokers.interactive_brokers_broker:≡ƒÆ░ IB updateAccountValue: 
+WarrantValue = 0.00 (USD) for U21922116
+INFO:ibapi.wrapper:ANSWER updateAccountTime {'timeStamp': '14:36'}
+INFO:brokers.interactive_brokers_broker:[CHECK] IB accountDownloadEnd for 
+U21922116
+INFO:ibapi.client:REQUEST reqAccountUpdates {'subscribe': False, 'acctCode': 
+'U21922116'}
+INFO:ibapi.client:SENDING reqAccountUpdates 
+b'\x00\x00\x00\x106\x002\x000\x00U21922116\x00'
+INFO:ibapi.client:REQUEST reqMktData {'reqId': 1000, 'contract': 
+2335921330832: 0,AAPL,STK,,0.0,,,SMART,,USD,,,False,,combo:, 
+'genericTickList': '', 'snapshot': False, 'regulatorySnapshot': False, 
+'mktDataOptions': []}
+INFO:ibapi.client:SENDING reqMktData b'\x00\x00\x0011\x0011\x001000\x000\x00AAP
+L\x00STK\x00\x000.0\x00\x00\x00SMART\x00\x00USD\x00\x00\x000\x00\x000\x000\x00\
+x00'
+ERROR:brokers.interactive_brokers_broker:IB Error 2100: API client has been 
+unsubscribed from account data. - Unknown error - manual review required
+INFO:ibapi.wrapper:ANSWER tickReqParams {'tickerId': 1000, 'minTick': 0.0, 
+'bboExchange': '9c0001', 'snapshotPermissions': 4}
+ERROR:brokers.interactive_brokers_broker:IB Error 10089: Requested market data 
+requires additional subscription for API. See link in 'Market Data 
+Connections' dialog for more details.Delayed market data is available.AAPL 
+NASDAQ.NMS/TOP/ALL - Unknown error - manual review required
+INFO:ibapi.client:REQUEST cancelMktData {'reqId': 1000}
+INFO:ibapi.client:SENDING cancelMktData b'\x00\x00\x00\t2\x002\x001000\x00'
+INFO:brokers.interactive_brokers_broker:Γ£à IB connection validation successful
+INFO:brokers.interactive_brokers_broker:Connected to Interactive Brokers Live
+LIFESPAN: Step 2 - Initializing trading system (integrated mode)...
+
+================================================================================
+INITIALIZING ALL SYSTEMS
+================================================================================
+
+ TIER 1: CRITICAL SYSTEMS
+----------------------------------------
+   Market Data Orchestrator
+   AI Trading Intelligence
+   Advanced Trading Engine
+   AI Learning Engine
+   Continuous Learning Engine
+   Persistent Trading Engine
+
+ TIER 2: REVOLUTIONARY CORE
+----------------------------------------
+   AI Consciousness Engine (95% level)
+   Quantum Trading Engine (50-qubit)
+   Market Oracle Engine
+   Γ£à GPT-OSS Trading Adapter
+   ≡ƒñû Hierarchical Agent Coordinator (17 agents + 3 supervisors)
+
+ TIER 3: DATA INTELLIGENCE SOURCES
+----------------------------------------
+   Real-World Data Orchestrator (1000+ sources)
+   Google Trends Data Source
+   Reddit Data Source (WallStreetBets)
+   CoinGecko Extended Data Source
+   Yahoo Finance Data Source (FREE)
+   N8N Workflow Manager (Automated Intelligence)
+
+ ≡ƒöì MARKET INTELLIGENCE AGENTS
+----------------------------------------
+   ≡ƒöì Gap Detection Agent (price gaps > 2%)
+   ≡ƒÄ» Opportunity Scanner Agent (breakouts, momentum, volume)
+   ≡ƒôè Market Research Agent (regime detection, sentiment)
+
+ TIER 4: LIVE BROKER CONNECTIONS
+----------------------------------------
+   Alpaca Live Broker (Crypto 24/7)
+   Connecting to IB Gateway on port 4002 (client_id: 1, LIVE trading)...
+   Γ£à Interactive Brokers LIVE Connected (Account: U21922116)
+
+   LIVE TRADING ACTIVE - REAL MONEY AT RISK
+   Risk Limits: $25 daily loss
+   Position Size: 15.0% per trade
+   Max Positions: 15
+
+ TIER 5: MONITORING & SAFETY
+----------------------------------------
+   Resource Monitoring Active
+   Risk Management Active
+   Performance Tracking Active
+
+================================================================================
+ INITIALIZATION COMPLETE
+   Active Systems: 22
+   Failed Systems: 0
+================================================================================
+
+================================================================================
+[CHECK] PROMETHEUS INTEGRATED MODE
+================================================================================
+[CHECK] Trading system initialized - no separate API server
+[CHECK] Use unified_production_server.py for API endpoints
+================================================================================
+LIFESPAN: Step 3 - Trading system initialized: <class 'launch_ultimate_prometheus_LIVE_TRADING.PrometheusLiveTradingLauncher'>
+LIFESPAN: Alpaca broker: <brokers.alpaca_broker.AlpacaBroker object at 0x0000021FDFC2C830>
+LIFESPAN: IB broker: <brokers.interactive_brokers_broker.InteractiveBrokersBroker object at 0x0000021FDFC2CD70>
+LIFESPAN: Systems active: 0
+LIFESPAN: Step 4 - Starting trading loop in background...
+================================================================================
+LIFESPAN: PROMETHEUS Trading System STARTED SUCCESSFULLY
+================================================================================
+{"timestamp": "2026-02-21T12:39:03.358850Z", "level": "INFO", "logger": "prometheus.unified", "message": "PROMETHEUS Trading System initialized and running"}
+ERROR:brokers.interactive_brokers_broker:IB Error 300: Can't find EId with 
+tickerId:1000 - Unknown error - manual review required
+INFO:MultiStrategy:============================================================
+==========
+INFO:MultiStrategy:≡ƒÅå PROMETHEUS MULTI-STRATEGY SHADOW RUNNER
+INFO:MultiStrategy:============================================================
+==========
+INFO:MultiStrategy:Run ID: multi_20260221_143903
+INFO:MultiStrategy:Strategies: conservative, aggressive, momentum, 
+mean_reversion, ai_consensus, quick_scalp
+INFO:MultiStrategy:Capital per strategy: $100,000.00
+INFO:MultiStrategy:Watchlist: 12 symbols
+INFO:MultiStrategy:============================================================
+==========
+
+LIFESPAN: Initializing Multi-Strategy Shadow Trading System...
+LIFESPAN: Multi-Strategy Shadow Trading STARTED (6 strategies in parallel)
+{"timestamp": "2026-02-21T12:39:03.372646Z", "level": "INFO", "logger": "prometheus.unified", "message": "Multi-Strategy Shadow Trading System initialized and running 6 strategies"}
+INFO:core.market_intelligence_agents:≡ƒôè Generating market intelligence for 1 
+symbols...
+INFO:core.polygon_premium_provider:[WARNING]∩╕Å Polygon Premium S3 not 
+configured; falling back to REST API
+INFO:MultiStrategy:
+======================================================================
+INFO:MultiStrategy:≡ƒÅü STARTING ALL STRATEGIES IN PARALLEL
+INFO:MultiStrategy:============================================================
+==========
+INFO:     Application startup complete.
+INFO:parallel_shadow_trading:≡ƒÆ╛ Shadow database initialized: 4 tables 
+created/verified
+INFO:parallel_shadow_trading:   Session registered: 
+multi_20260221_143903_conservative
+INFO:parallel_shadow_trading:≡ƒöä PROMETHEUS Parallel Shadow Trading System 
+initialized
+INFO:parallel_shadow_trading:   Session ID: multi_20260221_143903_conservative
+INFO:parallel_shadow_trading:   Config Name: conservative
+INFO:parallel_shadow_trading:   Starting Capital: $100,000.00
+INFO:parallel_shadow_trading:   Max Position Size: 5% ($5,000.00)
+INFO:parallel_shadow_trading:   Multi-Asset Support: Stocks, ETFs, Crypto, 
+Forex
+INFO:parallel_shadow_trading:   ≡ƒÜÇ 6 Enhancements: TRAILING_STOP, DCA, 
+TIME_EXIT, SCALE_OUT, CORRELATION, SENTIMENT
+INFO:parallel_shadow_trading:   ≡ƒÆ╛ Database Persistence: ENABLED
+INFO:MultiStrategy:≡ƒÜÇ Starting strategy: conservative
+INFO:MultiStrategy:   High confidence, small positions, tight stops. Quality 
+over quantity.
+INFO:parallel_shadow_trading:
+============================================================
+INFO:parallel_shadow_trading:INITIALIZING PROMETHEUS AI SYSTEMS FOR SHADOW 
+TRADING
+INFO:parallel_shadow_trading:==================================================
+==========
+INFO:core.hrm_integration:≡ƒÜÇ CogniFlowΓäó Trading Engine initialized 
+successfully (version=1.0.0)
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+INFO:core.hrm_full_architecture:Γ£à Full HRM Architecture initialized 
+successfully
+INFO:core.hrm_integration:Γ£à Full HRM Architecture initialized successfully
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+WARNING:core.hrm_official_integration:Checkpoint not found: arc_agi_2
+INFO:core.hrm_checkpoint_manager:Checkpoint arc_agi_2 already exists at 
+hrm_checkpoints\arc_agi_2
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=11, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: sudoku_extreme
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=6, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\maze_30x30\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: maze_30x30
+INFO:core.hrm_official_integration:Official HRM Trading Adapter initialized on 
+cpu
+INFO:core.hrm_official_integration:Loaded 2 checkpoints
+INFO:parallel_shadow_trading:Γ£à HRM Official Integration loaded
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+WARNING:core.hrm_official_integration:Checkpoint not found: arc_agi_2
+INFO:core.hrm_checkpoint_manager:Checkpoint arc_agi_2 already exists at 
+hrm_checkpoints\arc_agi_2
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=11, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: sudoku_extreme
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=6, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\maze_30x30\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: maze_30x30
+INFO:core.hrm_official_integration:Official HRM Trading Adapter initialized on 
+cpu
+INFO:core.hrm_official_integration:Loaded 2 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à Official HRM initialized for 
+Universal Reasoning
+INFO:core.universal_reasoning_engine:   Loaded 2 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à GPT-OSS initialized for Universal 
+Reasoning
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (medium level, 200 iterations)
+INFO:core.universal_reasoning_engine:Γ£à Quantum Engine initialized for 
+Universal Reasoning
+INFO:revolutionary_features.ai_consciousness.ai_consciousness_engine:≡ƒºá AI 
+Consciousness Engine ENABLED - Advanced meta-cognition active
+INFO:core.universal_reasoning_engine:Γ£à AI Consciousness initialized for 
+Universal Reasoning
+INFO:core.pattern_integration:Γ£à Loaded patterns from 
+learned_patterns_expert_20260115_230020.json
+INFO:core.universal_reasoning_engine:Γ£à Pattern Integration initialized 
+(backtest-learned patterns)
+INFO:parallel_shadow_trading:Γ£à Universal Reasoning Engine loaded
+INFO:core.visual_pattern_provider:Loaded 1445 patterns (983 with detections)
+INFO:core.visual_pattern_provider:≡ƒôè Visual Pattern Provider initialized 
+with 1445 patterns
+INFO:parallel_shadow_trading:Γ£à Visual Pattern Provider loaded (1445 patterns)
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒôÜ Embedded 
+Knowledge Base initialized successfully
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cpu
+INFO:sentence_transformers.SentenceTransformer:Load pretrained 
+SentenceTransformer: all-MiniLM-L6-v2
+INFO:revolutionary_features.oracle.market_oracle_engine:[CHECK] Embedding 
+model initialized for enhanced knowledge retrieval
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒö« Market Oracle 
+Engine initialized with knowledge retrieval: Embedded KB
+INFO:parallel_shadow_trading:Γ£à Market Oracle Engine loaded
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (high level, 500 iterations)
+INFO:parallel_shadow_trading:Γ£à Quantum Trading Engine loaded
+INFO:parallel_shadow_trading:Γ£à GPT-OSS Engine loaded
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+portfolio_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent risk_supervisor 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+market_regime_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_4 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:[CHECK] CrewAI trading team 
+initialized successfully
+INFO:core.hierarchical_agent_coordinator:Γ£à CrewAI teams initialized 
+successfully
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Hierarchical Agent Coordinator 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒôè Supervisor agents: 3
+INFO:core.hierarchical_agent_coordinator:≡ƒöÑ Execution agents: 17
+INFO:core.hierarchical_agent_coordinator:≡ƒÜÇ CrewAI integration ACTIVE - 
+Enhanced coordination enabled
+INFO:parallel_shadow_trading:Γ£à Hierarchical Agent Coordinator loaded
+INFO:core.ai_attribution_tracker:Γ£à AI Attribution database initialized
+INFO:core.ai_attribution_tracker:≡ƒÄ» AI Attribution Tracker initialized
+INFO:parallel_shadow_trading:Γ£à AI Attribution Tracker loaded
+INFO:core.continuous_learning_engine:≡ƒºá Continuous Learning Engine 
+initialized
+INFO:core.continuous_learning_engine:≡ƒôè Learning mode: balanced
+INFO:core.continuous_learning_engine:[LIGHTNING] Initial learning rate: 0.01
+INFO:parallel_shadow_trading:Γ£à Continuous Learning Engine loaded (BALANCED 
+mode)
+INFO:core.ai_learning_engine:Loaded pre-trained model: price_predictor
+INFO:core.ai_learning_engine:AI models initialized successfully
+INFO:parallel_shadow_trading:Γ£à AI Learning Engine loaded
+INFO:parallel_shadow_trading:
+Γ£à Loaded 10 AI systems: HRM, Universal Reasoning, Visual Patterns, Market 
+Oracle, Quantum Engine, GPT-OSS, Agent Coordinator, AI Attribution, Continuous 
+Learning, AI Learning
+INFO:core.universal_reasoning_engine:≡ƒºá Universal Reasoning Engine: 
+Synthesizing ALL reasoning sources...
+INFO:core.hrm_official_integration:HRM reasoning complete: hold on UNKNOWN 
+(confidence: 0.99)
+INFO:core.hrm_official_integration:HRM reasoning complete: hold on UNKNOWN 
+(confidence: 1.00)
+INFO:core.universal_reasoning_engine:  Γ£à Official HRM Reasoning: HOLD 
+(confidence: 1.000, checkpoint: ensemble)
+INFO:core.universal_reasoning_engine:  Γ£à GPT-OSS Reasoning: HOLD 
+(confidence: 0.500)
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Executing 
+quantum trade optimization for 
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+optimization: confidence=77.00%, kelly=0.250
+INFO:core.universal_reasoning_engine:  Γ£à Quantum Optimization: BUY 
+(advantage: 1.000)
+INFO:parallel_shadow_trading:≡ƒÆ╛ Shadow database initialized: 4 tables 
+created/verified
+INFO:parallel_shadow_trading:   Session registered: 
+multi_20260221_143903_aggressive
+INFO:parallel_shadow_trading:≡ƒöä PROMETHEUS Parallel Shadow Trading System 
+initialized
+INFO:parallel_shadow_trading:   Session ID: multi_20260221_143903_aggressive
+INFO:parallel_shadow_trading:   Config Name: aggressive
+INFO:parallel_shadow_trading:   Starting Capital: $100,000.00
+INFO:parallel_shadow_trading:   Max Position Size: 15% ($15,000.00)
+INFO:parallel_shadow_trading:   Multi-Asset Support: Stocks, ETFs, Crypto, 
+Forex
+INFO:parallel_shadow_trading:   ≡ƒÜÇ 6 Enhancements: TRAILING_STOP, DCA, 
+TIME_EXIT, SCALE_OUT, CORRELATION, SENTIMENT
+INFO:parallel_shadow_trading:   ≡ƒÆ╛ Database Persistence: ENABLED
+INFO:MultiStrategy:≡ƒÜÇ Starting strategy: aggressive
+INFO:MultiStrategy:   Lower threshold, larger positions, DCA on dips. More 
+trades, bigger swings.
+INFO:parallel_shadow_trading:
+============================================================
+INFO:parallel_shadow_trading:INITIALIZING PROMETHEUS AI SYSTEMS FOR SHADOW 
+TRADING
+INFO:parallel_shadow_trading:==================================================
+==========
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+WARNING:core.hrm_official_integration:Checkpoint not found: arc_agi_2
+INFO:core.hrm_checkpoint_manager:Checkpoint arc_agi_2 already exists at 
+hrm_checkpoints\arc_agi_2
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=11, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: sudoku_extreme
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=6, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\maze_30x30\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: maze_30x30
+INFO:core.hrm_official_integration:Official HRM Trading Adapter initialized on 
+cpu
+INFO:core.hrm_official_integration:Loaded 2 checkpoints
+INFO:parallel_shadow_trading:Γ£à HRM Official Integration loaded
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+WARNING:core.hrm_official_integration:Checkpoint not found: arc_agi_2
+INFO:core.hrm_checkpoint_manager:Checkpoint arc_agi_2 already exists at 
+hrm_checkpoints\arc_agi_2
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=11, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: sudoku_extreme
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=6, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\maze_30x30\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: maze_30x30
+INFO:core.hrm_official_integration:Official HRM Trading Adapter initialized on 
+cpu
+INFO:core.hrm_official_integration:Loaded 2 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à Official HRM initialized for 
+Universal Reasoning
+INFO:core.universal_reasoning_engine:   Loaded 2 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à GPT-OSS initialized for Universal 
+Reasoning
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (medium level, 200 iterations)
+INFO:core.universal_reasoning_engine:Γ£à Quantum Engine initialized for 
+Universal Reasoning
+INFO:revolutionary_features.ai_consciousness.ai_consciousness_engine:≡ƒºá AI 
+Consciousness Engine ENABLED - Advanced meta-cognition active
+INFO:core.universal_reasoning_engine:Γ£à AI Consciousness initialized for 
+Universal Reasoning
+INFO:core.pattern_integration:Γ£à Loaded patterns from 
+learned_patterns_expert_20260115_230020.json
+INFO:core.universal_reasoning_engine:Γ£à Pattern Integration initialized 
+(backtest-learned patterns)
+INFO:parallel_shadow_trading:Γ£à Universal Reasoning Engine loaded
+INFO:parallel_shadow_trading:Γ£à Visual Pattern Provider loaded (1445 patterns)
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒôÜ Embedded 
+Knowledge Base initialized successfully
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cpu
+INFO:sentence_transformers.SentenceTransformer:Load pretrained 
+SentenceTransformer: all-MiniLM-L6-v2
+INFO:revolutionary_features.oracle.market_oracle_engine:[CHECK] Embedding 
+model initialized for enhanced knowledge retrieval
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒö« Market Oracle 
+Engine initialized with knowledge retrieval: Embedded KB
+INFO:parallel_shadow_trading:Γ£à Market Oracle Engine loaded
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (high level, 500 iterations)
+INFO:parallel_shadow_trading:Γ£à Quantum Trading Engine loaded
+INFO:parallel_shadow_trading:Γ£à GPT-OSS Engine loaded
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+portfolio_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent risk_supervisor 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+market_regime_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_4 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:[CHECK] CrewAI trading team 
+initialized successfully
+INFO:core.hierarchical_agent_coordinator:Γ£à CrewAI teams initialized 
+successfully
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Hierarchical Agent Coordinator 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒôè Supervisor agents: 3
+INFO:core.hierarchical_agent_coordinator:≡ƒöÑ Execution agents: 17
+INFO:core.hierarchical_agent_coordinator:≡ƒÜÇ CrewAI integration ACTIVE - 
+Enhanced coordination enabled
+INFO:parallel_shadow_trading:Γ£à Hierarchical Agent Coordinator loaded
+INFO:core.ai_attribution_tracker:Γ£à AI Attribution database initialized
+INFO:core.ai_attribution_tracker:≡ƒÄ» AI Attribution Tracker initialized
+INFO:parallel_shadow_trading:Γ£à AI Attribution Tracker loaded
+INFO:core.continuous_learning_engine:≡ƒºá Continuous Learning Engine 
+initialized
+INFO:core.continuous_learning_engine:≡ƒôè Learning mode: balanced
+INFO:core.continuous_learning_engine:[LIGHTNING] Initial learning rate: 0.01
+INFO:parallel_shadow_trading:Γ£à Continuous Learning Engine loaded (BALANCED 
+mode)
+INFO:core.ai_learning_engine:Loaded pre-trained model: price_predictor
+INFO:core.ai_learning_engine:AI models initialized successfully
+INFO:parallel_shadow_trading:Γ£à AI Learning Engine loaded
+INFO:parallel_shadow_trading:
+Γ£à Loaded 10 AI systems: HRM, Universal Reasoning, Visual Patterns, Market 
+Oracle, Quantum Engine, GPT-OSS, Agent Coordinator, AI Attribution, Continuous 
+Learning, AI Learning
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.memory_percent 
+warning: 88.74
+INFO:core.universal_reasoning_engine:≡ƒºá Universal Reasoning Engine: 
+Synthesizing ALL reasoning sources...
+WARNING:core.advanced_monitoring:High resource usage: system.cpu_percent = 
+100.0%
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.cpu_percent warning: 
+80.40
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.memory_percent 
+warning: 88.85
+INFO:core.hrm_official_integration:HRM reasoning complete: hold on UNKNOWN 
+(confidence: 0.99)
+INFO:core.hrm_official_integration:HRM reasoning complete: hold on UNKNOWN 
+(confidence: 1.00)
+INFO:core.universal_reasoning_engine:  Γ£à Official HRM Reasoning: HOLD 
+(confidence: 1.000, checkpoint: ensemble)
+INFO:core.universal_reasoning_engine:  Γ£à GPT-OSS Reasoning: HOLD 
+(confidence: 0.500)
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Executing 
+quantum trade optimization for 
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+optimization: confidence=77.00%, kelly=0.250
+INFO:core.universal_reasoning_engine:  Γ£à Quantum Optimization: BUY 
+(advantage: 1.000)
+INFO:parallel_shadow_trading:≡ƒÆ╛ Shadow database initialized: 4 tables 
+created/verified
+INFO:parallel_shadow_trading:   Session registered: 
+multi_20260221_143903_momentum
+INFO:parallel_shadow_trading:≡ƒöä PROMETHEUS Parallel Shadow Trading System 
+initialized
+INFO:parallel_shadow_trading:   Session ID: multi_20260221_143903_momentum
+INFO:parallel_shadow_trading:   Config Name: momentum
+INFO:parallel_shadow_trading:   Starting Capital: $100,000.00
+INFO:parallel_shadow_trading:   Max Position Size: 10% ($10,000.00)
+INFO:parallel_shadow_trading:   Multi-Asset Support: Stocks, ETFs, Crypto, 
+Forex
+INFO:parallel_shadow_trading:   ≡ƒÜÇ 6 Enhancements: TRAILING_STOP, DCA, 
+TIME_EXIT, SCALE_OUT, CORRELATION, SENTIMENT
+INFO:parallel_shadow_trading:   ≡ƒÆ╛ Database Persistence: ENABLED
+INFO:MultiStrategy:≡ƒÜÇ Starting strategy: momentum
+INFO:MultiStrategy:   Follows strong momentum. Heavy technical weight, fast 
+exits on reversals.
+INFO:parallel_shadow_trading:
+============================================================
+INFO:parallel_shadow_trading:INITIALIZING PROMETHEUS AI SYSTEMS FOR SHADOW 
+TRADING
+INFO:parallel_shadow_trading:==================================================
+==========
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+WARNING:core.hrm_official_integration:Checkpoint not found: arc_agi_2
+INFO:core.hrm_checkpoint_manager:Checkpoint arc_agi_2 already exists at 
+hrm_checkpoints\arc_agi_2
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=11, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: sudoku_extreme
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=6, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\maze_30x30\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: maze_30x30
+INFO:core.hrm_official_integration:Official HRM Trading Adapter initialized on 
+cpu
+INFO:core.hrm_official_integration:Loaded 2 checkpoints
+INFO:parallel_shadow_trading:Γ£à HRM Official Integration loaded
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+WARNING:core.hrm_official_integration:Checkpoint not found: arc_agi_2
+INFO:core.hrm_checkpoint_manager:Checkpoint arc_agi_2 already exists at 
+hrm_checkpoints\arc_agi_2
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=11, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: sudoku_extreme
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=6, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\maze_30x30\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: maze_30x30
+INFO:core.hrm_official_integration:Official HRM Trading Adapter initialized on 
+cpu
+INFO:core.hrm_official_integration:Loaded 2 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à Official HRM initialized for 
+Universal Reasoning
+INFO:core.universal_reasoning_engine:   Loaded 2 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à GPT-OSS initialized for Universal 
+Reasoning
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (medium level, 200 iterations)
+INFO:core.universal_reasoning_engine:Γ£à Quantum Engine initialized for 
+Universal Reasoning
+INFO:revolutionary_features.ai_consciousness.ai_consciousness_engine:≡ƒºá AI 
+Consciousness Engine ENABLED - Advanced meta-cognition active
+INFO:core.universal_reasoning_engine:Γ£à AI Consciousness initialized for 
+Universal Reasoning
+INFO:core.pattern_integration:Γ£à Loaded patterns from 
+learned_patterns_expert_20260115_230020.json
+INFO:core.universal_reasoning_engine:Γ£à Pattern Integration initialized 
+(backtest-learned patterns)
+INFO:parallel_shadow_trading:Γ£à Universal Reasoning Engine loaded
+INFO:parallel_shadow_trading:Γ£à Visual Pattern Provider loaded (1445 patterns)
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒôÜ Embedded 
+Knowledge Base initialized successfully
+INFO:sentence_transformers.SentenceTransformer:Use pytorch device_name: cpu
+INFO:sentence_transformers.SentenceTransformer:Load pretrained 
+SentenceTransformer: all-MiniLM-L6-v2
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.memory_percent 
+warning: 89.45
+INFO:revolutionary_features.oracle.market_oracle_engine:[CHECK] Embedding 
+model initialized for enhanced knowledge retrieval
+INFO:revolutionary_features.oracle.market_oracle_engine:≡ƒö« Market Oracle 
+Engine initialized with knowledge retrieval: Embedded KB
+INFO:parallel_shadow_trading:Γ£à Market Oracle Engine loaded
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+Trading Engine initialized - Real optimization (high level, 500 iterations)
+INFO:parallel_shadow_trading:Γ£à Quantum Trading Engine loaded
+INFO:parallel_shadow_trading:Γ£à GPT-OSS Engine loaded
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+portfolio_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent risk_supervisor 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Supervisor Agent 
+market_regime_supervisor initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Arbitrage Agent arbitrage_4 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Sentiment Agent sentiment_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Whale_Following Agent whale_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû News_Reaction Agent news_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_0 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_1 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_2 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Technical Agent technical_3 
+initialized
+INFO:core.hierarchical_agent_coordinator:[CHECK] CrewAI trading team 
+initialized successfully
+INFO:core.hierarchical_agent_coordinator:Γ£à CrewAI teams initialized 
+successfully
+INFO:core.hierarchical_agent_coordinator:≡ƒñû Hierarchical Agent Coordinator 
+initialized
+INFO:core.hierarchical_agent_coordinator:≡ƒôè Supervisor agents: 3
+INFO:core.hierarchical_agent_coordinator:≡ƒöÑ Execution agents: 17
+INFO:core.hierarchical_agent_coordinator:≡ƒÜÇ CrewAI integration ACTIVE - 
+Enhanced coordination enabled
+INFO:parallel_shadow_trading:Γ£à Hierarchical Agent Coordinator loaded
+INFO:core.ai_attribution_tracker:Γ£à AI Attribution database initialized
+INFO:core.ai_attribution_tracker:≡ƒÄ» AI Attribution Tracker initialized
+INFO:parallel_shadow_trading:Γ£à AI Attribution Tracker loaded
+INFO:core.continuous_learning_engine:≡ƒºá Continuous Learning Engine 
+initialized
+INFO:core.continuous_learning_engine:≡ƒôè Learning mode: balanced
+INFO:core.continuous_learning_engine:[LIGHTNING] Initial learning rate: 0.01
+INFO:parallel_shadow_trading:Γ£à Continuous Learning Engine loaded (BALANCED 
+mode)
+INFO:core.ai_learning_engine:Loaded pre-trained model: price_predictor
+INFO:core.ai_learning_engine:AI models initialized successfully
+INFO:parallel_shadow_trading:Γ£à AI Learning Engine loaded
+INFO:parallel_shadow_trading:
+Γ£à Loaded 10 AI systems: HRM, Universal Reasoning, Visual Patterns, Market 
+Oracle, Quantum Engine, GPT-OSS, Agent Coordinator, AI Attribution, Continuous 
+Learning, AI Learning
+INFO:core.universal_reasoning_engine:≡ƒºá Universal Reasoning Engine: 
+Synthesizing ALL reasoning sources...
+WARNING:core.advanced_monitoring:High resource usage: system.cpu_percent = 
+100.0%
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.cpu_percent warning: 
+83.72
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.memory_percent 
+warning: 90.32
+INFO:core.hrm_official_integration:HRM reasoning complete: hold on UNKNOWN 
+(confidence: 0.99)
+INFO:core.hrm_official_integration:HRM reasoning complete: hold on UNKNOWN 
+(confidence: 1.00)
+INFO:core.universal_reasoning_engine:  Γ£à Official HRM Reasoning: HOLD 
+(confidence: 1.000, checkpoint: ensemble)
+INFO:core.universal_reasoning_engine:  Γ£à GPT-OSS Reasoning: HOLD 
+(confidence: 0.500)
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Executing 
+quantum trade optimization for 
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine:Quantum 
+optimization: confidence=77.00%, kelly=0.250
+INFO:core.universal_reasoning_engine:  Γ£à Quantum Optimization: BUY 
+(advantage: 1.000)
+INFO:parallel_shadow_trading:≡ƒÆ╛ Shadow database initialized: 4 tables 
+created/verified
+INFO:parallel_shadow_trading:   Session registered: 
+multi_20260221_143903_mean_reversion
+INFO:parallel_shadow_trading:≡ƒöä PROMETHEUS Parallel Shadow Trading System 
+initialized
+INFO:parallel_shadow_trading:   Session ID: 
+multi_20260221_143903_mean_reversion
+INFO:parallel_shadow_trading:   Config Name: mean_reversion
+INFO:parallel_shadow_trading:   Starting Capital: $100,000.00
+INFO:parallel_shadow_trading:   Max Position Size: 8% ($8,000.00)
+INFO:parallel_shadow_trading:   Multi-Asset Support: Stocks, ETFs, Crypto, 
+Forex
+INFO:parallel_shadow_trading:   ≡ƒÜÇ 6 Enhancements: TRAILING_STOP, DCA, 
+TIME_EXIT, SCALE_OUT, CORRELATION, SENTIMENT
+INFO:parallel_shadow_trading:   ≡ƒÆ╛ Database Persistence: ENABLED
+INFO:MultiStrategy:≡ƒÜÇ Starting strategy: mean_reversion
+INFO:MultiStrategy:   Buys oversold conditions, heavy DCA, patient exits. 
+Contrarian approach.
+INFO:parallel_shadow_trading:
+============================================================
+INFO:parallel_shadow_trading:INITIALIZING PROMETHEUS AI SYSTEMS FOR SHADOW 
+TRADING
+INFO:parallel_shadow_trading:==================================================
+==========
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager initialized: 
+hrm_checkpoints
+WARNING:core.hrm_official_integration:Checkpoint not found: arc_agi_2
+INFO:core.hrm_checkpoint_manager:Checkpoint arc_agi_2 already exists at 
+hrm_checkpoints\arc_agi_2
+WARNING:core.advanced_monitoring:High resource usage: system.cpu_percent = 
+100.0%
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.cpu_percent warning: 
+90.55
+WARNING:core.advanced_monitoring:ALERT [WARNING]: system.memory_percent 
+warning: 91.00
+INFO:core.hrm_official_integration:Inferred from checkpoint: vocab_size=11, 
+num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml

@@ -1,0 +1,388 @@
+version: '3.8'
+
+# =============================================================================
+# PROMETHEUS TRADING PLATFORM - UNIFIED DOCKER COMPOSE
+# Single docker-compose file with environment-based overrides
+# Supports development, production, and testing environments
+# =============================================================================
+
+services:
+  # =============================================================================
+  # PROMETHEUS API SERVER
+  # =============================================================================
+  prometheus-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${DOCKER_TARGET:-development}
+    container_name: prometheus-api-${ENVIRONMENT:-dev}
+    
+    # Environment Configuration
+    environment:
+      # Core Settings
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+      - HOST=0.0.0.0
+      - PORT=8000
+      - WORKERS=${WORKERS:-1}
+      
+      # Database
+      - DATABASE_URL=${DATABASE_URL:-sqlite:///prometheus_trading.db}
+      - AUTO_MIGRATE=${AUTO_MIGRATE:-false}
+      
+      # Security
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - ENTERPRISE_MODE=${ENTERPRISE_MODE:-false}
+      - MFA_ENABLED=${MFA_ENABLED:-false}
+      
+      # Trading
+      - ALPACA_API_KEY=${ALPACA_API_KEY}
+      - ALPACA_SECRET_KEY=${ALPACA_SECRET_KEY}
+      - ALPACA_BASE_URL=${ALPACA_BASE_URL:-https://paper-api.alpaca.markets}
+      - ENABLE_LIVE_ORDER_EXECUTION=${ENABLE_LIVE_ORDER_EXECUTION:-false}
+      
+      # AI & Features
+      - AI_ENABLED=${AI_ENABLED:-true}
+      - ENABLE_TRADING=${ENABLE_TRADING:-true}
+      - ENABLE_AI_AGENTS=${ENABLE_AI_AGENTS:-true}
+      
+      # Monitoring
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ENABLE_METRICS=${ENABLE_METRICS:-true}
+      - HEALTH_CHECKS_ENABLED=${HEALTH_CHECKS_ENABLED:-true}
+      
+      # Redis Connection
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_ENABLED=true
+    
+    # Port Mapping
+    ports:
+      - "${PORT:-8000}:8000"
+    
+    # Dependencies
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+        
+    # Volumes
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - ./backups:/app/backups
+    
+    # Health Check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Restart Policy
+    restart: unless-stopped
+    
+    # Resource Limits (Production)
+    deploy:
+      resources:
+        limits:
+          cpus: '${API_CPU_LIMIT:-2.0}'
+          memory: ${API_MEMORY_LIMIT:-4G}
+        reservations:
+          cpus: '${API_CPU_RESERVATION:-1.0}'
+          memory: ${API_MEMORY_RESERVATION:-2G}
+    
+    # Networks
+    networks:
+      - prometheus-network
+
+  # =============================================================================
+  # POSTGRESQL DATABASE
+  # =============================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: prometheus-postgres-${ENVIRONMENT:-dev}
+    
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-prometheus}
+      POSTGRES_USER: ${POSTGRES_USER:-prometheus}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-prometheus123}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+      - ./backups/postgres:/backups
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-prometheus} -d ${POSTGRES_DB:-prometheus}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    
+    restart: unless-stopped
+    
+    networks:
+      - prometheus-network
+
+  # =============================================================================
+  # REDIS CACHE
+  # =============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: prometheus-redis-${ENVIRONMENT:-dev}
+    
+    command: >
+      redis-server
+      --appendonly yes
+      --appendfsync everysec
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      ${REDIS_PASSWORD:+--requirepass $REDIS_PASSWORD}
+    
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    
+    volumes:
+      - redis_data:/data
+      - ./config/redis.conf:/usr/local/etc/redis/redis.conf
+    
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+    
+    restart: unless-stopped
+    
+    networks:
+      - prometheus-network
+
+  # =============================================================================
+  # PROMETHEUS MONITORING (Optional)
+  # =============================================================================
+  prometheus-monitoring:
+    image: prom/prometheus:latest
+    container_name: prometheus-monitoring-${ENVIRONMENT:-dev}
+    
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=${PROMETHEUS_RETENTION:-90d}'
+      - '--web.enable-lifecycle'
+    
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./monitoring/rules:/etc/prometheus/rules:ro
+      - prometheus_data:/prometheus
+    
+    depends_on:
+      - prometheus-api
+    
+    restart: unless-stopped
+    
+    networks:
+      - prometheus-network
+    
+    profiles:
+      - monitoring
+
+  # =============================================================================
+  # GRAFANA DASHBOARD (Optional)
+  # =============================================================================
+  grafana:
+    image: grafana/grafana:latest
+    container_name: prometheus-grafana-${ENVIRONMENT:-dev}
+    
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin123}
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_SECURITY_DISABLE_GRAVATAR=true
+      - GF_ANALYTICS_REPORTING_ENABLED=false
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource
+    
+    ports:
+      - "${GRAFANA_PORT:-3001}:3000"
+    
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    
+    depends_on:
+      - prometheus-monitoring
+    
+    restart: unless-stopped
+    
+    networks:
+      - prometheus-network
+    
+    profiles:
+      - monitoring
+
+  # =============================================================================
+  # NGINX REVERSE PROXY (Optional)
+  # =============================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: prometheus-nginx-${ENVIRONMENT:-dev}
+    
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    
+    volumes:
+      - ./deployment/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./deployment/nginx/ssl:/etc/nginx/ssl:ro
+      - ./logs/nginx:/var/log/nginx
+    
+    depends_on:
+      - prometheus-api
+    
+    restart: unless-stopped
+    
+    networks:
+      - prometheus-network
+    
+    profiles:
+      - proxy
+
+  # =============================================================================
+  # ELASTICSEARCH (Optional - for logging)
+  # =============================================================================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.0
+    container_name: prometheus-elasticsearch-${ENVIRONMENT:-dev}
+    
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    
+    ports:
+      - "${ELASTICSEARCH_PORT:-9200}:9200"
+    
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    
+    restart: unless-stopped
+    
+    networks:
+      - prometheus-network
+    
+    profiles:
+      - logging
+
+  # =============================================================================
+  # KIBANA (Optional - for log visualization)
+  # =============================================================================
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.8.0
+    container_name: prometheus-kibana-${ENVIRONMENT:-dev}
+    
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    
+    ports:
+      - "${KIBANA_PORT:-5601}:5601"
+    
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    
+    restart: unless-stopped
+    
+    networks:
+      - prometheus-network
+    
+    profiles:
+      - logging
+
+# =============================================================================
+# VOLUMES
+# =============================================================================
+volumes:
+  postgres_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH:-./data}/postgres
+  
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH:-./data}/redis
+  
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH:-./data}/prometheus
+  
+  grafana_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH:-./data}/grafana
+  
+  elasticsearch_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${DATA_PATH:-./data}/elasticsearch
+
+# =============================================================================
+# NETWORKS
+# =============================================================================
+networks:
+  prometheus-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${NETWORK_SUBNET:-172.20.0.0/16}
+
+# =============================================================================
+# PROFILES USAGE:
+# 
+# Development (minimal):
+#   docker-compose -f docker-compose.unified.yml up
+# 
+# With monitoring:
+#   docker-compose -f docker-compose.unified.yml --profile monitoring up
+# 
+# With logging:
+#   docker-compose -f docker-compose.unified.yml --profile logging up
+# 
+# With reverse proxy:
+#   docker-compose -f docker-compose.unified.yml --profile proxy up
+# 
+# Full stack:
+#   docker-compose -f docker-compose.unified.yml --profile monitoring --profile logging --profile proxy up
+# 
+# Production:
+#   ENVIRONMENT=production docker-compose -f docker-compose.unified.yml --profile monitoring --profile proxy up
+# =============================================================================

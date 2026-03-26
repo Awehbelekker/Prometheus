@@ -1,0 +1,9 @@
+/* BrokerAccountManager Component Styles */
+
+.status-connected {
+  color: #80cbc4;
+}
+
+.status-disconnected {
+  color: #ff5370;
+} 

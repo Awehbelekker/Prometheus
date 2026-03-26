@@ -1,0 +1,11 @@
+# Log Rotation Configuration
+# This file documents the log rotation settings
+
+LOG_FILE=logs/prometheus.log
+MAX_BYTES=10485760  # 10 MB
+BACKUP_COUNT=5
+LOG_LEVEL=INFO
+
+# Log files will rotate when they reach 10 MB
+# Old logs are kept as: prometheus.log.1, prometheus.log.2, etc.
+# Only the 5 most recent backups are kept

@@ -1,0 +1,456 @@
+/* Registration Component Styles */
+.registration-container {
+  min-block-size: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.registration-card {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  max-inline-size: 700px;
+  inline-size: 100%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  margin: 20px auto;
+}
+
+.registration-card::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  block-size: 4px;
+  background: linear-gradient(90deg, #007acc, #28a745, #ffc107, #dc3545);
+}
+
+.registration-header {
+  text-align: center;
+  margin-block-end: 40px;
+}
+
+.registration-header h1 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #007acc, #667eea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.registration-header p {
+  color: #666;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.registration-form {
+  margin-block-end: 30px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  margin-block-end: 20px;
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-block-end: 8px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group select {
+  inline-size: 100%;
+  padding: 15px;
+  border: 2px solid #e0e0e0;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  background: white;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus,
+.form-group select:focus {
+  border-color: #007acc;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.1);
+  transform: translateY(-2px);
+}
+
+.form-group input.error,
+.form-group select.error {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.form-group input:disabled,
+.form-group select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.field-error {
+  display: block;
+  color: #dc3545;
+  font-size: 12px;
+  margin-block-start: 5px;
+  font-weight: 500;
+}
+
+.tenant-toggle,
+.terms-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  margin-block-end: 0;
+  line-height: 1.4;
+}
+
+.tenant-toggle input[type="checkbox"],
+.terms-checkbox input[type="checkbox"] {
+  inline-size: auto;
+  margin: 0;
+  margin-block-start: 2px;
+}
+
+.terms-checkbox a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.terms-checkbox a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  background: linear-gradient(135deg, #fee, #fdd);
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 15px;
+  border-radius: 10px;
+  margin-block-end: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.success-message {
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 15px;
+  border-radius: 10px;
+  margin-block-end: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+}
+
+.error-icon,
+.success-icon {
+  font-size: 18px;
+}
+
+.registration-button {
+  inline-size: 100%;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+}
+
+.registration-button:active {
+  transform: translateY(0);
+}
+
+.registration-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.loading-spinner::before {
+  content: '';
+  inline-size: 16px;
+  block-size: 16px;
+  border: 2px solid transparent;
+  border-block-start: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.login-link {
+  margin-block-end: 30px;
+  padding-block-start: 20px;
+  border-block-start: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.login-link p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.switch-link {
+  background: none;
+  border: none;
+  color: #007acc;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-inline-start: 5px;
+}
+
+.switch-link:hover {
+  color: #0056b3;
+}
+
+.switch-link:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.registration-features {
+  border-block-start: 1px solid #e0e0e0;
+  padding-block-start: 30px;
+}
+
+.registration-features h3 {
+  color: #333;
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.feature {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 15px;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+
+.feature:hover {
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.feature h4 {
+  color: #333;
+  margin: 0 0 5px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.feature p {
+  color: #666;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registration-container {
+    padding: 10px;
+  }
+
+  .registration-card {
+    padding: 30px 20px;
+    margin: 10px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .registration-header h1 {
+    font-size: 24px;
+  }
+
+  .registration-header p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .registration-card {
+    padding: 20px 15px;
+    border-radius: 15px;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group input[type="password"],
+  .form-group select {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .registration-button {
+    padding: 15px;
+    font-size: 14px;
+  }
+}
+
+/* Animation for form validation */
+.form-group.shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Loading overlay for form submission */
+.registration-form.loading {
+  position: relative;
+  pointer-events: none;
+}
+
+.registration-form.loading::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  z-index: 10;
+}
+
+/* Success state animations */
+.success-message {
+  animation: slideInFromTop 0.5s ease-out;
+}
+
+@keyframes slideInFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced accessibility */
+.form-group input:focus,
+.form-group select:focus {
+  position: relative;
+  z-index: 1;
+}
+
+.form-group label {
+  cursor: pointer;
+}
+
+/* Password strength indicator (optional enhancement) */
+.password-strength {
+  margin-block-start: 5px;
+  block-size: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  block-size: 100%;
+  transition: all 0.3s ease;
+  border-radius: 2px;
+}
+
+.password-strength-weak {
+  inline-size: 33%;
+  background: #dc3545;
+}
+
+.password-strength-medium {
+  inline-size: 66%;
+  background: #ffc107;
+}
+
+.password-strength-strong {
+  inline-size: 100%;
+  background: #28a745;
+}

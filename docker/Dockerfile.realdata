@@ -1,0 +1,17 @@
+# Real Data API container for real_data_api_server.py
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install runtime deps
+RUN pip install --no-cache-dir fastapi "uvicorn[standard]" starlette pydantic
+
+COPY real_data_api_server.py /app/
+
+EXPOSE 8002
+
+CMD ["uvicorn", "real_data_api_server:app", "--host", "0.0.0.0", "--port", "8002"]
+

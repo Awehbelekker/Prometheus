@@ -1,0 +1,20 @@
+BACKEND SERVER STATUS CHECK
+============================
+
+Checking Backend Server (Port 8000)...
+
+To check status, run:
+  python check_backend_status.py
+
+Or manually check:
+  - Open browser: http://localhost:8000/health
+  - Or: http://localhost:8000/docs
+
+To start backend if down:
+  python -m uvicorn unified_production_server:app --host 127.0.0.1 --port 8000
+
+Or use:
+  python start_backend_server.py
+
+
+

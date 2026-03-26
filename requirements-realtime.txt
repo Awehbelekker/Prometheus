@@ -1,0 +1,16 @@
+# Real-Time Market Data Dependencies
+# Add these to your existing requirements.txt
+
+# Core market data libraries
+yfinance>=0.2.18          # Yahoo Finance API - Free unlimited stock data
+aiohttp>=3.8.0            # Async HTTP client for API calls
+pandas>=1.5.0             # Data manipulation for market analysis
+numpy>=1.24.0             # Numerical computations
+
+# Optional enhanced data sources (require API keys)
+# alpha-vantage>=2.3.1    # Alpha Vantage API - 5 calls/minute free
+# polygon-api-client>=1.9.1  # Polygon.io API - 5 calls/minute free
+
+# WebSocket libraries for real-time streaming (future enhancement)
+# websockets>=11.0          # Real-time price streaming
+# python-binance>=1.0.17    # Binance WebSocket streams

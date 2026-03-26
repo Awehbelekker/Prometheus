@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROMETHEUS — Admin Command Center</title>
+<style>
+:root{--bg:#0a0e14;--card:#131820;--border:#1e2a3a;--green:#00ff88;--red:#ff4455;--yellow:#ffaa00;--blue:#58a6ff;--purple:#bc8cff;--dim:#6e7a8a;--text:#e6edf3;--glow:0 0 15px rgba(0,255,136,.12)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--card)}
+.hdr h1{font-size:1.2rem;font-weight:700;letter-spacing:.5px}.hdr h1 span{color:var(--green)}
+.hdr-r{display:flex;align-items:center;gap:16px;font-size:.8rem;color:var(--dim)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;animation:pulse 1.5s infinite}
+.dot-g{background:var(--green)}.dot-r{background:var(--red)}.dot-y{background:var(--yellow)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:18px 24px}
+@media(max-width:1200px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;transition:border-color .3s}
+.card:hover{border-color:rgba(0,255,136,.3)}
+.card-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.card-t{font-size:.72rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--dim);font-weight:600}
+.badge{font-size:.65rem;padding:2px 8px;border-radius:10px;font-weight:600}
+.b-g{background:rgba(0,255,136,.12);color:var(--green)}.b-r{background:rgba(255,68,85,.12);color:var(--red)}
+.b-y{background:rgba(255,170,0,.12);color:var(--yellow)}.b-b{background:rgba(88,166,255,.12);color:var(--blue)}
+.b-p{background:rgba(188,140,255,.12);color:var(--purple)}
+.big{font-size:1.8rem;font-weight:700;line-height:1.1}.sub{font-size:.78rem;color:var(--dim);margin-top:3px}
+.g{color:var(--green)}.r{color:var(--red)}.y{color:var(--yellow)}.bl{color:var(--blue)}.p{color:var(--purple)}
+.wide{grid-column:span 2}.full{grid-column:1/-1}
+.tbl{width:100%;border-collapse:collapse;font-size:.78rem;margin-top:8px}
+.tbl th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--border);color:var(--dim);font-weight:600;font-size:.7rem;text-transform:uppercase}
+.tbl td{padding:6px 8px;border-bottom:1px solid rgba(30,42,58,.5)}
+.tbl tr:hover{background:rgba(0,255,136,.03)}
+.bar{height:6px;background:var(--border);border-radius:3px;margin-top:6px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .6s}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(30,42,58,.4)}
+.stat-row:last-child{border:none}
+.stat-label{font-size:.78rem;color:var(--dim)}.stat-val{font-size:.85rem;font-weight:600}
+.section-title{font-size:.85rem;font-weight:700;margin:20px 24px 8px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+#error-banner{display:none;background:rgba(255,68,85,.1);border:1px solid var(--red);color:var(--red);padding:10px 24px;font-size:.82rem;text-align:center}
+</style>
+</head>
+<body>
+
+<div id="error-banner"></div>
+
+<div class="hdr">
+  <h1>⚡ <span>PROMETHEUS</span> Admin Command Center</h1>
+  <div class="hdr-r">
+    <span id="conn-dot" class="dot dot-r"></span>
+    <span id="conn-status">Connecting...</span>
+    <span id="uptime"></span>
+    <span id="clock"></span>
+  </div>
+</div>
+
+<!-- ROW 1: Brokers -->
+<div class="section-title">🏦 Broker Accounts</div>
+<div class="grid" id="brokers-grid">
+  <!-- Alpaca Live -->
+  <div class="card" id="alpaca-live-card">
+    <div class="card-hdr"><span class="card-t">Alpaca LIVE</span><span id="alpaca-live-badge" class="badge b-r">OFFLINE</span></div>
+    <div class="big g" id="alpaca-live-value">—</div>
+    <div class="sub" id="alpaca-live-sub">Real money account</div>
+    <div id="alpaca-live-details"></div>
+  </div>
+  <!-- Alpaca Paper -->
+  <div class="card" id="alpaca-paper-card">
+    <div class="card-hdr"><span class="card-t">Alpaca PAPER</span><span id="alpaca-paper-badge" class="badge b-y">OFFLINE</span></div>
+    <div class="big bl" id="alpaca-paper-value">—</div>
+    <div class="sub" id="alpaca-paper-sub">Simulated trading</div>
+  </div>
+  <!-- IB -->
+  <div class="card" id="ib-card">
+    <div class="card-hdr"><span class="card-t">Interactive Brokers</span><span id="ib-badge" class="badge b-r">OFFLINE</span></div>
+    <div class="big p" id="ib-value">—</div>
+    <div class="sub" id="ib-sub">Options + Equities</div>
+  </div>
+  <!-- Execution Mode -->
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Execution Mode</span><span id="exec-badge" class="badge b-g">—</span></div>
+    <div class="big" id="exec-mode">—</div>
+    <div class="sub" id="exec-sub"></div>
+  </div>
+  <!-- Market Hours -->
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Market Hours</span><span id="market-badge" class="badge b-r">—</span></div>
+    <div class="big" id="market-status-big">—</div>
+    <div class="sub" id="market-sub">Checking...</div>
+  </div>
+</div>
+
+<!-- ROW 2: Positions -->
+<div class="section-title">📊 Live Positions</div>
+<div class="grid">
+  <div class="card full">
+    <table class="tbl" id="positions-table">
+      <thead><tr><th>Symbol</th><th>Qty</th><th>Market Value</th><th>Unrealized P&L</th></tr></thead>
+      <tbody id="positions-body"><tr><td colspan="4" style="color:var(--dim);text-align:center">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ROW 3: AI & Learning -->
+<div class="section-title">🧠 AI Intelligence & Learning</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">AI Systems</span><span id="ai-badge" class="badge b-g">—</span></div>
+    <div class="big g" id="ai-count">—</div>
+    <div class="sub">Active AI systems</div>
+    <div id="ai-systems-list" style="margin-top:8px"></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">RL Agent</span><span id="rl-badge" class="badge b-b">—</span></div>
+    <div class="big bl" id="rl-trades">—</div>
+    <div class="sub">Trades learned (reinforcement)</div>
+    <div id="rl-meta" style="font-size:.72rem;color:var(--dim);margin-top:6px">—</div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Continuous Learner</span><span id="cl-badge" class="badge b-p">—</span></div>
+    <div class="big p" id="cl-outcomes">—</div>
+    <div class="sub">Outcomes recorded</div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Market Regime</span></div>
+    <div class="big y" id="regime-name">—</div>
+    <div class="sub" id="regime-alloc">Allocation: —</div>
+  </div>
+</div>
+
+<!-- ROW 4: Shadow Trading -->
+<div class="section-title">👻 Shadow Trading (Strategy Optimization)</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Shadow Status</span><span id="shadow-badge" class="badge b-g">—</span></div>
+    <div class="big g" id="shadow-trades">—</div>
+    <div class="sub" id="shadow-pnl">Total P&L: —</div>
+  </div>
+  <div class="card wide">
+    <div class="card-hdr"><span class="card-t">Shadow Strategies</span></div>
+    <table class="tbl" id="shadow-table">
+      <thead><tr><th>Strategy</th><th>Trades</th><th>Wins</th><th>Win Rate</th><th>P&L</th></tr></thead>
+      <tbody id="shadow-body"><tr><td colspan="5" style="color:var(--dim)">Loading...</td></tr></tbody>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Shadow Threads</span></div>
+    <div id="shadow-threads" style="font-size:.8rem;color:var(--dim)">—</div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Paper vs Shadow</span><span id="compare-badge" class="badge b-b">SNAPSHOT</span></div>
+    <div id="compare-panel" style="font-size:.78rem;color:var(--text)">
+      <div class="stat-row"><span class="stat-label">Paper Equity</span><span class="stat-val" id="cmp-paper-equity">—</span></div>
+      <div class="stat-row"><span class="stat-label">Paper Positions</span><span class="stat-val" id="cmp-paper-pos">—</span></div>
+      <div class="stat-row"><span class="stat-label">Shadow Closed P&L</span><span class="stat-val" id="cmp-shadow-pnl">—</span></div>
+      <div class="stat-row"><span class="stat-label">Delta (Paper - Shadow P&L)</span><span class="stat-val" id="cmp-delta">—</span></div>
+      <div class="stat-row"><span class="stat-label">Shadow Trades</span><span class="stat-val" id="cmp-shadow-trades">—</span></div>
+      <div class="stat-row"><span class="stat-label">Shadow Threads</span><span class="stat-val" id="cmp-shadow-threads">—</span></div>
+    </div>
+    <div class="sub" id="cmp-activity-hint" style="margin-top:8px">—</div>
+  </div>
+</div>
+
+<!-- ROW 5: Trading Activity -->
+<div class="section-title">📈 Trading Activity</div>
+<div class="grid">
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Trades (24h)</span></div>
+    <div class="big bl" id="trades-24h">—</div>
+    <div class="sub" id="trades-total-sub">Total: —</div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Win Rate</span></div>
+    <div class="big g" id="win-rate">—</div>
+    <div class="sub" id="win-rate-sub">Wins / Closed</div>
+    <div class="bar"><div class="bar-fill" id="wr-bar" style="width:0;background:var(--green)"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Total P&L</span></div>
+    <div class="big" id="total-pnl">—</div>
+    <div class="sub">Closed trades</div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Options Trading</span><span id="options-badge" class="badge b-y">—</span></div>
+    <div id="options-info" style="font-size:.82rem;margin-top:6px">—</div>
+  </div>
+</div>
+
+<!-- ROW 6: Recent Trades -->
+<div class="section-title">🔄 Recent Trades</div>
+<div class="grid">
+  <div class="card full">
+    <table class="tbl" id="recent-table">
+      <thead><tr><th>Time</th><th>Symbol</th><th>Action</th><th>Price</th><th>Qty</th><th>P&L</th><th>Broker</th></tr></thead>
+      <tbody id="recent-body"><tr><td colspan="7" style="color:var(--dim);text-align:center">Loading...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ROW 7: System Resources -->
+<div class="section-title">⚙️ System Resources</div>
+<div class="grid" style="padding-bottom:40px">
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">CPU</span></div>
+    <div class="big bl" id="cpu-val">—</div>
+    <div class="bar"><div class="bar-fill" id="cpu-bar" style="width:0;background:var(--blue)"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Memory</span></div>
+    <div class="big y" id="mem-val">—</div>
+    <div class="bar"><div class="bar-fill" id="mem-bar" style="width:0;background:var(--yellow)"></div></div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Server Uptime</span></div>
+    <div class="big g" id="uptime-val">—</div>
+    <div class="sub" id="uptime-sub">Since server start</div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">GPU</span></div>
+    <div class="big p" id="gpu-val">—</div>
+    <div class="sub" id="gpu-sub">Best-effort telemetry</div>
+  </div>
+  <div class="card">
+    <div class="card-hdr"><span class="card-t">Refresh</span></div>
+    <div style="font-size:.82rem;color:var(--dim);margin-top:6px">Auto-refreshes every <b>10s</b></div>
+    <div class="sub" id="last-refresh">Last: —</div>
+  </div>
+</div>
+
+<script>
+const API = window.location.protocol === 'file:' ? 'http://127.0.0.1:8000' : window.location.origin;
+const API_FALLBACKS = [
+  API,
+  'http://127.0.0.1:8000',
+  'http://localhost:8000'
+].filter((v, i, a) => a.indexOf(v) === i);
+const $ = id => document.getElementById(id);
+const fmt$ = v => {const n=parseFloat(v);return isNaN(n)?'—':'$'+n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})};
+const fmtPct = v => {const n=parseFloat(v);return isNaN(n)?'—':n.toFixed(1)+'%'};
+const fmtTime = t => {try{const d=new Date(t);return d.toLocaleTimeString('en-US',{hour12:false})}catch(e){return t||'—'}};
+
+async function fetchJsonWithTimeout(url, timeoutMs=30000){
+  if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.timeout === 'function') {
+    const r = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const r = await fetch(url, { signal: controller.signal });
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchWithFallback(path, timeoutMs=30000){
+  let lastErr = null;
+  for (const base of API_FALLBACKS) {
+    try {
+      return await fetchJsonWithTimeout(base + path, timeoutMs);
+    } catch (e) {
+      lastErr = e;
+    }
+  }
+  throw lastErr || new Error('All API endpoints failed');
+}
+
+function updateClock(){
+  const now = new Date();
+  $('clock').textContent = now.toLocaleString('en-US',{hour12:false,month:'short',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+function fmtUptime(s){
+  const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=Math.floor(s%60);
+  return h>0?`${h}h ${m}m ${sec}s`:`${m}m ${sec}s`;
+}
+
+async function refresh(){
+  try{
+    const d = await fetchWithFallback('/api/admin/full-status', 30000);
+    if(!d.success) throw new Error(d.error||'Unknown');
+
+    $('error-banner').style.display='none';
+    $('conn-dot').className='dot dot-g';
+    $('conn-status').textContent='Connected';
+    $('last-refresh').textContent='Last: '+new Date().toLocaleTimeString();
+
+    // ── Alpaca Live ──
+    const al = d.alpaca_live||{};
+    if(al.connected){
+      $('alpaca-live-badge').className='badge b-g';$('alpaca-live-badge').textContent='LIVE';
+      $('alpaca-live-value').textContent=fmt$(al.account_value);
+      const mktBadge = al.market_open ? '🟢 OPEN' : '🔴 '+(al.market_status||'CLOSED');
+      $('alpaca-live-sub').textContent=`Cash: ${fmt$(al.cash)} | BP: ${fmt$(al.buying_power)} | ${mktBadge}`;
+      // Additional stats
+      const extraStats = `<div style="font-size:.7rem;color:var(--dim);margin-top:4px">Equity: ${fmt$(al.equity||0)} | Positions: ${al.position_count||0} | Orders: ${al.open_orders||0} | DTrades: ${al.daytrade_count||0}</div>`;
+      $('alpaca-live-sub').innerHTML += extraStats;
+      // Positions
+      const pos = al.positions||[];
+      if(pos.length>0){
+        $('positions-body').innerHTML=pos.map(p=>`<tr>
+          <td style="font-weight:600">${p.symbol}</td>
+          <td>${p.qty}</td>
+          <td>${fmt$(p.market_value)}</td>
+          <td class="${parseFloat(p.unrealized_pl)>=0?'g':'r'}">${fmt$(p.unrealized_pl)}</td>
+        </tr>`).join('');
+      }else{
+        $('positions-body').innerHTML='<tr><td colspan="4" style="color:var(--dim);text-align:center">No open positions</td></tr>';
+      }
+    }else{
+      $('alpaca-live-badge').className='badge b-r';$('alpaca-live-badge').textContent='OFFLINE';
+      $('alpaca-live-value').textContent='—';
+      $('alpaca-live-sub').textContent=al.error||'Not connected';
+    }
+
+    // ── Alpaca Paper ──
+    const ap = d.alpaca_paper||{};
+    if(ap.connected){
+      $('alpaca-paper-badge').className='badge b-g';$('alpaca-paper-badge').textContent='PAPER';
+      $('alpaca-paper-value').textContent=fmt$(ap.account_value);
+      const mktBadge = ap.market_open ? '🟢 OPEN' : '🔴 '+(ap.market_status||'CLOSED');
+      $('alpaca-paper-sub').textContent=`Cash: ${fmt$(ap.cash)} | BP: ${fmt$(ap.buying_power)} | ${mktBadge}`;
+      // Additional stats
+      const pExtraStats = `<div style="font-size:.7rem;color:var(--dim);margin-top:4px">Equity: ${fmt$(ap.equity||0)} | Positions: ${ap.position_count||0} | Orders: ${ap.open_orders||0} | DTrades: ${ap.daytrade_count||0}</div>`;
+      $('alpaca-paper-sub').innerHTML += pExtraStats;
+    }else{
+      $('alpaca-paper-badge').className='badge b-r';$('alpaca-paper-badge').textContent='OFFLINE';
+      $('alpaca-paper-value').textContent='—';
+      $('alpaca-paper-sub').textContent=ap.error||'Not connected';
+    }
+
+    // ── IB ──
+    const ib = d.ib_broker||{};
+    if(ib.connected){
+      $('ib-badge').className='badge b-g';$('ib-badge').textContent='CONNECTED';
+      $('ib-value').textContent=ib.account_value?fmt$(ib.account_value):'Connected';
+      const ibMktBadge = ib.market_open ? '🟢 OPEN' : '🔴 '+(ib.market_status||'CLOSED');
+      $('ib-sub').textContent=`Cash: ${fmt$(ib.cash||0)} | BP: ${fmt$(ib.buying_power||0)} | ${ibMktBadge}`;
+      const ibExtra = `<div style="font-size:.7rem;color:var(--dim);margin-top:4px">Equity: ${fmt$(ib.equity||ib.account_value||0)} | Positions: ${ib.position_count||0} | Orders: ${ib.open_orders||0} | Account: ${ib.account||'\u2014'}</div>`;
+      $('ib-sub').innerHTML += ibExtra;
+    }else if(ib.port_reachable){
+      $('ib-badge').className='badge b-y';$('ib-badge').textContent='PORT OPEN';
+      $('ib-value').textContent='Gateway Reachable';
+      const ibMktBadge2 = ib.market_open ? '🟢 OPEN' : '🔴 '+(ib.market_status||'CLOSED');
+      $('ib-sub').textContent=`Port ${ib.port} open — API not fully connected | ${ibMktBadge2}`;
+    }else{
+      $('ib-badge').className='badge b-r';$('ib-badge').textContent='OFFLINE';
+      $('ib-value').textContent='Not Running';
+      $('ib-sub').textContent=`Port ${ib.port||4002} — Start TWS/IB Gateway`;
+    }
+
+    // ── Execution Mode ──
+    $('exec-mode').textContent = d.live_execution_enabled?'LIVE':'PAPER ONLY';
+    $('exec-mode').className = 'big '+(d.live_execution_enabled?'g':'y');
+    $('exec-badge').textContent = d.always_live_mode?'ALWAYS LIVE':'STANDARD';
+    $('exec-badge').className = 'badge '+(d.live_execution_enabled?'b-g':'b-y');
+    $('exec-sub').textContent = d.live_execution_enabled?'Real money execution enabled':'Set ENABLE_LIVE_ORDER_EXECUTION=1 for live';
+
+    // ── Market Hours ──
+    const mktStat = d.us_market_status || 'Unknown';
+    const mktOpen = d.us_market_open || false;
+    $('market-status-big').textContent = mktStat.toUpperCase();
+    $('market-status-big').className = 'big ' + (mktOpen ? 'g' : 'y');
+    $('market-badge').textContent = mktOpen ? 'OPEN' : 'CLOSED';
+    $('market-badge').className = 'badge ' + (mktOpen ? 'b-g' : 'b-r');
+    if (mktStat === 'Weekend' || mktStat === 'After-Hours' || mktStat === 'Pre-Market') {
+      $('market-sub').textContent = '🪙 Crypto trading available 24/7!';
+    } else {
+      $('market-sub').textContent = 'US stocks & crypto';
+    }
+
+    // ── AI ──
+    const ai = d.ai_learning||{};
+    const aiActive = ai.systems_active||0;
+    const aiDetected = ai.systems_detected||((ai.system_details||[]).length||0);
+    $('ai-count').textContent = aiActive;
+    $('ai-badge').textContent = aiActive>0?'ACTIVE':'INACTIVE';
+    $('ai-badge').className = 'badge '+(aiActive>0?'b-g':'b-r');
+    const details = ai.system_details||[];
+    if(details.length>0){
+      $('ai-systems-list').innerHTML = details.map(s=>{
+        const state = (s.state||'unknown').toUpperCase();
+        const color = s.state==='running' ? 'var(--green)' : (s.state==='idle' ? 'var(--yellow)' : 'var(--dim)');
+        const ev = s.evidence ? ` <span style="color:var(--dim)">(${s.evidence})</span>` : '';
+        return `<div style="font-size:.75rem;padding:2px 0"><span style="color:${color}">●</span> ${s.name} - <span style="color:${color}">${state}</span>${ev}</div>`;
+      }).join('') + `<div style="font-size:.72rem;color:var(--dim);margin-top:4px">Running: ${aiActive} / Detected: ${aiDetected}</div>`;
+    }else{
+      const sysList = (ai.systems||[]).map(s=>`<div style="font-size:.75rem;color:var(--dim);padding:2px 0">✓ ${s}</div>`).join('');
+      $('ai-systems-list').innerHTML = sysList;
+    }
+    // RL
+    const rl = ai.rl_agent||{};
+    $('rl-trades').textContent = rl.trades_learned||0;
+    $('rl-badge').textContent = rl.loaded?'LOADED':'NOT LOADED';
+    $('rl-badge').className = 'badge '+(rl.loaded?'b-g':'b-r');
+    const rlMeta = [];
+    if(rl.source) rlMeta.push(`source: ${rl.source}`);
+    if(rl.checkpoint_present!==undefined) rlMeta.push(`checkpoint: ${rl.checkpoint_present?'yes':'no'}`);
+    $('rl-meta').textContent = rlMeta.length ? rlMeta.join(' | ') : 'no telemetry source';
+    // CL
+    const cl = ai.continuous_learner||{};
+    $('cl-outcomes').textContent = cl.outcomes||0;
+    $('cl-badge').textContent = cl.loaded?'ACTIVE':'INACTIVE';
+    $('cl-badge').className = 'badge '+(cl.loaded?'b-g':'b-r');
+    // Regime
+    const reg = ai.regime||{};
+    $('regime-name').textContent = (reg.current||'unknown').toUpperCase();
+    $('regime-alloc').textContent = `Allocation: ${reg.allocation!==undefined?(reg.allocation*100).toFixed(0)+'%':'—'}`;
+
+    // ── Shadow ──
+    const sh = d.shadow_trading||{};
+    $('shadow-trades').textContent = sh.total_trades||0;
+    const closedTrades = sh.closed_trades||0;
+    const openTrades = sh.open_trades||0;
+    $('shadow-pnl').textContent = `Closed P&L: ${fmt$(sh.total_pnl||0)} | Closed: ${closedTrades} | Open: ${openTrades}`;
+    $('shadow-badge').textContent = (sh.threads_running||0)>0?`${sh.threads_running} THREADS`:'STOPPED';
+    $('shadow-badge').className = 'badge '+((sh.threads_running||0)>0?'b-g':'b-r');
+    $('shadow-threads').innerHTML = (sh.thread_names||[]).map(n=>`<div>▸ ${n}</div>`).join('')||'No threads';
+    const strats = sh.strategies||[];
+    if(strats.length>0){
+      $('shadow-body').innerHTML = strats.map(s=>`<tr>
+        <td style="font-weight:600">${s.name}</td>
+        <td>${s.trades}</td>
+        <td>${s.wins}</td>
+        <td>${s.win_rate}%</td>
+        <td class="${s.pnl>=0?'g':'r'}">${fmt$(s.pnl)}</td>
+      </tr>`).join('');
+    }else{
+      $('shadow-body').innerHTML='<tr><td colspan="5" style="color:var(--dim)">No strategy rollups yet (open trades may still be running)</td></tr>';
+    }
+
+    // ── Paper vs Shadow Comparison ──
+    const cmp = d.comparison || {};
+    const cmpPaperEq = (cmp.paper_equity!==undefined) ? cmp.paper_equity : (ap.account_value||0);
+    const cmpPaperPos = (cmp.paper_positions!==undefined) ? cmp.paper_positions : (ap.position_count||0);
+    const cmpShadowPnl = (cmp.shadow_closed_pnl!==undefined) ? cmp.shadow_closed_pnl : (sh.total_pnl||0);
+    const cmpShadowTrades = (cmp.shadow_total_trades!==undefined) ? cmp.shadow_total_trades : (sh.total_trades||0);
+    const cmpShadowThreads = (cmp.shadow_threads!==undefined) ? cmp.shadow_threads : (sh.threads_running||0);
+
+    $('cmp-paper-equity').textContent = fmt$(cmpPaperEq);
+    $('cmp-paper-pos').textContent = String(cmpPaperPos||0);
+    $('cmp-shadow-pnl').textContent = fmt$(cmpShadowPnl);
+    $('cmp-shadow-pnl').className = 'stat-val ' + ((parseFloat(cmpShadowPnl)||0) >= 0 ? 'g' : 'r');
+    const cmpDelta = (cmp.delta_paper_equity_minus_shadow_pnl!==undefined)
+      ? cmp.delta_paper_equity_minus_shadow_pnl
+      : ((parseFloat(cmpPaperEq)||0) - (parseFloat(cmpShadowPnl)||0));
+    $('cmp-delta').textContent = fmt$(cmpDelta);
+    $('cmp-delta').className = 'stat-val ' + ((parseFloat(cmpDelta)||0) >= 0 ? 'g' : 'r');
+    $('cmp-shadow-trades').textContent = String(cmpShadowTrades||0);
+    $('cmp-shadow-threads').textContent = String(cmpShadowThreads||0);
+    $('cmp-activity-hint').textContent = cmp.activity_hint || 'No comparison hint yet';
+
+    const compareHealthy = (ap.connected||cmp.paper_connected) && (cmpShadowThreads||0) > 0;
+    $('compare-badge').textContent = compareHealthy ? 'SIDE-BY-SIDE' : 'PARTIAL';
+    $('compare-badge').className = 'badge ' + (compareHealthy ? 'b-g' : 'b-y');
+
+    // ── Trading Activity ──
+    const ta = d.trading_activity||{};
+    $('trades-24h').textContent = ta.trades_24h||0;
+    $('trades-total-sub').textContent = `Total: ${ta.trades_total||0} | Closed: ${ta.closed_trades||0}`;
+    const wr = ta.win_rate||0;
+    $('win-rate').textContent = wr+'%';
+    $('win-rate-sub').textContent = `${ta.wins||0} / ${ta.closed_trades||0}`;
+    $('wr-bar').style.width = Math.min(wr,100)+'%';
+    const pnl = ta.total_pnl||0;
+    $('total-pnl').textContent = fmt$(pnl);
+    $('total-pnl').className = 'big '+(pnl>=0?'g':'r');
+    // Recent trades
+    const recent = ta.recent_trades||[];
+    if(recent.length>0){
+      $('recent-body').innerHTML = recent.map(t=>`<tr>
+        <td>${fmtTime(t.time)}</td>
+        <td style="font-weight:600">${t.symbol}</td>
+        <td class="${t.action==='buy'?'g':'r'}">${(t.action||'').toUpperCase()}</td>
+        <td>${fmt$(t.price)}</td>
+        <td>${t.qty}</td>
+        <td class="${(t.pnl||0)>=0?'g':'r'}">${t.pnl?fmt$(t.pnl):'—'}</td>
+        <td>${t.broker||'—'}</td>
+      </tr>`).join('');
+    }else{
+      $('recent-body').innerHTML='<tr><td colspan="7" style="color:var(--dim);text-align:center">No recent trades</td></tr>';
+    }
+
+    // ── Options ──
+    const opt = d.options_trading||{};
+    $('options-badge').textContent = opt.available?(opt.ib_connected?'READY':'NEEDS IB'):'N/A';
+    $('options-badge').className = 'badge '+(opt.available?(opt.ib_connected?'b-g':'b-y'):'b-r');
+    if(opt.available){
+      $('options-info').innerHTML = `<div style="margin-bottom:4px"><b>Strategies:</b> ${(opt.strategies||[]).join(', ')}</div>
+        <div>Iron Condors, Iron Butterflies available via IB</div>
+        <div style="margin-top:4px;color:${opt.ib_connected?'var(--green)':'var(--yellow)'}">Status: ${opt.status||'—'}</div>`;
+    }else{
+      $('options-info').textContent = 'Options module not installed';
+    }
+
+    // ── Resources ──
+    const res = d.resources||{};
+    $('cpu-val').textContent = fmtPct(res.cpu_percent);
+    $('cpu-bar').style.width = (res.cpu_percent||0)+'%';
+    $('cpu-bar').style.background = (res.cpu_percent||0)>80?'var(--red)':'var(--blue)';
+    $('mem-val').textContent = fmtPct(res.memory_percent)+` (${res.memory_used_gb||'?'}GB)`;
+    $('mem-bar').style.width = (res.memory_percent||0)+'%';
+    $('mem-bar').style.background = (res.memory_percent||0)>90?'var(--red)':'var(--yellow)';
+    const gpu = res.gpu || {};
+    if(gpu.available){
+      $('gpu-val').textContent = gpu.utilization_percent!==null && gpu.utilization_percent!==undefined
+        ? `${gpu.utilization_percent}%`
+        : 'AVAILABLE';
+      const memUsed = gpu.memory_used_mb!==null && gpu.memory_used_mb!==undefined ? gpu.memory_used_mb : '?';
+      const memTot = gpu.memory_total_mb!==null && gpu.memory_total_mb!==undefined ? gpu.memory_total_mb : '?';
+      const backend = gpu.backend || 'Unknown';
+      const memDisplay = (memUsed !== '?' && memTot !== '?') ? ` | VRAM ${memUsed}/${memTot} MB` : '';
+      $('gpu-sub').textContent = `${backend}: ${gpu.name||'GPU'}${memDisplay}`;
+      $('gpu-val').className = 'big g';
+    }else{
+      $('gpu-val').textContent = 'NOT USED';
+      const status = gpu.status || 'unavailable';
+      $('gpu-sub').textContent = `GPU ${status} or not active`;
+      $('gpu-val').className = 'big y';
+    }
+    // Uptime
+    $('uptime-val').textContent = fmtUptime(d.uptime_seconds||0);
+
+  }catch(e){
+    $('conn-dot').className='dot dot-r';
+    $('conn-status').textContent='Disconnected';
+    $('error-banner').style.display='block';
+    const nextSec = Math.round(currentRefreshMs / 1000);
+    $('error-banner').textContent='⚠ Server unreachable: '+e.message+' — retrying in '+nextSec+'s';
+  }
+
+  scheduleNextRefresh();
+}
+
+let currentRefreshMs = 10000;
+
+function scheduleNextRefresh(){
+  clearTimeout(window.__refreshTimer);
+  window.__refreshTimer = setTimeout(refresh, currentRefreshMs);
+}
+
+const _origRefresh = refresh;
+refresh = async function(){
+  try {
+    await _origRefresh();
+    if ($('conn-status').textContent === 'Connected') {
+      currentRefreshMs = 10000;
+    } else {
+      currentRefreshMs = Math.min(60000, Math.max(10000, Math.floor(currentRefreshMs * 1.8)));
+    }
+  } catch (_) {
+    currentRefreshMs = Math.min(60000, Math.max(10000, Math.floor(currentRefreshMs * 1.8)));
+    scheduleNextRefresh();
+  }
+};
+
+// Initial poll (future polls are scheduled dynamically)
+refresh();
+</script>
+</body>
+</html>

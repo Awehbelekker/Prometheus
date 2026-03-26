@@ -1,0 +1,9 @@
+/* 🔥 CLEAN FLAME LOGO STYLING */
+
+/* Your flame logo already has perfect transparency - keep it clean! */
+img[src="/LogoNew.png"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+}

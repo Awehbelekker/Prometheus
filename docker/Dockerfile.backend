@@ -1,0 +1,22 @@
+# Backend (FastAPI) container for unified_production_server.py
+FROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install runtime deps
+RUN pip install --no-cache-dir fastapi "uvicorn[standard]" starlette requests
+
+# Copy only what we need at runtime (copy full repo if backend imports local modules)
+COPY unified_production_server.py /app/
+
+# Default proxy env; can be overridden by compose
+ENV ENABLE_REALDATA_PROXY=1 \
+    REALDATA_API_BASE=http://realdata:8002
+
+EXPOSE 8000
+
+CMD ["uvicorn", "unified_production_server:app", "--host", "0.0.0.0", "--port", "8000"]
+

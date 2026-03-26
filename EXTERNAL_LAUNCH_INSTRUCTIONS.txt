@@ -1,0 +1,68 @@
+================================================================================
+HOW TO LAUNCH PROMETHEUS OUTSIDE CURSOR
+================================================================================
+
+OPTION 1: Double-click the batch file
+================================================================================
+1. Find this file in Windows Explorer:
+   LAUNCH_PROMETHEUS.bat
+
+2. Double-click it
+
+3. A new window will open showing Prometheus trading
+
+4. Press Ctrl+C anytime to stop safely
+
+
+OPTION 2: Run from Windows PowerShell/CMD
+================================================================================
+1. Open PowerShell or Command Prompt
+
+2. Navigate to project folder:
+   cd C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+
+3. Run:
+   python START_LIVE_TRADING_NOW.py
+
+4. Press Ctrl+C to stop
+
+
+OPTION 3: Create Desktop Shortcut
+================================================================================
+1. Right-click LAUNCH_PROMETHEUS.bat
+2. Select "Create Shortcut"
+3. Drag shortcut to Desktop
+4. Double-click anytime to start trading
+
+
+WHAT YOU'LL SEE
+================================================================================
+- Alpaca connection status
+- AI systems loading
+- Market scanning every 30 seconds
+- Trading decisions in real-time
+- P&L updates
+- Position management
+
+
+TO STOP TRADING
+================================================================================
+Press: Ctrl+C
+The system will:
+- Stop scanning for new opportunities
+- Keep existing positions (or close them if configured)
+- Disconnect from brokers safely
+- Show final statistics
+
+
+CURRENT CONFIGURATION
+================================================================================
+Capital: ~$136 ($122 Alpaca + $14 IB)
+Brokers: Alpaca LIVE + IB TWS
+AI Systems: 4 active (Ensemble, ThinkMesh, DeepConf, Multi-Strategy)
+Broker Execution: ENABLED (REAL ORDERS)
+Safety: All limits active
+
+
+LIVE TRADING - REAL MONEY AT RISK
+================================================================================

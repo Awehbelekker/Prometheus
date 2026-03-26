@@ -1,0 +1,70 @@
+================================================================================
+QUICK INSTRUCTIONS - CLOSE ALL POSITIONS
+================================================================================
+
+TIME NEEDED: 5-10 minutes
+RESULT: ~$1,015 total capital for Prometheus
+
+================================================================================
+ALPACA - 13 POSITIONS TO CLOSE
+================================================================================
+
+1. Go to: https://alpaca.markets
+2. Login to account 910544927
+3. Click "Portfolio" or "Positions"
+4. For EACH position, click "Close" or "Sell All"
+5. Confirm all 13 orders
+
+Time: 2-3 minutes
+
+================================================================================
+IB TWS - 3 POSITIONS TO CLOSE
+================================================================================
+
+You already have TWS open! Just do this:
+
+FOR EACH POSITION (F, SIRI, NOK):
+1. Right-click on the position
+2. Select "Close Position"
+3. Market order (instant)
+4. Submit & Confirm
+
+OR use the SELL button and enter full quantity.
+
+Time: 2 minutes
+
+================================================================================
+VERIFY ALL CLOSED
+================================================================================
+
+After closing everything, run:
+
+  python verify_positions_closed.py
+
+This confirms:
+- Alpaca: 0 positions
+- IB: 0 positions  
+- Total cash available
+
+================================================================================
+LAUNCH PROMETHEUS
+================================================================================
+
+Once verified, launch with:
+
+  python START_LIVE_TRADING_NOW.py
+
+Expected capital: ~$1,015
+Daily profit target: $30-$100 (3-10%)
+
+================================================================================
+QUESTIONS?
+================================================================================
+
+- Market orders execute instantly
+- Cash available immediately
+- No settlement wait
+- Clean slate = maximum power
+
+LET'S DO THIS! 🚀
+================================================================================

@@ -1,0 +1,7 @@
+PROMETHEUS IB MARATHON SUMMARY
+========================================
+Marathon ID: ib_marathon_20250913_201902
+Account: DUN683505
+Capital: $540.0
+Readiness Score: 95.0/100
+Verdict: READY FOR LIVE TRADING

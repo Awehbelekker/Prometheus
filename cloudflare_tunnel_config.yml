@@ -1,0 +1,71 @@
+# Cloudflare Tunnel Configuration for PROMETHEUS Trading Platform
+# 
+# SETUP INSTRUCTIONS:
+# 1. Install cloudflared: winget install --id Cloudflare.cloudflared
+# 2. Login: cloudflared tunnel login
+# 3. Create tunnel: cloudflared tunnel create prometheus-backend
+# 4. Copy the tunnel ID and credentials file path from the output
+# 5. Update this file with your tunnel ID and credentials path
+# 6. Route DNS: cloudflared tunnel route dns prometheus-backend api.prometheus-trader.com
+# 7. Start tunnel: cloudflared tunnel run prometheus-backend
+#
+# Tunnel ID: prometheus-backend
+tunnel: 586bd998-ddf1-4b83-9de0-0e12becd47ad
+
+# Credentials file (automatically created when you create the tunnel)
+credentials-file: C:\Users\Judy\.cloudflared\586bd998-ddf1-4b83-9de0-0e12becd47ad.json
+
+# Ingress rules - define how traffic is routed
+ingress:
+  # Backend API - Route api.prometheus-trader.com to local backend
+  - hostname: api.prometheus-trader.com
+    service: http://localhost:8000
+    originRequest:
+      # Don't verify TLS for local connections
+      noTLSVerify: true
+      # Connection timeouts
+      connectTimeout: 30s
+      tlsTimeout: 10s
+      # Keep-alive settings
+      keepAliveConnections: 100
+      keepAliveTimeout: 90s
+      # HTTP/2 settings
+      http2Origin: false
+      # Disable chunked encoding
+      disableChunkedEncoding: false
+  
+  # Alternative: api.prometheus-trade.com (if using this domain)
+  - hostname: api.prometheus-trade.com
+    service: http://localhost:8000
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 30s
+      tlsTimeout: 10s
+      keepAliveConnections: 100
+      keepAliveTimeout: 90s
+  
+  # Catch-all rule (required) - returns 404 for any other hostname
+  - service: http_status:404
+
+# Logging
+# Options: debug, info, warn, error, fatal
+loglevel: info
+
+# Metrics server (optional)
+# Uncomment to enable metrics on http://localhost:2000/metrics
+# metrics: localhost:2000
+
+# Auto-update (optional)
+# Uncomment to disable auto-updates
+# no-autoupdate: true
+
+# Protocol (optional)
+# Options: auto, http2, h2mux, quic
+# protocol: auto
+
+# Retries (optional)
+# retries: 5
+
+# Grace period for shutdown (optional)
+# grace-period: 30s
+

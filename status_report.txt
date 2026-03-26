@@ -1,0 +1,24 @@
+================================================================================
+PROMETHEUS SYSTEM STATUS
+================================================================================
+Time: 2026-01-20 22:24:24
+
+PYTHON PROCESSES:
+  Found 3 Python process(es):
+    PID 40684: C:\Users\Judy\AppData\Local\Programs\Python\Python313\python.exe run_all_compreh
+    PID 46284: python improved_dual_broker_trading.py
+    PID 77552: C:\Users\Judy\AppData\Local\Programs\Python\Python313\python.exe current_status.
+
+SERVERS:
+  Main Server (Port 8000): DOWN
+  GPT-OSS 20B (Port 5000): DOWN
+  GPT-OSS 120B (Port 5001): DOWN
+  Revolutionary (Port 8002): DOWN
+
+BROKERS:
+  Alpaca: NOT CONFIGURED
+  Interactive Brokers: DOWN (as noted)
+
+PORTS IN USE:
+
+================================================================================

@@ -1,0 +1,18 @@
+/* AuditLogViewer Component Styles */
+
+.audit-container {
+  padding: 24px;
+}
+
+.audit-section {
+  margin-bottom: 12px;
+}
+
+.audit-code {
+  background: #222;
+  color: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  max-height: 400px;
+  overflow: auto;
+} 

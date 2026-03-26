@@ -1,0 +1,82 @@
+/* Icon background gradients */
+.icon-bg-primary { --icon-bg: linear-gradient(135deg, #6366f120, #6366f140); }
+.icon-bg-secondary { --icon-bg: linear-gradient(135deg, #f43f5e20, #f43f5e40); }
+.icon-bg-success { --icon-bg: linear-gradient(135deg, #10b98120, #10b98140); }
+.icon-bg-warning { --icon-bg: linear-gradient(135deg, #f59e0b20, #f59e0b40); }
+.icon-bg-error { --icon-bg: linear-gradient(135deg, #ef444420, #ef444440); }
+.icon-bg-info { --icon-bg: linear-gradient(135deg, #06b6d440, #06d440); }
+
+/* Icon transform states */
+.icon-transform-normal { --icon-transform: rotate(0deg) scale(1); }
+.icon-transform-hovered { --icon-transform: rotate(360deg) scale(1.1); }
+
+/* Progress bar width classes (0-100 in steps of 5) */
+.progress-width-0 { --progress-width: 0%; }
+.progress-width-5 { --progress-width: 5%; }
+.progress-width-10 { --progress-width: 10%; }
+.progress-width-15 { --progress-width: 15%; }
+.progress-width-20 { --progress-width: 20%; }
+.progress-width-25 { --progress-width: 25%; }
+.progress-width-30 { --progress-width: 30%; }
+.progress-width-35 { --progress-width: 35%; }
+.progress-width-40 { --progress-width: 40%; }
+.progress-width-45 { --progress-width: 45%; }
+.progress-width-50 { --progress-width: 50%; }
+.progress-width-55 { --progress-width: 55%; }
+.progress-width-60 { --progress-width: 60%; }
+.progress-width-65 { --progress-width: 65%; }
+.progress-width-70 { --progress-width: 70%; }
+.progress-width-75 { --progress-width: 75%; }
+.progress-width-80 { --progress-width: 80%; }
+.progress-width-85 { --progress-width: 85%; }
+.progress-width-90 { --progress-width: 90%; }
+.progress-width-95 { --progress-width: 95%; }
+.progress-width-100 { --progress-width: 100%; }
+
+/* Progress bar background gradients */
+.progress-bg-primary { --progress-bg: linear-gradient(90deg, #6366f1, #a5b4fc); }
+.progress-bg-secondary { --progress-bg: linear-gradient(90deg, #f43f5e, #fda4af); }
+.progress-bg-success { --progress-bg: linear-gradient(90deg, #10b981, #34d399); }
+.progress-bg-warning { --progress-bg: linear-gradient(90deg, #f59e0b, #fbbf24); }
+.progress-bg-error { --progress-bg: linear-gradient(90deg, #ef4444, #f87171); }
+.progress-bg-info { --progress-bg: linear-gradient(90deg, #06b6d4, #67e8f9); }
+
+/* Existing styles for containers */
+.particle-canvas {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--particle-bg, linear-gradient(135deg, #1e1e2e 0%, #2d2d44 100%));
+}
+
+.card-icon-container {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+  background: var(--icon-bg, #6366f120);
+  transform: var(--icon-transform, rotate(0deg) scale(1));
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 4px;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+  border-radius: 8px;
+  width: var(--progress-width, 0%);
+  background: var(--progress-bg, #6366f1);
+} 

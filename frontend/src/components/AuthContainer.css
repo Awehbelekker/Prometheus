@@ -1,0 +1,94 @@
+/* Auth Container Styles */
+.auth-container {
+  min-block-size: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+}
+
+.auth-wrapper {
+  inline-size: 100%;
+  max-inline-size: 700px;
+  transition: all 0.3s ease-in-out;
+}
+
+.auth-wrapper.transitioning {
+  opacity: 0.7;
+  transform: scale(0.98);
+}
+
+.auth-component {
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Auth switch styles for login component */
+.auth-switch {
+  text-align: center;
+  margin-block-start: 20px;
+  padding-block-start: 20px;
+  border-block-start: 1px solid #e0e0e0;
+}
+
+.auth-switch p {
+  color: #666;
+  margin: 0;
+  font-size: 14px;
+}
+
+.switch-link {
+  background: none;
+  border: none;
+  color: #007acc;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  margin-inline-start: 5px;
+  transition: color 0.2s ease;
+}
+
+.switch-link:hover {
+  color: #0056b3;
+}
+
+.switch-link:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Override login container to remove its background */
+.auth-component .login-container {
+  background: none;
+  padding: 0;
+  min-block-size: auto;
+}
+
+.auth-component .registration-container {
+  background: none;
+  padding: 0;
+  min-block-size: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 10px;
+  }
+  
+  .auth-wrapper {
+    max-inline-size: 100%;
+  }
+}

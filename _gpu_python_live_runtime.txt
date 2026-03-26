@@ -1,0 +1,2 @@
+VER=3.13.5
+EXE=C:\Users\Judy\AppData\Local\Programs\Python\Python313\python.exe

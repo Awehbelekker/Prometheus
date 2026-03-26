@@ -1,0 +1,30 @@
+# PROMETHEUS Trading Platform - Optional Dependencies
+# These dependencies enable advanced features but are not required for basic operation
+
+# ThinkMesh Enhanced Reasoning (optional)
+# Enables parallel reasoning with confidence gating for trading decisions
+# Uncomment the following lines to enable ThinkMesh integration:
+
+# git+https://github.com/martianlantern/ThinkMesh.git@main
+# OR for development:
+# -e git+https://github.com/martianlantern/ThinkMesh.git@main#egg=thinkmesh
+
+# Required for OpenAI backend (if using hosted reasoning):
+# openai>=1.40
+
+# Required for Anthropic backend (if using hosted reasoning):  
+# anthropic>=0.30
+
+# Required for offline reasoning (if using local models):
+# transformers>=4.42
+# accelerate>=0.31
+# torch>=2.3
+
+# Required for vLLM server integration:
+# vllm>=0.5
+
+# To enable ThinkMesh, set environment variable:
+# THINKMESH_ENABLED=true
+# OPENAI_API_KEY=your_key_here  # if using OpenAI backend
+
+# Note: ThinkMesh requires Python >= 3.11

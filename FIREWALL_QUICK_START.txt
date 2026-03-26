@@ -1,0 +1,99 @@
+================================================================================
+PROMETHEUS FIREWALL CONFIGURATION - QUICK START
+================================================================================
+
+PROBLEM: Windows Defender Firewall may block:
+  - Prometheus Trading Platform connections
+  - Interactive Brokers (IB) Gateway/TWS
+  - Alpaca API connections
+
+SOLUTION: Run firewall configuration script
+
+================================================================================
+EASIEST METHOD (Recommended)
+================================================================================
+
+1. Right-click: RUN_FIREWALL_CONFIG.bat
+2. Select: "Run as administrator"
+3. Follow prompts
+4. Done!
+
+================================================================================
+ALTERNATIVE METHODS
+================================================================================
+
+Method 2: Python Script
+  1. Right-click PowerShell → Run as administrator
+  2. cd C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+  3. python configure_firewall_exceptions.py
+
+Method 3: PowerShell Script
+  1. Right-click PowerShell → Run as administrator
+  2. cd C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+  3. .\configure_firewall_manual.ps1
+
+================================================================================
+WHAT IT DOES
+================================================================================
+
+Adds Windows Firewall rules for:
+  ✅ Prometheus Trading Platform (Python) - Outbound & Inbound
+  ✅ Interactive Brokers Gateway/TWS - Outbound & Inbound
+  ✅ IB Gateway ports 7496 (paper) and 7497 (live) - Inbound
+  ✅ Common trading API ports (80, 443, 8080) - Outbound
+  ✅ Prometheus API server ports (8000, 8001, 9090) - Inbound
+
+================================================================================
+ADDITIONAL: WINDOWS DEFENDER ANTIVIRUS EXCLUSIONS
+================================================================================
+
+Also add these to Windows Defender Antivirus exclusions:
+
+1. Open: Windows Security → Virus & threat protection
+2. Click: Manage settings → Exclusions → Add or remove exclusions
+3. Add folders:
+   - C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+   - C:\Users\Judy\AppData\Local\Programs\Python\Python313
+   - C:\Program Files\IB Gateway (if exists)
+   - C:\Jts (if exists)
+
+4. Add processes:
+   - python.exe
+   - ibgateway.exe
+   - tws.exe
+
+================================================================================
+TESTING
+================================================================================
+
+After configuration, test connections:
+
+1. Test Alpaca:
+   python -c "import requests; print('Alpaca:', 'OK' if requests.get('https://api.alpaca.markets/v2/account', timeout=5).status_code in [200, 401] else 'FAILED')"
+
+2. Test IB Gateway (if running):
+   python -c "import socket; s = socket.socket(); result = s.connect_ex(('127.0.0.1', 7497)); print('IB Gateway:', 'OK' if result == 0 else 'NOT RUNNING'); s.close()"
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+If connections still fail:
+
+1. Check firewall rules are enabled:
+   Get-NetFirewallRule -DisplayName "*Prometheus*" | Select DisplayName, Enabled
+
+2. Check Windows Defender logs:
+   Windows Security → Virus & threat protection → Protection history
+
+3. Temporarily disable firewall to test (re-enable after!):
+   Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+
+================================================================================
+FOR MORE DETAILS
+================================================================================
+
+See: FIREWALL_CONFIGURATION_GUIDE.md
+
+================================================================================
+

@@ -1,0 +1,347 @@
+================================================================================
+  🚀 PROMETHEUS WINDOWS SERVICE - QUICK INSTALL GUIDE
+================================================================================
+
+WHAT THIS DOES:
+  ✅ Installs PROMETHEUS as Windows service (24/7 background)
+  ✅ Auto-restart if crashes (up to 10 times)
+  ✅ Resume from where it stopped (state persistence)
+  ✅ Pre-market wake (8:30 AM ET, Monday-Friday)
+  ✅ Auto-login (optional - fully autonomous)
+  ✅ Close VS Code and free RAM
+
+================================================================================
+  📋 INSTALLATION STEPS (5 MINUTES)
+================================================================================
+
+STEP 1: Open PowerShell as Administrator
+  • Press Windows Key
+  • Type: PowerShell
+  • Right-click "Windows PowerShell"
+  • Select "Run as Administrator"
+  • Click "Yes"
+
+STEP 2: Navigate to PROMETHEUS Directory
+  cd C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+
+STEP 3: Run the Installer
+  .\INSTALL_COMPLETE_AUTONOMOUS_SYSTEM.ps1
+
+STEP 4: Follow Prompts
+  • Continue? → Y
+  • Timezone → Confirm or enter offset
+  • Auto-login? → Y (recommended)
+  • Password → Enter Windows password
+
+STEP 5: Wait for Installation (2-3 minutes)
+  • Downloads NSSM
+  • Installs service
+  • Configures auto-restart
+  • Sets up pre-market wake
+  • Starts service
+
+STEP 6: Verify
+  Get-Service -Name PrometheusTrading
+  (Should show: Status = Running)
+
+STEP 7: Close VS Code
+  ✅ You can now close Visual Studio Code!
+  ✅ PROMETHEUS continues in background
+  ✅ RAM freed up
+
+================================================================================
+  🔄 AUTO-RESTART & RESUME
+================================================================================
+
+WHAT HAPPENS WHEN SYSTEM GOES DOWN:
+
+Scenario 1: PROMETHEUS Crashes
+  → Service detects crash
+  → Waits 60 seconds
+  → Restarts automatically
+  → Resumes from last state
+  → Continues trading
+
+Scenario 2: Computer Restarts
+  → Windows boots
+  → Auto-login (if configured)
+  → Service starts automatically
+  → PROMETHEUS resumes
+  → Reconnects to brokers
+
+Scenario 3: Power Outage
+  → Computer restarts when power returns
+  → Auto-login
+  → Service starts
+  → PROMETHEUS resumes
+  → Continues trading
+
+Scenario 4: Network Disconnect
+  → PROMETHEUS detects disconnect
+  → Retries connection
+  → Reconnects automatically
+  → Resumes trading
+
+STATE PERSISTENCE:
+  ✅ Positions saved in Alpaca/IB
+  ✅ Trading history in database
+  ✅ Daily P&L tracked
+  ✅ AI learning data preserved
+  ✅ Resumes exactly where it stopped
+
+================================================================================
+  📊 AFTER INSTALLATION
+================================================================================
+
+VERIFY EVERYTHING WORKS:
+
+  # Check service
+  Get-Service -Name PrometheusTrading
+
+  # View logs
+  Get-Content prometheus_service.log -Tail 20
+
+  # Check stats
+  python check_complete_stats.py
+
+  # Check scheduled task
+  Get-ScheduledTask -TaskName PrometheusPreMarketStartup
+
+CLOSE VS CODE:
+  ✅ Save any open files
+  ✅ Close VS Code completely
+  ✅ PROMETHEUS keeps running!
+
+MONITOR FROM POWERSHELL:
+  # Live logs
+  Get-Content prometheus_service.log -Wait -Tail 20
+
+  # Status
+  Get-Service -Name PrometheusTrading
+
+  # Stats
+  python check_complete_stats.py
+
+================================================================================
+  🎮 DAILY MANAGEMENT
+================================================================================
+
+YOU DON'T NEED TO DO ANYTHING!
+
+The system is fully autonomous:
+  ✅ Trades 24/7 automatically
+  ✅ Wakes up before market open
+  ✅ Starts IB Gateway
+  ✅ Handles crashes
+  ✅ Resumes after restart
+  ✅ Logs everything
+
+OPTIONAL MONITORING:
+  # Morning check
+  Get-Service -Name PrometheusTrading
+  python check_complete_stats.py
+
+  # View activity
+  Get-Content logs\prometheus_stdout.log -Tail 50
+
+  # Check pre-market
+  Get-Content logs\premarket_startup.log -Tail 20
+
+================================================================================
+  📝 LOG FILES
+================================================================================
+
+LOCATION: C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\
+
+MAIN LOGS:
+  prometheus_service.log          Service activity
+  
+DETAILED LOGS:
+  logs\prometheus_stdout.log      Trading activity
+  logs\prometheus_stderr.log      Errors
+  logs\premarket_startup.log      Morning startup
+
+VIEW LOGS:
+  Get-Content prometheus_service.log -Tail 50
+  Get-Content logs\prometheus_stdout.log -Tail 50
+
+MONITOR LIVE:
+  Get-Content prometheus_service.log -Wait -Tail 20
+
+================================================================================
+  🎮 SERVICE CONTROL
+================================================================================
+
+CHECK STATUS:
+  Get-Service -Name PrometheusTrading
+
+START SERVICE:
+  Start-Service -Name PrometheusTrading
+
+STOP SERVICE:
+  Stop-Service -Name PrometheusTrading
+
+RESTART SERVICE:
+  Restart-Service -Name PrometheusTrading
+
+VIEW IN GUI:
+  services.msc
+  (Look for: PROMETHEUS Autonomous Trading System)
+
+================================================================================
+  📅 DAILY SCHEDULE
+================================================================================
+
+MONDAY-FRIDAY:
+  8:30 AM ET: Computer wakes up
+              Pre-market task runs
+              PROMETHEUS starts
+              IB Gateway launches
+              
+  9:00 AM ET: IB connected
+              System ready
+              
+  9:30 AM ET: Market opens
+              Stock trading begins
+              Crypto continues 24/7
+              
+  4:00 PM ET: Market closes
+              Stock trading pauses
+              Crypto continues
+              
+  All Night:  Crypto trading 24/7
+              Learning active
+              Preparing for tomorrow
+
+WEEKENDS:
+  24/7:       Crypto trading
+              Learning patterns
+              Monitoring positions
+              Preparing for Monday
+
+================================================================================
+  🛡️ SAFETY FEATURES
+================================================================================
+
+BUILT-IN PROTECTION:
+  ✅ Daily trade limit: 11 trades max
+  ✅ Daily loss limit: $40 max
+  ✅ Position size limit: $37.50 max
+  ✅ Stop loss: -5% crypto, -3% stocks
+  ✅ Take profit: +8% crypto, +6% stocks
+  ✅ AI confidence: 60%+ required
+  ✅ Max restarts: 10 attempts
+  ✅ All activity logged
+
+RESUME SAFETY:
+  ✅ Checks positions on restart
+  ✅ Verifies daily limits
+  ✅ Confirms broker connections
+  ✅ Validates market hours
+  ✅ Resumes only if safe
+
+================================================================================
+  🔧 TROUBLESHOOTING
+================================================================================
+
+SERVICE WON'T START:
+  # Check error log
+  Get-Content logs\prometheus_stderr.log -Tail 50
+
+  # Restart service
+  Restart-Service -Name PrometheusTrading
+
+  # Check Python
+  python --version
+
+CAN'T FIND INSTALLER:
+  # Verify directory
+  cd C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+  Get-ChildItem -Filter "INSTALL*.ps1"
+
+PERMISSION DENIED:
+  • Make sure PowerShell is "Run as Administrator"
+  • Right-click PowerShell → "Run as Administrator"
+
+COMPUTER NOT WAKING:
+  # Check wake timers
+  powercfg /waketimers
+
+  # Enable wake timers
+  powercfg /change standby-timeout-ac 0
+
+  # Check BIOS settings
+  • Enable "Wake on RTC" or "Wake on Alarm"
+  • Disable "Fast Startup" in Windows
+
+================================================================================
+  ✅ READY TO INSTALL?
+================================================================================
+
+QUICK CHECKLIST:
+  [ ] PowerShell open as Administrator
+  [ ] In PROMETHEUS directory
+  [ ] Current trading can be stopped
+  [ ] Ready to enter Windows password
+
+RUN THIS COMMAND:
+  .\INSTALL_COMPLETE_AUTONOMOUS_SYSTEM.ps1
+
+TAKES: 2-3 minutes
+RESULT: Fully autonomous 24/7 trading with auto-restart!
+
+================================================================================
+  🎉 AFTER INSTALLATION
+================================================================================
+
+WHAT CHANGES:
+
+BEFORE:
+  ❌ Must keep VS Code open
+  ❌ Terminal-based process
+  ❌ Stops if VS Code closes
+  ❌ Manual restart needed
+  ❌ High RAM usage
+
+AFTER:
+  ✅ Close VS Code anytime
+  ✅ Windows service
+  ✅ Runs in background
+  ✅ Auto-restart on crash
+  ✅ Low RAM usage
+  ✅ Resume from where stopped
+  ✅ Fully autonomous
+
+YOUR WORKFLOW:
+  • Check stats occasionally (optional)
+  • Let PROMETHEUS do its job
+  • Enjoy autonomous trading!
+
+================================================================================
+  💰 YOUR POSITIONS ARE SAFE
+================================================================================
+
+Current positions continue:
+  BTC: $21.46 (recovering!)
+  ETH: $17.03 (recovering!)
+  SOL: $19.98 (recovering!)
+  
+After service installation:
+  ✅ Positions remain open
+  ✅ Monitoring continues
+  ✅ Recovery continues
+  ✅ New trades when AI signals
+
+================================================================================
+  🚀 LET'S DO IT!
+================================================================================
+
+OPEN POWERSHELL AS ADMINISTRATOR AND RUN:
+
+  cd C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+  .\INSTALL_COMPLETE_AUTONOMOUS_SYSTEM.ps1
+
+THEN COME BACK AND I'LL HELP YOU VERIFY EVERYTHING IS WORKING!
+
+================================================================================
+

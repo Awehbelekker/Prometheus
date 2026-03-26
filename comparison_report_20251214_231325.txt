@@ -1,0 +1,28 @@
+======================================================================
+PROMETHEUS BACKTEST VS ACTUAL TRADING COMPARISON REPORT
+Generated: 2025-12-14 23:13:25
+======================================================================
+
+--- INTRADAY BACKTEST RESULTS (Hourly Data) ---
+Total Return:             -0.17%
+Benchmark (SPY):          -0.22%
+Alpha vs Benchmark:        0.06%
+Win Rate:                   0.0%
+Sharpe Ratio:              0.10
+Max Drawdown:               7.3%
+Profit Factor:             0.00
+Total Trades:                 1
+Winning Trades:               0
+Losing Trades:                1
+Avg Duration (hrs):        24.0
+
+--- ACTUAL TRADING PERFORMANCE ---
+No completed trades with P/L data recorded yet.
+P/L will be recorded when positions are closed.
+
+--- TARGETS ---
+Win Rate Target:     FAIL (55%+ required, got 0.0%)
+Sharpe Target:       FAIL (2.0+ required, got 0.10)
+Max Drawdown Target: PASS (<15% required, got 7.3%)
+Profit Factor Target:FAIL (1.5+ required, got 0.00)
+======================================================================

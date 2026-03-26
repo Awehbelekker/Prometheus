@@ -1,0 +1,4 @@
+PY_EXE=C:\Users\Judy\AppData\Local\Programs\Python\Python313\python.exe
+TORCH=2.9.1+cpu
+CUDA=False
+CUDA_VER=None

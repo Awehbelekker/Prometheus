@@ -1,0 +1,446 @@
+﻿python : INFO:core.ai_attribution_tracker:Γ£à AI Attribution 
+database initialized
+At line:1 char:32
++ ... ING='utf-8'; python prometheus_active_trading_session.py 
+2>&1 | Out-F ...
++                  
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (INFO:core.ai_at...as 
+   e initialized:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+INFO:core.ai_attribution_tracker:≡ƒÄ» AI Attribution Tracker 
+initialized
+INFO:__main__:≡ƒÄ» AI Attribution Tracker initialized - Learning 
+from trade outcomes
+INFO:__main__:≡ƒºá Initializing PROMETHEUS AI Brain...
+INFO:core.advanced_monitoring:Prometheus metrics server started 
+on port 9090
+INFO:core.advanced_monitoring:Metrics collector initialized 
+(Prometheus: True)
+INFO:core.advanced_monitoring:Set thresholds for 
+system.cpu_percent: warning=80.0, critical=95.0
+INFO:core.advanced_monitoring:Set thresholds for 
+system.memory_percent: warning=85.0, critical=95.0
+INFO:core.advanced_monitoring:Set thresholds for 
+system.disk_percent: warning=90.0, critical=98.0
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\torch\nn\modules\rnn.py:123: UserWarning: dropout option 
+adds dropout after all but last recurrent layer, so non-zero 
+dropout expects num_layers greater than 1, but got dropout=0.1 
+and num_layers=1
+  warnings.warn(
+INFO:core.hrm_integration:≡ƒÜÇ CogniFlowΓäó Trading Engine 
+initialized successfully (version=1.0.0)
+INFO:core.hrm_integration:≡ƒºá Loaded HRM checkpoint: 
+hrm_checkpoints\high_level.pt
+INFO:core.hrm_integration:≡ƒºá Loaded HRM checkpoint: 
+hrm_checkpoints\low_level.pt
+INFO:core.hrm_integration:≡ƒºá Loaded HRM checkpoint: 
+hrm_checkpoints\arc_level.pt
+INFO:core.hrm_integration:≡ƒºá Loaded HRM checkpoint: 
+hrm_checkpoints\sudoku_level.pt
+INFO:core.hrm_integration:≡ƒºá Loaded HRM checkpoint: 
+hrm_checkpoints\maze_level.pt
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager 
+initialized: hrm_checkpoints
+INFO:core.hrm_full_architecture:Γ£à Full HRM Architecture 
+initialized successfully
+WARNING:core.advanced_monitoring:High resource usage: 
+system.cpu_percent = 98.7%
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+INFO:core.hrm_full_architecture:Γ£à Loaded HRM checkpoint from 
+hrm_checkpoints\arc_agi_2\checkpoint
+INFO:core.hrm_integration:Γ£à Full HRM Architecture initialized 
+successfully
+INFO:core.hrm_checkpoint_manager:HRM Checkpoint Manager 
+initialized: hrm_checkpoints
+INFO:core.hrm_official_integration:Inferred from checkpoint: 
+vocab_size=12, num_puzzle_identifiers=1045829, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\arc_agi_2\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: arc_agi_2
+INFO:core.hrm_official_integration:Inferred from checkpoint: 
+vocab_size=11, num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\sudoku_extreme\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: 
+sudoku_extreme
+INFO:core.hrm_official_integration:Inferred from checkpoint: 
+vocab_size=6, num_puzzle_identifiers=1, hidden_size=512
+INFO:core.hrm_official_integration:Loaded config from 
+hrm_checkpoints\maze_30x30\all_config.yaml
+INFO:core.hrm_official_integration:Loaded checkpoint: maze_30x30
+INFO:core.hrm_official_integration:Official HRM Trading Adapter 
+initialized on cpu
+INFO:core.hrm_official_integration:Loaded 3 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à Official HRM initialized 
+for Universal Reasoning
+INFO:core.universal_reasoning_engine:   Loaded 3 checkpoints
+INFO:core.universal_reasoning_engine:Γ£à GPT-OSS initialized for 
+Universal Reasoning
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine
+:Quantum Trading Engine initialized with 50 qubits
+INFO:core.universal_reasoning_engine:Γ£à Quantum Engine 
+initialized for Universal Reasoning
+WARNING:revolutionary_features.ai_consciousness.ai_consciousness_e
+ngine:ΓÜá∩╕Å AI Consciousness Engine DISABLED - was using random 
+values for trading
+INFO:core.universal_reasoning_engine:Γ£à AI Consciousness 
+initialized for Universal Reasoning
+INFO:core.pattern_integration:Γ£à Loaded patterns from 
+learned_patterns_expert_20260115_230020.json
+INFO:core.universal_reasoning_engine:Γ£à Pattern Integration 
+initialized (backtest-learned patterns)
+INFO:__main__:Γ£à Universal Reasoning Engine initialized (HRM + 
+GPT-OSS + Quantum + Memory)
+INFO:__main__:≡ƒºá AI BRAIN ACTIVE - True intelligence enabled
+INFO:core.fred_api:Γ£à FRED API initialized with API key - REAL 
+economic data enabled
+INFO:core.fred_api:Γ£à FRED API initialized with API key - REAL 
+economic data enabled
+INFO:core.real_world_data_orchestrator:Γ£à FRED API loaded - REAL 
+economic data
+INFO:core.sec_edgar_api:Γ£à SEC Edgar API initialized - FREE 
+insider trading data enabled
+INFO:core.sec_edgar_api:Γ£à SEC Edgar API initialized - FREE 
+insider trading data enabled
+INFO:core.real_world_data_orchestrator:Γ£à SEC Edgar API loaded - 
+FREE insider trading
+INFO:core.enhanced_social_filter:Γ£à Twitter filter initialized 
+with 51 quality accounts
+INFO:core.enhanced_social_filter:Γ£à Reddit filter initialized 
+with 12 monitored subreddits
+INFO:core.enhanced_social_filter:Γ£à Enhanced Social Filter 
+initialized - 95% noise reduction active
+INFO:core.enhanced_social_filter:Γ£à Twitter filter initialized 
+with 51 quality accounts
+INFO:core.enhanced_social_filter:Γ£à Reddit filter initialized 
+with 12 monitored subreddits
+INFO:core.enhanced_social_filter:Γ£à Enhanced Social Filter 
+initialized - 95% noise reduction active
+INFO:core.real_world_data_orchestrator:Γ£à Enhanced Social Filter 
+loaded - 95% noise reduction
+INFO:core.rss_news_feeds:Γ£à RSS News Feeds initialized with 10 
+sources
+INFO:core.rss_news_feeds:Γ£à RSS News Feeds initialized with 10 
+sources
+INFO:core.real_world_data_orchestrator:Γ£à RSS News Feeds loaded 
+- FREE news
+WARNING:core.newsapi_integration:[WARNING]∩╕Å NewsAPI integration 
+disabled (no API key)
+INFO:core.reddit_data_source:Γ£à Reddit API credentials loaded 
+from environment
+INFO:core.reddit_data_source:≡ƒô▒ Reddit Data Source initialized
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+INFO:core.google_trends_data_source:[CHECK] Google Trends API 
+initialized
+INFO:core.google_trends_data_source:≡ƒöì Google Trends Data 
+Source initialized
+INFO:core.coingecko_data_source:≡ƒ¬Ö CoinGecko Data Source 
+initialized
+INFO:core.real_world_data_orchestrator:[CHECK] New data sources 
+integrated: Reddit, Google Trends, CoinGecko
+WARNING:core.real_world_data_orchestrator:[WARNING]∩╕Å Could not 
+load enhanced relevance scorer: cannot import name 
+'EnhancedRelevanceScorer' from 'core.enhanced_relevance_scorer' (C
+:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\core\enhanced_rel
+evance_scorer.py)
+INFO:core.real_world_data_orchestrator:≡ƒîì Real-World Data 
+Orchestrator initialized with 9+ global intelligence sources
+INFO:__main__:Γ£à Real-World Data Orchestrator initialized
+WARNING:__main__:IB Error 502: Couldn't connect to TWS. Confirm 
+that "Enable ActiveX and Socket EClients" 
+is enabled and connection port is the same as "Socket Port" on 
+the 
+TWS "Edit->Global Configuration...->API->Settings" menu. Live 
+Trading ports: 
+TWS: 7496; IB Gateway: 4001. Simulated Trading ports for new 
+installations 
+of version 954.1 or newer:  TWS: 7497; IB Gateway: 4002
+INFO:ibapi.client:could not connect
+INFO:ibapi.client:disconnecting
+INFO:ibapi.wrapper:ANSWER connectionClosed {}
+INFO:core.ai_attribution_tracker:≡ƒôè Loaded historical metrics 
+for 11 AI systems
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\prometheus_activ
+e_trading_session.py:513: RuntimeWarning: invalid value 
+encountered in scalar divide
+  volume_ratio = volume / avg_volume
+C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\prometheus_activ
+e_trading_session.py:513: RuntimeWarning: invalid value 
+encountered in scalar divide
+  volume_ratio = volume / avg_volume
+C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\prometheus_activ
+e_trading_session.py:513: RuntimeWarning: invalid value 
+encountered in scalar divide
+  volume_ratio = volume / avg_volume
+INFO:core.visual_pattern_provider:Loaded 1352 patterns (983 with 
+detections)
+INFO:core.visual_pattern_provider:≡ƒôè Visual Pattern Provider 
+initialized with 1352 patterns
+INFO:__main__:≡ƒºá Enhanced Intelligence for AAPL: Patterns=32, 
+Sentiment=0.50, Risk=0.50
+INFO:core.real_world_data_orchestrator:≡ƒîì Generating contextual 
+intelligence from global sources...
+INFO:core.real_world_data_orchestrator:≡ƒöä Executing 5 
+intelligence gathering tasks...
+WARNING:core.polygon_premium_provider:[WARNING]∩╕Å Polygon.io 
+Premium S3 credentials not found
+INFO:core.polygon_premium_provider:[CHECK] Polygon.io API key 
+configured
+INFO:core.polygon_premium_provider:[WARNING]∩╕Å Polygon Premium 
+S3 not configured; falling back to REST API
+INFO:core.real_time_market_data:[CHECK] Got live data for AAPL 
+from yahoo_finance: $249.09
+INFO:core.real_world_data_orchestrator:[CHECK] stock_market 
+(financial): 1 signals
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for BTC
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for ETH
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for ADA
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for DOT
+INFO:core.real_world_data_orchestrator:[CHECK] crypto_market 
+(financial): 4 signals
+WARNING:core.twitter_data_source:[WARNING]∩╕Å Twitter API 
+credentials not configured - using fallback mode
+INFO:core.twitter_data_source:[CHECK] Twitter sentiment analysis 
+complete: 6 queries analyzed
+INFO:core.real_world_data_orchestrator:[CHECK] twitter (social): 
+6 signals
+INFO:core.real_world_data_orchestrator:[CHECK] reddit_enhanced 
+(social): 1 signals
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\pytrends\request.py:260: FutureWarning: Downcasting object 
+dtype arrays on .fillna, .ffill, .bfill is deprecated and will 
+change in a future version. Call result.infer_objects(copy=False) 
+instead. To opt-in to the future behavior, set 
+`pd.set_option('future.no_silent_downcasting', True)`
+  df = df.fillna(False)
+INFO:core.real_world_data_orchestrator:[CHECK] 
+google_trends_enhanced (social): 1 signals
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:3037: RuntimeWarning: 
+Degrees of freedom <= 0 for slice
+  c = cov(x, y, rowvar, dtype=dtype)
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:2894: RuntimeWarning: 
+divide by zero encountered in divide
+  c *= np.true_divide(1, fact)
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:2894: RuntimeWarning: 
+invalid value encountered in multiply
+  c *= np.true_divide(1, fact)
+INFO:core.real_world_data_orchestrator:≡ƒºá Global intelligence 
+synthesized: 0.50 confidence
+INFO:__main__:Γ£à Real-World Intel: sentiment=0.16, risk=0.50, 
+regime=sideways
+INFO:core.universal_reasoning_engine:≡ƒºá Universal Reasoning 
+Engine: Synthesizing ALL reasoning sources...
+INFO:core.hrm_official_integration:HRM reasoning complete: buy on 
+AAPL (confidence: 1.00)
+INFO:core.hrm_official_integration:HRM reasoning complete: hold 
+on AAPL (confidence: 0.99)
+WARNING:core.advanced_monitoring:High resource usage: 
+system.cpu_percent = 100.0%
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+INFO:core.hrm_official_integration:HRM reasoning complete: hold 
+on AAPL (confidence: 1.00)
+INFO:core.universal_reasoning_engine:  Γ£à Official HRM 
+Reasoning: HOLD (confidence: 0.666, checkpoint: ensemble)
+INFO:core.universal_reasoning_engine:  Γ£à GPT-OSS Reasoning: 
+HOLD (confidence: 0.500)
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine
+:Executing quantum trade optimization for AAPL
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine
+:Quantum optimization completed with 77.27% confidence
+INFO:core.universal_reasoning_engine:  Γ£à Quantum Optimization: 
+HOLD (advantage: 0.000)
+WARNING:revolutionary_features.ai_consciousness.ai_consciousness_e
+ngine:AI Consciousness Engine called but DISABLED - returning HOLD
+INFO:core.universal_reasoning_engine:  Γ£à Consciousness 
+Meta-Cognition: hold (confidence: 0.000)
+INFO:core.pattern_integration:  ≡ƒôè Pattern Match Input: 
+symbol=AAPL, trend=sideways, vol=0.0028, vol_ratio=0.42
+INFO:core.pattern_integration:  ≡ƒôê Pattern Match Result: 0 
+patterns matched for AAPL
+INFO:core.universal_reasoning_engine:  Γä╣∩╕Å Backtest Patterns: 
+No patterns matched (will use once backtests complete)
+INFO:core.universal_reasoning_engine:≡ƒÄ» Universal Decision: 
+HOLD (confidence: 0.536)
+INFO:core.universal_reasoning_engine:   Sources: 5/6 reasoning 
+sources (including patterns)
+INFO:__main__:≡ƒºá AI Brain made decision for AAPL: HOLD 
+(confidence: 53.6%)
+INFO:core.visual_pattern_provider:Loaded 1352 patterns (983 with 
+detections)
+INFO:core.visual_pattern_provider:≡ƒôè Visual Pattern Provider 
+initialized with 1352 patterns
+INFO:__main__:≡ƒºá Enhanced Intelligence for MSFT: Patterns=32, 
+Sentiment=0.50, Risk=0.50
+INFO:core.real_world_data_orchestrator:≡ƒîì Generating contextual 
+intelligence from global sources...
+INFO:core.real_world_data_orchestrator:≡ƒöä Executing 5 
+intelligence gathering tasks...
+INFO:core.polygon_premium_provider:[WARNING]∩╕Å Polygon Premium 
+S3 not configured; falling back to REST API
+INFO:core.real_time_market_data:[CHECK] Got live data for MSFT 
+from yahoo_finance: $450.73
+INFO:core.real_world_data_orchestrator:[CHECK] stock_market 
+(financial): 1 signals
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for BTC
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for ETH
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for ADA
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for DOT
+INFO:core.real_world_data_orchestrator:[CHECK] crypto_market 
+(financial): 4 signals
+INFO:core.twitter_data_source:[CHECK] Twitter sentiment analysis 
+complete: 6 queries analyzed
+INFO:core.real_world_data_orchestrator:[CHECK] twitter (social): 
+6 signals
+INFO:core.real_world_data_orchestrator:[CHECK] reddit_enhanced 
+(social): 1 signals
+ERROR:core.google_trends_data_source:Error getting Google Trends 
+data: The request failed: Google returned a response with code 429
+INFO:core.real_world_data_orchestrator:[CHECK] 
+google_trends_enhanced (social): 1 signals
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:3037: RuntimeWarning: 
+Degrees of freedom <= 0 for slice
+  c = cov(x, y, rowvar, dtype=dtype)
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:2894: RuntimeWarning: 
+divide by zero encountered in divide
+  c *= np.true_divide(1, fact)
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:2894: RuntimeWarning: 
+invalid value encountered in multiply
+  c *= np.true_divide(1, fact)
+INFO:core.real_world_data_orchestrator:≡ƒºá Global intelligence 
+synthesized: 0.48 confidence
+INFO:__main__:Γ£à Real-World Intel: sentiment=0.11, risk=0.50, 
+regime=sideways
+INFO:core.universal_reasoning_engine:≡ƒºá Universal Reasoning 
+Engine: Synthesizing ALL reasoning sources...
+WARNING:core.advanced_monitoring:High resource usage: 
+system.cpu_percent = 100.0%
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+INFO:core.hrm_official_integration:HRM reasoning complete: buy on 
+MSFT (confidence: 1.00)
+WARNING:core.advanced_monitoring:High resource usage: 
+system.cpu_percent = 100.0%
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+INFO:core.hrm_official_integration:HRM reasoning complete: hold 
+on MSFT (confidence: 0.99)
+INFO:core.hrm_official_integration:HRM reasoning complete: hold 
+on MSFT (confidence: 1.00)
+INFO:core.universal_reasoning_engine:  Γ£à Official HRM 
+Reasoning: HOLD (confidence: 0.666, checkpoint: ensemble)
+INFO:core.universal_reasoning_engine:  Γ£à GPT-OSS Reasoning: 
+HOLD (confidence: 0.500)
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine
+:Executing quantum trade optimization for MSFT
+INFO:revolutionary_features.quantum_trading.quantum_trading_engine
+:Quantum optimization completed with 85.73% confidence
+INFO:core.universal_reasoning_engine:  Γ£à Quantum Optimization: 
+BUY (advantage: 1.000)
+WARNING:revolutionary_features.ai_consciousness.ai_consciousness_e
+ngine:AI Consciousness Engine called but DISABLED - returning HOLD
+INFO:core.universal_reasoning_engine:  Γ£à Consciousness 
+Meta-Cognition: hold (confidence: 0.000)
+INFO:core.pattern_integration:  ≡ƒôè Pattern Match Input: 
+symbol=MSFT, trend=sideways, vol=0.0011, vol_ratio=0.41
+INFO:core.pattern_integration:  ≡ƒôê Pattern Match Result: 0 
+patterns matched for MSFT
+INFO:core.universal_reasoning_engine:  Γä╣∩╕Å Backtest Patterns: 
+No patterns matched (will use once backtests complete)
+INFO:core.universal_reasoning_engine:≡ƒÄ» Universal Decision: 
+HOLD (confidence: 0.407)
+INFO:core.universal_reasoning_engine:   Sources: 5/6 reasoning 
+sources (including patterns)
+INFO:__main__:≡ƒºá AI Brain made decision for MSFT: HOLD 
+(confidence: 40.7%)
+INFO:core.visual_pattern_provider:Loaded 1352 patterns (983 with 
+detections)
+INFO:core.visual_pattern_provider:≡ƒôè Visual Pattern Provider 
+initialized with 1352 patterns
+INFO:__main__:≡ƒºá Enhanced Intelligence for GOOGL: Patterns=26, 
+Sentiment=0.50, Risk=0.50
+INFO:core.real_world_data_orchestrator:≡ƒîì Generating contextual 
+intelligence from global sources...
+INFO:core.real_world_data_orchestrator:≡ƒöä Executing 5 
+intelligence gathering tasks...
+INFO:core.polygon_premium_provider:[WARNING]∩╕Å Polygon Premium 
+S3 not configured; falling back to REST API
+INFO:core.real_time_market_data:[CHECK] Got live data for GOOGL 
+from yahoo_finance: $330.48
+INFO:core.real_world_data_orchestrator:[CHECK] stock_market 
+(financial): 1 signals
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for BTC
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for ETH
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for ADA
+WARNING:core.real_time_market_data:[WARNING]∩╕Å Failed to get 
+data for DOT
+INFO:core.real_world_data_orchestrator:[CHECK] crypto_market 
+(financial): 4 signals
+INFO:core.twitter_data_source:[CHECK] Twitter sentiment analysis 
+complete: 6 queries analyzed
+INFO:core.real_world_data_orchestrator:[CHECK] twitter (social): 
+6 signals
+INFO:core.real_world_data_orchestrator:[CHECK] reddit_enhanced 
+(social): 0 signals
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%
+ERROR:core.google_trends_data_source:Error getting Google Trends 
+data: The request failed: Google returned a response with code 429
+INFO:core.real_world_data_orchestrator:[CHECK] 
+google_trends_enhanced (social): 1 signals
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:3037: RuntimeWarning: 
+Degrees of freedom <= 0 for slice
+  c = cov(x, y, rowvar, dtype=dtype)
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:2894: RuntimeWarning: 
+divide by zero encountered in divide
+  c *= np.true_divide(1, fact)
+C:\Users\Judy\AppData\Local\Programs\Python\Python313\Lib\site-pac
+kages\numpy\lib\_function_base_impl.py:2894: RuntimeWarning: 
+invalid value encountered in multiply
+  c *= np.true_divide(1, fact)
+INFO:core.real_world_data_orchestrator:≡ƒºá Global intelligence 
+synthesized: 0.45 confidence
+INFO:__main__:Γ£à Real-World Intel: sentiment=0.00, risk=0.50, 
+regime=sideways
+INFO:core.universal_reasoning_engine:≡ƒºá Universal Reasoning 
+Engine: Synthesizing ALL reasoning sources...
+INFO:core.hrm_official_integration:HRM reasoning complete: buy on 
+GOOGL (confidence: 1.00)
+INFO:core.hrm_official_integration:HRM reasoning complete: hold 
+on GOOGL (confidence: 0.99)
+WARNING:core.advanced_monitoring:High resource usage: 
+system.cpu_percent = 100.0%
+WARNING:core.advanced_monitoring:High resource usage: 
+system.disk_percent = 80.5%

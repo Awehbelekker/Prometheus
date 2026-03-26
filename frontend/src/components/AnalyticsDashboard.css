@@ -1,0 +1,14 @@
+/* AnalyticsDashboard Component Styles */
+
+.analytics-container {
+  padding: 24px;
+}
+
+.analytics-section {
+  margin: 12px 0;
+  padding: 12px;
+}
+
+.analytics-code {
+  font-size: 12px;
+} 

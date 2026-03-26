@@ -1,0 +1,109 @@
+========================================================================
+  PROMETHEUS AUTO-START SETUP - INSTRUCTIONS
+========================================================================
+
+AUTOMATIC SETUP (RECOMMENDED):
+------------------------------
+
+Option 1: Run PowerShell Script (Recommended)
+   1. Right-click on "SETUP_AUTO_START_NOW.ps1"
+   2. Select "Run with PowerShell"
+   3. Follow the prompts
+   4. Done! System will start automatically on boot
+
+Option 2: Run Batch Script
+   1. Double-click "SETUP_AUTO_START_NOW.bat"
+   2. Follow the prompts
+   3. Done! System will start automatically on boot
+
+
+MANUAL SETUP (IF AUTOMATIC FAILS):
+-----------------------------------
+
+1. Press Win + R on your keyboard
+2. Type: shell:startup
+3. Press Enter (Startup folder opens)
+4. Right-click in the folder
+5. Select "New" → "Shortcut"
+6. Browse to: C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\AUTO_START_PROMETHEUS.bat
+7. Click "Next"
+8. Name it: "PROMETHEUS Trading System"
+9. Click "Finish"
+10. Done!
+
+
+VERIFY SETUP:
+-------------
+
+1. Open Startup folder (Win + R, type: shell:startup)
+2. You should see: "PROMETHEUS Trading System.lnk"
+3. Right-click the shortcut → Properties
+4. Target should be: C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\AUTO_START_PROMETHEUS.bat
+
+
+TEST AUTO-START:
+----------------
+
+1. Restart your computer
+2. Wait 2-3 minutes for services to start
+3. Open browser to: http://localhost:3000
+4. You should see the PROMETHEUS dashboard
+5. Check that trading engine is running
+
+
+WHAT HAPPENS ON STARTUP:
+-------------------------
+
+When Windows boots, PROMETHEUS will automatically:
+1. Start Backend Server (port 8000) - waits 15 seconds
+2. Start Frontend Dashboard (port 3000) - waits 20 seconds
+3. Start Trading Engine (24/7 autonomous trading)
+4. All services run in separate windows
+
+
+DISABLE AUTO-START:
+-------------------
+
+To stop PROMETHEUS from starting automatically:
+1. Press Win + R
+2. Type: shell:startup
+3. Delete "PROMETHEUS Trading System.lnk"
+
+
+TROUBLESHOOTING:
+----------------
+
+Issue: Services don't start automatically
+Solution: 
+   - Check shortcut exists in Startup folder
+   - Verify shortcut target path is correct
+   - Check Windows Task Manager → Startup tab
+   - Ensure Python and Node.js are in PATH
+
+Issue: Services start but trading doesn't work
+Solution:
+   - Check Alpaca funding has reflected
+   - Verify broker connections
+   - Review logs in terminal windows
+
+Issue: Want to start manually instead
+Solution:
+   - Delete shortcut from Startup folder
+   - Run AUTO_START_PROMETHEUS.bat manually when needed
+
+
+CURRENT STATUS:
+---------------
+
+✅ AUTO_START_PROMETHEUS.bat - Ready
+✅ AUTO_START_PROMETHEUS.ps1 - Ready
+✅ SETUP_AUTO_START_NOW.bat - Ready (Automatic setup)
+✅ SETUP_AUTO_START_NOW.ps1 - Ready (Automatic setup)
+
+Next Step: Run one of the SETUP scripts above!
+
+
+========================================================================
+  For detailed information, see: SETUP_AUTO_START.md
+========================================================================
+

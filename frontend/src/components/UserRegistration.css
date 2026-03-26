@@ -1,0 +1,353 @@
+/* Modern Registration Page Styles */
+.registration-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2a2a2a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.registration-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(156, 39, 176, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.registration-card {
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    0 0 100px rgba(0, 212, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.registration-card:hover {
+  box-shadow: 
+    0 35px 70px rgba(0, 0, 0, 0.6),
+    0 0 120px rgba(0, 212, 255, 0.15);
+}
+
+.header-gradient {
+  background: linear-gradient(45deg, #00d4ff, #0099cc);
+  position: relative;
+  overflow: hidden;
+}
+
+.header-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.tier-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.tier-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.tier-card:hover::before {
+  transform: translateX(100%);
+}
+
+.tier-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.tier-card.selected {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+}
+
+.features-showcase {
+  background: linear-gradient(135deg, #ffd700, #ffb300);
+  border: 2px solid #ffd700;
+  position: relative;
+  overflow: hidden;
+}
+
+.features-showcase::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.step-indicator {
+  position: relative;
+}
+
+.step-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00d4ff, #0099cc);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.step-indicator.active::after {
+  transform: scaleX(1);
+}
+
+.form-field {
+  position: relative;
+}
+
+.form-field .MuiOutlinedInput-root {
+  transition: all 0.3s ease;
+}
+
+.form-field .MuiOutlinedInput-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.15);
+}
+
+.form-field .MuiOutlinedInput-root.Mui-focused {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.25);
+}
+
+.success-animation {
+  animation: successPulse 2s ease-in-out infinite;
+}
+
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.floating-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #00d4ff;
+  border-radius: 50%;
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+.particle:nth-child(2) { left: 20%; animation-delay: 1s; }
+.particle:nth-child(3) { left: 30%; animation-delay: 2s; }
+.particle:nth-child(4) { left: 40%; animation-delay: 3s; }
+.particle:nth-child(5) { left: 50%; animation-delay: 4s; }
+.particle:nth-child(6) { left: 60%; animation-delay: 5s; }
+.particle:nth-child(7) { left: 70%; animation-delay: 0.5s; }
+.particle:nth-child(8) { left: 80%; animation-delay: 1.5s; }
+.particle:nth-child(9) { left: 90%; animation-delay: 2.5s; }
+
+@keyframes float {
+  0%, 100% { 
+    transform: translateY(100vh) rotate(0deg);
+    opacity: 0;
+  }
+  10%, 90% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-10px) rotate(180deg);
+  }
+}
+
+.button-glow {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(45deg, #00d4ff, #0099cc) !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 12px 32px !important;
+  font-weight: 700 !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3) !important;
+}
+
+.button-glow:hover {
+  background: linear-gradient(45deg, #33ddff, #00b3e6) !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4) !important;
+}
+
+.button-glow::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.button-glow:hover::before {
+  left: 100%;
+}
+
+/* Secondary Button Styling */
+.MuiButton-outlined {
+  border-color: rgba(0, 212, 255, 0.5) !important;
+  color: #00d4ff !important;
+  border-radius: 12px !important;
+  padding: 10px 24px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.MuiButton-outlined:hover {
+  border-color: #00d4ff !important;
+  background: rgba(0, 212, 255, 0.1) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Enhanced Stepper Styling */
+.MuiStepper-root {
+  background: transparent !important;
+  padding: 24px 0 !important;
+}
+
+.MuiStepConnector-line {
+  border-color: rgba(0, 212, 255, 0.3) !important;
+  border-top-width: 2px !important;
+}
+
+.MuiStepConnector-root.Mui-active .MuiStepConnector-line,
+.MuiStepConnector-root.Mui-completed .MuiStepConnector-line {
+  border-color: #00d4ff !important;
+}
+
+.MuiStepIcon-root {
+  color: rgba(255, 255, 255, 0.3) !important;
+  font-size: 1.5rem !important;
+}
+
+.MuiStepIcon-root.Mui-active {
+  color: #00d4ff !important;
+  animation: stepPulse 2s ease-in-out infinite !important;
+}
+
+.MuiStepIcon-root.Mui-completed {
+  color: #4caf50 !important;
+}
+
+.MuiStepLabel-label {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-weight: 600 !important;
+}
+
+.MuiStepLabel-label.Mui-active {
+  color: #00d4ff !important;
+  font-weight: 700 !important;
+}
+
+.MuiStepLabel-label.Mui-completed {
+  color: #4caf50 !important;
+}
+
+@keyframes stepPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 8px rgba(0, 212, 255, 0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .registration-card {
+    margin: 1rem;
+    border-radius: 1rem;
+  }
+  
+  .tier-card {
+    margin-bottom: 1rem;
+  }
+  
+  .features-showcase {
+    margin: 1rem 0;
+  }
+}
+
+/* Dark theme scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00d4ff;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #33ddff;
+}
+
+/* Loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+  background-size: 200% 100%;
+  animation: shimmer-loading 1.5s infinite;
+}
+
+@keyframes shimmer-loading {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}

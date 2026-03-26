@@ -1,0 +1,8 @@
+tunnel: 586bd998-ddf1-4b83-9de0-0e12becd47ad
+credentials-file: C:\Users\Judy\.cloudflared\586bd998-ddf1-4b83-9de0-0e12becd47ad.json
+
+ingress:
+  - hostname: api.prometheus-trader.com
+    service: http://localhost:8000
+  - service: http_status:404
+

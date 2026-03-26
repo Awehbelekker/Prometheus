@@ -1,0 +1,15 @@
+.app-root {
+  display: flex;
+  height: 100vh;
+}
+.sidebar {
+  width: 250px;
+  background: #222;
+  color: #fff;
+  padding: 1rem;
+}
+.dashboard {
+  flex: 1;
+  background: #f5f5f5;
+  padding: 2rem;
+}

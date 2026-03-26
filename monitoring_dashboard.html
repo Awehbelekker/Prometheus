@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROMETHEUS Trading Monitoring Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #1a1a1a; color: white; }
+        .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px; }
+        .dashboard-card { background: #2a2a2a; border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .metric-value { font-size: 2em; font-weight: bold; color: #00ff88; }
+        .metric-label { font-size: 0.9em; color: #888; }
+        .alert-critical { border-left: 4px solid #ff4444; }
+        .alert-warning { border-left: 4px solid #ffaa00; }
+        .alert-info { border-left: 4px solid #0088ff; }
+        .status-online { color: #00ff88; }
+        .status-offline { color: #ff4444; }
+        h1 { text-align: center; color: #00ff88; }
+        h2 { color: #ffffff; border-bottom: 2px solid #00ff88; padding-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <h1>🚀 PROMETHEUS Trading Platform - Live Monitoring</h1>
+    
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <h2>📈 Trading Performance</h2>
+            <div class="metric-value" id="daily-pnl">$0.00</div>
+            <div class="metric-label">Daily P&L</div>
+            <canvas id="pnl-chart" width="400" height="200"></canvas>
+        </div>
+        
+        <div class="dashboard-card">
+            <h2>🏥 System Health</h2>
+            <div class="metric-value status-online" id="system-status">ONLINE</div>
+            <div class="metric-label">System Status</div>
+            <div>Response Time: <span id="response-time">12ms</span></div>
+            <div>Uptime: <span id="uptime">99.9%</span></div>
+        </div>
+        
+        <div class="dashboard-card">
+            <h2>⚖️ Risk Metrics</h2>
+            <div class="metric-value" id="portfolio-var">1.2%</div>
+            <div class="metric-label">Portfolio VaR</div>
+            <div>Max Drawdown: <span id="max-drawdown">-2.1%</span></div>
+            <div>Leverage: <span id="leverage">1.5x</span></div>
+        </div>
+        
+        <div class="dashboard-card">
+            <h2>👥 User Activity</h2>
+            <div class="metric-value" id="active-users">247</div>
+            <div class="metric-label">Active Users</div>
+            <div>Trading Volume: <span id="trading-volume">$1.2M</span></div>
+            <div>New Users: <span id="new-users">12</span></div>
+        </div>
+    </div>
+    
+    <div class="dashboard-card" style="margin-top: 20px;">
+        <h2>🚨 Recent Alerts</h2>
+        <div id="alerts-container">
+            <div class="alert-info">System startup completed successfully</div>
+            <div class="alert-warning">High trading volume detected</div>
+        </div>
+    </div>
+    
+    <script>
+        // Real-time dashboard updates
+        function updateDashboard() {
+            // Simulate real-time data updates
+            document.getElementById('daily-pnl').textContent = '$' + (Math.random() * 10000).toFixed(2);
+            document.getElementById('response-time').textContent = (Math.random() * 50 + 10).toFixed(0) + 'ms';
+            document.getElementById('active-users').textContent = Math.floor(Math.random() * 500 + 200);
+        }
+        
+        // Update dashboard every 5 seconds
+        setInterval(updateDashboard, 5000);
+        
+        // Initialize charts
+        const ctx = document.getElementById('pnl-chart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+                datasets: [{
+                    label: 'P&L',
+                    data: [0, 150, -50, 200, 100, 300, 250],
+                    borderColor: '#00ff88',
+                    backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { 
+                    y: { grid: { color: '#444' }, ticks: { color: '#888' } },
+                    x: { grid: { color: '#444' }, ticks: { color: '#888' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

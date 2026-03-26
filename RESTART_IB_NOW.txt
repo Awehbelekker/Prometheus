@@ -1,0 +1,62 @@
+================================================================================
+  ⚠️ IMPORTANT: RESTART IB GATEWAY NOW
+================================================================================
+
+I can see your API settings are configured, but the connection is still failing.
+
+This means the settings haven't taken effect yet.
+
+================================================================================
+  DO THIS NOW:
+================================================================================
+
+1. In the API Settings window, scroll UP to the top
+
+2. Look for a checkbox that says "Read-Only API"
+   - If it's CHECKED, UNCHECK it ❌
+   - We need to place orders, not just read data
+
+3. Click the "OK" button at the bottom of the settings window
+
+4. Click "Apply" if you see that button
+
+5. CLOSE IB Gateway completely (click the X)
+
+6. Wait 5 seconds
+
+7. OPEN IB Gateway again
+
+8. Login with account U21922116
+
+9. Wait for it to fully connect (you'll see "Connected" status)
+
+================================================================================
+  THEN RUN THIS:
+================================================================================
+
+After IB Gateway restarts, run:
+
+    python test_ib_connection_simple.py
+
+If it works, you'll see:
+
+    ✅ CONNECTED! Next order ID: 1
+    ✅ CONNECTION SUCCESSFUL!
+
+Then we can start trading immediately!
+
+================================================================================
+  WHY RESTART IS REQUIRED:
+================================================================================
+
+IB Gateway only loads API settings when it starts up.
+Changes made while it's running don't take effect until restart.
+
+This is normal IB behavior.
+
+================================================================================
+
+RESTART IB GATEWAY NOW, THEN WE'LL TEST AGAIN!
+
+================================================================================
+

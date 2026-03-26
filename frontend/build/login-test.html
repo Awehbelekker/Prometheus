@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Test - PROMETHEUS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00d4ff;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #00d4ff, #ff6b35);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 255, 0.3);
+        }
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid red;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .success {
+            background: rgba(0, 255, 0, 0.2);
+            border: 1px solid green;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .logs {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 30px; background: linear-gradient(45deg, #00d4ff, #ff6b35); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🚀 PROMETHEUS Login Test</h1>
+        
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username/Email:</label>
+                <input type="text" id="username" name="username" value="admin" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="admin123" required>
+            </div>
+            
+            <button type="submit">🔐 Test Login</button>
+        </form>
+        
+        <div id="result"></div>
+        <div id="logs" class="logs"></div>
+    </div>
+
+    <script>
+    const API_BASE_URL = 'http://localhost:8000';
+        let logs = [];
+
+        function addLog(message) {
+            const timestamp = new Date().toISOString();
+            logs.push(`[${timestamp}] ${message}`);
+            document.getElementById('logs').textContent = logs.join('\n');
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('result');
+            
+            addLog('🚀 Starting login test...');
+            addLog(`Username: ${username}`);
+            addLog(`API URL: ${API_BASE_URL}/api/auth/login`);
+            
+            try {
+                addLog('📤 Sending login request...');
+                
+                const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        password: password
+                    })
+                });
+                
+                addLog(`📨 Response status: ${response.status}`);
+                addLog(`📨 Response headers: ${JSON.stringify([...response.headers.entries()])}`);
+                
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+                    throw new Error(errorData.detail || errorData.error || `HTTP ${response.status}`);
+                }
+                
+                const data = await response.json();
+                addLog('✅ Login successful!');
+                addLog(`🎟️ Token received: ${data.access_token.substring(0, 50)}...`);
+                
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        ✅ Login Successful!<br>
+                        Token: ${data.access_token.substring(0, 50)}...<br>
+                        Type: ${data.token_type}<br>
+                        Expires: ${data.expires_at}
+                    </div>
+                `;
+                
+                // Test getting user info
+                addLog('👤 Testing user info endpoint...');
+                const userResponse = await fetch(`${API_BASE_URL}/api/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${data.access_token}`
+                    }
+                });
+                
+                if (userResponse.ok) {
+                    const userInfo = await userResponse.json();
+                    addLog('✅ User info retrieved successfully');
+                    addLog(`👤 User: ${JSON.stringify(userInfo, null, 2)}`);
+                } else {
+                    addLog(`❌ User info failed: ${userResponse.status}`);
+                }
+                
+            } catch (error) {
+                addLog(`❌ Login failed: ${error.message}`);
+                console.error('Login error:', error);
+                
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        ❌ Login Failed<br>
+                        Error: ${error.message}
+                    </div>
+                `;
+            }
+        });
+
+        // Add initial log
+        addLog('🔧 Login test page loaded');
+        addLog(`🌐 Testing connection to: ${API_BASE_URL}`);
+    </script>
+</body>
+</html>

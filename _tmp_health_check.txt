@@ -1,0 +1,2 @@
+HEALTH_STATUS=200
+{"status":"ok","timestamp":"2026-03-24T19:24:22.019048Z","version":"1.0.0","uptime_seconds":2421.46,"latency_ms":{"avg_last_1000":19091.1,"latest":18576.78},"errors_total":0,"services":{"database":true,"database_connected":true,"auth":true,"trading":true,"ai_consciousness":true,"quantum_engine":true},"request_id":"9f44f80ebde34a09a4e1c5ee0361cadb"}

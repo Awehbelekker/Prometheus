@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # PROMETHEUS Backend API Server
+  prometheus-backend:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: prometheus-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=sqlite:///./data/prometheus.db
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-auto_generated_secret_key_change_in_production}
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY:-demo}
+      - POLYGON_API_KEY=${POLYGON_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY:-}
+    volumes:
+      - prometheus-data:/app/data
+      - prometheus-logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - prometheus-network
+
+  # PROMETHEUS Frontend Web Server
+  prometheus-frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: prometheus-frontend
+    ports:
+      - "3002:3002"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+      - REACT_APP_ENVIRONMENT=production
+    depends_on:
+      prometheus-backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - prometheus-network
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: prometheus-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - prometheus-network
+    command: redis-server --appendonly yes
+
+  # Nginx reverse proxy (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: prometheus-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - prometheus-backend
+      - prometheus-frontend
+    restart: unless-stopped
+    networks:
+      - prometheus-network
+
+volumes:
+  prometheus-data:
+    driver: local
+  prometheus-logs:
+    driver: local
+  redis-data:
+    driver: local
+
+networks:
+  prometheus-network:
+    driver: bridge

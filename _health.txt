@@ -1,0 +1,1 @@
+﻿{"status":"ok","timestamp":"2026-03-01T18:02:49.226006Z","version":"1.0.0","uptime_seconds":10413.44,"latency_ms":{"avg_last_1000":3.28,"latest":1.58},"errors_total":0,"services":{"database":true,"database_connected":true,"auth":true,"trading":true,"ai_consciousness":true,"quantum_engine":true},"request_id":"7b43886d9829431997f1a7457f4d9f32"}

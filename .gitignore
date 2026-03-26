@@ -1,0 +1,108 @@
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+
+# Node
+node_modules/
+
+# IDE/editor
+.vscode/
+.idea/
+*.swp
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+!.env.template
+*.pem
+*.key
+*secret*
+*token*
+
+# Databases and local state
+*.db
+*.sqlite
+*.sqlite3
+*_requests.db
+
+# Logs and runtime outputs
+*.log
+*.out
+*.err
+server_*.log
+backtest_*.log
+benchmark_*.log
+
+# Large generated artifacts
+*.json
+*.jsonl
+*.csv
+*.parquet
+*.h5
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.zip
+
+# Very large model checkpoints
+hrm_checkpoints/
+models_pretrained/
+pretrained_models/
+
+# Keep important config/docs/scripts by default
+# If a specific JSON must be versioned, add an explicit negation below, e.g.:
+# !config/some_config.json
+
+# Test/coverage artifacts
+.pytest_cache/
+htmlcov/
+.coverage*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Windows reserved stray filenames
+NUL
+
+# Repository curation: do not version historical archives, embedded repos, or generated outputs
+ARCHIVE_*/
+PROMETHEUS-Enterprise-Package-BACKUP/
+PROMETHEUS-ULTIMATE-DEPLOYMENT/
+integrated_repos/
+frontend_consolidation_backup/
+
+# Generated visual/training outputs
+charts/
+generated_charts/
+paper_trading_charts/
+crypto_charts/
+scraped_charts/
+scraped_market_data/
+training_results/
+test_results/
+monitoring_reports/
+shadow_trading_results/
+
+# Heavy benchmark/test sandboxes
+testing/
+ThinkMesh/
+official_hrm/
+hrm_checkpoints/
+hrm_trading_dataset/
+models/
+ai_models/
+knowledge_vectors/
+
+# Keep only source by default under these paths if needed later via explicit ! rules
