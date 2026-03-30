@@ -254,26 +254,44 @@ class MLRegimeDetector:
         scaler = StandardScaler()
         X_scaled = scaler.fit_transform(X)
 
-        # Train GradientBoosting
+        # Train GradientBoosting — class_weight='balanced' equivalent via sample weights
+        # Volatile regime is severely underrepresented (75 vs 2000+ bull samples).
+        # Compute per-sample weights = total / (n_classes * class_count).
+        unique_cls, cls_counts = np.unique(y, return_counts=True)
+        cls_weight = {int(c): len(y) / (len(unique_cls) * cnt) for c, cnt in zip(unique_cls, cls_counts)}
+        sample_weights = np.array([cls_weight[int(yi)] for yi in y])
+
         clf = GradientBoostingClassifier(
             n_estimators=200,
             max_depth=4,
             learning_rate=0.1,
-            min_samples_leaf=5,
+            min_samples_leaf=3,  # lower to allow volatile minority class to split
             subsample=0.8,
             random_state=42,
         )
 
         # Cross-validation
         try:
-            cv_scores = cross_val_score(clf, X_scaled, y, cv=min(5, len(set(y))), scoring="accuracy")
+            from sklearn.model_selection import StratifiedKFold
+            from sklearn.base import clone
+            n_splits = min(5, len(set(y)))
+            skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=42)
+            fold_scores = []
+            for train_idx, val_idx in skf.split(X_scaled, y):
+                clone(clf).fit(X_scaled[train_idx], y[train_idx],
+                               sample_weight=sample_weights[train_idx])
+                fold_clf = clone(clf)
+                fold_clf.fit(X_scaled[train_idx], y[train_idx],
+                             sample_weight=sample_weights[train_idx])
+                fold_scores.append((fold_clf.predict(X_scaled[val_idx]) == y[val_idx]).mean())
+            cv_scores = np.array(fold_scores)
             cv_mean = float(cv_scores.mean())
             cv_std = float(cv_scores.std())
         except Exception:
             cv_mean, cv_std = 0.0, 0.0
 
-        # Full fit
-        clf.fit(X_scaled, y)
+        # Full fit with class-balanced sample weights
+        clf.fit(X_scaled, y, sample_weight=sample_weights)
 
         # Feature importances
         importances = dict(zip(self.feature_names, clf.feature_importances_))

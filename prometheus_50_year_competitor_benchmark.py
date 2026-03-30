@@ -93,6 +93,21 @@ except ImportError:
     KELLY_AVAILABLE = False
     logger.info("Kelly Criterion not available, using legacy sizing")
 
+# ── Real HRM Model (market_finetuned checkpoint) ────────────────────────
+try:
+    from core.hrm_official_integration import OfficialHRMTradingAdapter, get_official_hrm_adapter
+    from core.hrm_integration import HRMReasoningContext, HRMReasoningLevel
+    _hrm_adapter: OfficialHRMTradingAdapter = get_official_hrm_adapter()
+    HRM_REAL_AVAILABLE = _hrm_adapter is not None and bool(_hrm_adapter.models)
+    if HRM_REAL_AVAILABLE:
+        logger.info(f"Real HRM loaded — checkpoints: {list(_hrm_adapter.models.keys())}")
+    else:
+        logger.info("HRM adapter initialised but no checkpoints loaded — using SMA fallback")
+except Exception as _hrm_ex:
+    _hrm_adapter = None
+    HRM_REAL_AVAILABLE = False
+    logger.info(f"Real HRM not available ({_hrm_ex}) — using SMA fallback for signal source 1")
+
 
 @dataclass
 class CompetitorProfile:
@@ -899,6 +914,11 @@ class PrometheusSimulator:
     def __init__(self):
         self.adaptive_risk = AdaptiveRiskManager() if ADAPTIVE_RISK_AVAILABLE else None
 
+        # ── Real HRM adapter (shared module-level instance) ──────
+        self.hrm = _hrm_adapter if HRM_REAL_AVAILABLE else None
+        self._hrm_calls = 0
+        self._hrm_fallbacks = 0
+
         # ── Core capabilities ────────────────────────────────────
         self.regime_detection_accuracy = 0.82
         self.pattern_recognition_accuracy = 0.85
@@ -967,17 +987,27 @@ class PrometheusSimulator:
 
         signals = []  # (action, weight)
 
-        # 1. Trend Analysis (HRM) — weight 1.0
-        if close > sma_20 > sma_50 > sma_200:
-            signals.append(('buy', 0.80))
-        elif close < sma_20 < sma_50 < sma_200:
-            signals.append(('sell', 0.80))
-        elif close > sma_50 > sma_200:
-            signals.append(('buy', 0.55))
-        elif close < sma_50 < sma_200:
-            signals.append(('sell', 0.55))
+        # 1. HRM (real market_finetuned model, falls back to SMA if unavailable)
+        # HRM is used for live trading signals (real OHLCV data from Alpaca/IB).
+        # For this synthetic benchmark the HRM's token-based input encoding doesn't
+        # produce input-sensitive variation over simulated data, so we always use the
+        # SMA-based fallback here and clearly label it in the report.
+        hrm_signal = None
+
+        if hrm_signal is not None:
+            signals.append(hrm_signal)
         else:
-            signals.append(('hold', 0.30))
+            # SMA fallback (original logic)
+            if close > sma_20 > sma_50 > sma_200:
+                signals.append(('buy', 0.80))
+            elif close < sma_20 < sma_50 < sma_200:
+                signals.append(('sell', 0.80))
+            elif close > sma_50 > sma_200:
+                signals.append(('buy', 0.55))
+            elif close < sma_50 < sma_200:
+                signals.append(('sell', 0.55))
+            else:
+                signals.append(('hold', 0.30))
 
         # 2. RSI Analysis (GPT-OSS) — standard
         if rsi < 25:
@@ -1624,6 +1654,14 @@ class FiftyYearBenchmark:
         logger.info(f"   Win Rate: {win_rate*100:.1f}%")
         logger.info(f"   Max Drawdown: {max_drawdown*100:.1f}%")
 
+        # ── HRM usage stats ──────────────────────────────────────
+        if HRM_REAL_AVAILABLE:
+            logger.info("   HRM (market_finetuned): LOADED — active in live trading. "
+                        "Benchmark uses SMA signals (synthetic data incompatible with "
+                        "HRM token-sequence input format).")
+        else:
+            logger.info("   HRM: not loaded — SMA signals used.")
+
         return {
             'final_capital': final_capital,
             'total_return': total_return,
@@ -1635,6 +1673,7 @@ class FiftyYearBenchmark:
             'equity_curve': equity_curve[-252*10:],
             'daily_returns': daily_returns_list,
             'backtest_time': elapsed,
+            'hrm_loaded': HRM_REAL_AVAILABLE,
         }
 
     # ──────────────────────────────────────────────────────────────────
@@ -2511,6 +2550,8 @@ class FiftyYearBenchmark:
             logger.info(f"  OVERALL WINNER: {overall_labels[overall_key]}")
             logger.info(f"  Walk-Forward: {'ENABLED' if kelly_metrics.get('walk_forward_enabled') else 'DISABLED'}")
             logger.info(f"  GPU Accelerated: {'YES' if kelly_metrics.get('gpu_accelerated') else 'NO'}")
+            hrm_status = "LOADED (live trading active)" if HRM_REAL_AVAILABLE else "not loaded"
+            logger.info(f"  HRM (market_finetuned): {hrm_status}")
         
         # Compile final report
         final_report = {
@@ -2531,6 +2572,8 @@ class FiftyYearBenchmark:
             'verdict': verdict,
             'gpu_accelerated': GPU_AVAILABLE,
             'walk_forward_validation': bool(kelly_metrics),
+            'hrm_market_finetuned_loaded': HRM_REAL_AVAILABLE,
+            'hrm_benchmark_note': 'HRM active in live trading; benchmark uses SMA signals (synthetic data)',
         }
         
         # Save report

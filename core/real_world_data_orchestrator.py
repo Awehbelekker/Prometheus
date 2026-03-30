@@ -662,9 +662,96 @@ class RealWorldDataOrchestrator:
         )
         
         logger.info(f"🧠 Global intelligence synthesized: {synthesized_intelligence.confidence:.2f} confidence")
-        
+
+        # Persist all raw signals to DB for learning (non-blocking)
+        try:
+            self._persist_intelligence_signals(raw_intelligence, trading_context)
+        except Exception as _pe:
+            logger.debug(f"Intelligence signal persist failed: {_pe}")
+
         return synthesized_intelligence
-    
+
+    async def get_comprehensive_intelligence(self, symbol_or_context) -> Dict:
+        """
+        Alias used by the main trading launcher.
+        Wraps generate_contextual_intelligence and returns a flat dict
+        compatible with: intel.get('overall_sentiment', 0)
+        """
+        if isinstance(symbol_or_context, str):
+            context = {'symbol': symbol_or_context, 'symbols': [symbol_or_context]}
+        else:
+            context = symbol_or_context
+        try:
+            global_intel = await self.generate_contextual_intelligence(context)
+            return {
+                'overall_sentiment': global_intel.overall_sentiment,
+                'market_regime': global_intel.market_regime,
+                'risk_level': global_intel.risk_level,
+                'opportunity_score': global_intel.opportunity_score,
+                'confidence': global_intel.confidence,
+                'key_signals': [
+                    {
+                        'source': s.source,
+                        'type': s.type.value if hasattr(s.type, 'value') else str(s.type),
+                        'sentiment': s.sentiment,
+                        'signal_strength': s.signal_strength,
+                        'impact_score': s.impact_score,
+                    }
+                    for s in (global_intel.key_signals or [])[:10]
+                ],
+                'predictions': global_intel.predictions or {},
+            }
+        except Exception as e:
+            logger.warning(f"get_comprehensive_intelligence failed: {e}")
+            return {}
+
+    def _persist_intelligence_signals(self, signals: list, context: dict):
+        """Save raw IntelligenceSignal objects to prometheus_learning.db."""
+        import sqlite3
+        if not signals:
+            return
+        symbol = context.get('symbol', context.get('symbols', [''])[0] if context.get('symbols') else '')
+        try:
+            conn = sqlite3.connect("prometheus_learning.db", timeout=5)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS intelligence_signals (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    timestamp TEXT,
+                    symbol TEXT,
+                    source TEXT,
+                    signal_type TEXT,
+                    sentiment REAL,
+                    signal_strength REAL,
+                    impact_score REAL,
+                    confidence REAL,
+                    data_json TEXT
+                )
+            """)
+            ts = datetime.now().isoformat()
+            rows = []
+            for s in signals:
+                rows.append((
+                    ts, symbol or getattr(s, 'symbol', ''),
+                    getattr(s, 'source', ''),
+                    s.type.value if hasattr(s, 'type') and hasattr(s.type, 'value') else '',
+                    float(getattr(s, 'sentiment', 0) or 0),
+                    float(getattr(s, 'signal_strength', 0) or 0),
+                    float(getattr(s, 'impact_score', 0) or 0),
+                    float(getattr(s, 'confidence', 0) or 0),
+                    json.dumps(getattr(s, 'data', {}), default=str)[:500],
+                ))
+            conn.executemany(
+                "INSERT INTO intelligence_signals "
+                "(timestamp,symbol,source,signal_type,sentiment,signal_strength,"
+                "impact_score,confidence,data_json) VALUES (?,?,?,?,?,?,?,?,?)",
+                rows
+            )
+            conn.commit()
+            conn.close()
+            logger.debug(f"Persisted {len(rows)} intelligence signals to DB")
+        except Exception as e:
+            logger.debug(f"_persist_intelligence_signals error: {e}")
+
     async def _synthesize_global_intelligence(self, 
                                             raw_signals: List[IntelligenceSignal], 
                                             context: Dict) -> GlobalIntelligence:

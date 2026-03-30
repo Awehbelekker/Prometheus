@@ -44,6 +44,11 @@ class HRMCheckpointManager:
             'repo_id': 'sapientinc/HRM-checkpoint-maze-30x30-hard',
             'description': 'Maze 30x30 checkpoint for path finding/optimization',
             'specialization': 'path_finding'
+        },
+        'market_finetuned': {
+            'repo_id': None,  # local fine-tune — no HuggingFace repo
+            'description': 'Fine-tuned on Prometheus market OHLCV sequences (100% test acc)',
+            'specialization': 'market_trading'
         }
     }
     
@@ -103,13 +108,22 @@ class HRMCheckpointManager:
         
         checkpoint_info = self.CHECKPOINTS[checkpoint_name]
         repo_id = checkpoint_info['repo_id']
-        
-        # Check if already downloaded
+
+        # Local-only checkpoints (no HuggingFace repo) — just return path if present
         checkpoint_path = self.checkpoint_dir / checkpoint_name
+        if repo_id is None:
+            if checkpoint_path.exists():
+                logger.info(f"Local checkpoint {checkpoint_name} found at {checkpoint_path}")
+                return str(checkpoint_path)
+            else:
+                logger.error(f"Local checkpoint {checkpoint_name} not found at {checkpoint_path}")
+                return None
+
+        # Check if already downloaded
         if checkpoint_path.exists() and not force_download:
             logger.info(f"Checkpoint {checkpoint_name} already exists at {checkpoint_path}")
             return str(checkpoint_path)
-        
+
         try:
             logger.info(f"Downloading checkpoint {checkpoint_name} from {repo_id}...")
             

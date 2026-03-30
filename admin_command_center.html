@@ -135,12 +135,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   <div class="card">
     <div class="card-hdr"><span class="card-t">Shadow Status</span><span id="shadow-badge" class="badge b-g">—</span></div>
     <div class="big g" id="shadow-trades">—</div>
-    <div class="sub" id="shadow-pnl">Total P&L: —</div>
+    <div class="sub" id="shadow-pnl">Closed P&L: — | Open P&L: — | Net: —</div>
   </div>
   <div class="card wide">
     <div class="card-hdr"><span class="card-t">Shadow Strategies</span></div>
     <table class="tbl" id="shadow-table">
-      <thead><tr><th>Strategy</th><th>Trades</th><th>Wins</th><th>Win Rate</th><th>P&L</th></tr></thead>
+      <thead><tr><th>Strategy</th><th>Trades</th><th>Wins</th><th>Win Rate</th><th>Closed P&L</th></tr></thead>
       <tbody id="shadow-body"><tr><td colspan="5" style="color:var(--dim)">Loading...</td></tr></tbody>
     </table>
   </div>
@@ -153,8 +153,12 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div id="compare-panel" style="font-size:.78rem;color:var(--text)">
       <div class="stat-row"><span class="stat-label">Paper Equity</span><span class="stat-val" id="cmp-paper-equity">—</span></div>
       <div class="stat-row"><span class="stat-label">Paper Positions</span><span class="stat-val" id="cmp-paper-pos">—</span></div>
+      <div class="stat-row"><span class="stat-label">Paper Daily P&L</span><span class="stat-val" id="cmp-paper-pnl">—</span></div>
       <div class="stat-row"><span class="stat-label">Shadow Closed P&L</span><span class="stat-val" id="cmp-shadow-pnl">—</span></div>
-      <div class="stat-row"><span class="stat-label">Delta (Paper - Shadow P&L)</span><span class="stat-val" id="cmp-delta">—</span></div>
+      <div class="stat-row"><span class="stat-label">Shadow Open P&L</span><span class="stat-val" id="cmp-shadow-open-pnl">—</span></div>
+      <div class="stat-row"><span class="stat-label">Shadow Net P&L (Closed + Open)</span><span class="stat-val" id="cmp-shadow-net-pnl">—</span></div>
+      <div class="stat-row"><span class="stat-label">Delta vs Shadow Closed (Paper Daily - Closed)</span><span class="stat-val" id="cmp-delta">—</span></div>
+      <div class="stat-row"><span class="stat-label">Delta vs Shadow Net (Paper Daily - Net)</span><span class="stat-val" id="cmp-delta-net">—</span></div>
       <div class="stat-row"><span class="stat-label">Shadow Trades</span><span class="stat-val" id="cmp-shadow-trades">—</span></div>
       <div class="stat-row"><span class="stat-label">Shadow Threads</span><span class="stat-val" id="cmp-shadow-threads">—</span></div>
     </div>
@@ -177,7 +181,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
     <div class="bar"><div class="bar-fill" id="wr-bar" style="width:0;background:var(--green)"></div></div>
   </div>
   <div class="card">
-    <div class="card-hdr"><span class="card-t">Total P&L</span></div>
+    <div class="card-hdr"><span class="card-t">Closed P&L</span></div>
     <div class="big" id="total-pnl">—</div>
     <div class="sub">Closed trades</div>
   </div>
@@ -419,7 +423,10 @@ async function refresh(){
     $('shadow-trades').textContent = sh.total_trades||0;
     const closedTrades = sh.closed_trades||0;
     const openTrades = sh.open_trades||0;
-    $('shadow-pnl').textContent = `Closed P&L: ${fmt$(sh.total_pnl||0)} | Closed: ${closedTrades} | Open: ${openTrades}`;
+    const shadowClosedPnl = (sh.closed_pnl!==undefined) ? sh.closed_pnl : (sh.total_pnl||0);
+    const shadowOpenPnl = sh.open_pnl||0;
+    const shadowNetPnl = (sh.net_pnl!==undefined) ? sh.net_pnl : ((parseFloat(shadowClosedPnl)||0) + (parseFloat(shadowOpenPnl)||0));
+    $('shadow-pnl').textContent = `Closed P&L: ${fmt$(shadowClosedPnl)} | Open P&L: ${fmt$(shadowOpenPnl)} | Net: ${fmt$(shadowNetPnl)} | Closed: ${closedTrades} | Open: ${openTrades}`;
     $('shadow-badge').textContent = (sh.threads_running||0)>0?`${sh.threads_running} THREADS`:'STOPPED';
     $('shadow-badge').className = 'badge '+((sh.threads_running||0)>0?'b-g':'b-r');
     $('shadow-threads').innerHTML = (sh.thread_names||[]).map(n=>`<div>▸ ${n}</div>`).join('')||'No threads';
@@ -440,19 +447,37 @@ async function refresh(){
     const cmp = d.comparison || {};
     const cmpPaperEq = (cmp.paper_equity!==undefined) ? cmp.paper_equity : (ap.account_value||0);
     const cmpPaperPos = (cmp.paper_positions!==undefined) ? cmp.paper_positions : (ap.position_count||0);
+    const cmpPaperPnl = (cmp.paper_daily_pnl!==undefined)
+      ? cmp.paper_daily_pnl
+      : (((parseFloat(ap.equity)||parseFloat(ap.account_value)||0) - (parseFloat(ap.last_equity)||0)) || 0);
     const cmpShadowPnl = (cmp.shadow_closed_pnl!==undefined) ? cmp.shadow_closed_pnl : (sh.total_pnl||0);
+    const cmpShadowOpenPnl = (cmp.shadow_open_pnl!==undefined) ? cmp.shadow_open_pnl : (sh.open_pnl||0);
+    const cmpShadowNetPnl = (cmp.shadow_net_pnl!==undefined)
+      ? cmp.shadow_net_pnl
+      : ((parseFloat(cmpShadowPnl)||0) + (parseFloat(cmpShadowOpenPnl)||0));
     const cmpShadowTrades = (cmp.shadow_total_trades!==undefined) ? cmp.shadow_total_trades : (sh.total_trades||0);
     const cmpShadowThreads = (cmp.shadow_threads!==undefined) ? cmp.shadow_threads : (sh.threads_running||0);
 
     $('cmp-paper-equity').textContent = fmt$(cmpPaperEq);
     $('cmp-paper-pos').textContent = String(cmpPaperPos||0);
+    $('cmp-paper-pnl').textContent = fmt$(cmpPaperPnl);
+    $('cmp-paper-pnl').className = 'stat-val ' + ((parseFloat(cmpPaperPnl)||0) >= 0 ? 'g' : 'r');
     $('cmp-shadow-pnl').textContent = fmt$(cmpShadowPnl);
     $('cmp-shadow-pnl').className = 'stat-val ' + ((parseFloat(cmpShadowPnl)||0) >= 0 ? 'g' : 'r');
-    const cmpDelta = (cmp.delta_paper_equity_minus_shadow_pnl!==undefined)
-      ? cmp.delta_paper_equity_minus_shadow_pnl
-      : ((parseFloat(cmpPaperEq)||0) - (parseFloat(cmpShadowPnl)||0));
+    $('cmp-shadow-open-pnl').textContent = fmt$(cmpShadowOpenPnl);
+    $('cmp-shadow-open-pnl').className = 'stat-val ' + ((parseFloat(cmpShadowOpenPnl)||0) >= 0 ? 'g' : 'r');
+    $('cmp-shadow-net-pnl').textContent = fmt$(cmpShadowNetPnl);
+    $('cmp-shadow-net-pnl').className = 'stat-val ' + ((parseFloat(cmpShadowNetPnl)||0) >= 0 ? 'g' : 'r');
+    const cmpDelta = (cmp.delta_paper_pnl_minus_shadow_pnl!==undefined)
+      ? cmp.delta_paper_pnl_minus_shadow_pnl
+      : ((parseFloat(cmpPaperPnl)||0) - (parseFloat(cmpShadowPnl)||0));
+    const cmpDeltaNet = (cmp.delta_paper_pnl_minus_shadow_net_pnl!==undefined)
+      ? cmp.delta_paper_pnl_minus_shadow_net_pnl
+      : ((parseFloat(cmpPaperPnl)||0) - (parseFloat(cmpShadowNetPnl)||0));
     $('cmp-delta').textContent = fmt$(cmpDelta);
     $('cmp-delta').className = 'stat-val ' + ((parseFloat(cmpDelta)||0) >= 0 ? 'g' : 'r');
+    $('cmp-delta-net').textContent = fmt$(cmpDeltaNet);
+    $('cmp-delta-net').className = 'stat-val ' + ((parseFloat(cmpDeltaNet)||0) >= 0 ? 'g' : 'r');
     $('cmp-shadow-trades').textContent = String(cmpShadowTrades||0);
     $('cmp-shadow-threads').textContent = String(cmpShadowThreads||0);
     $('cmp-activity-hint').textContent = cmp.activity_hint || 'No comparison hint yet';

@@ -3,7 +3,7 @@ import asyncio
 import os
 import sys
 os.environ['LIVE_TRADING_ENABLED'] = 'true'
-os.environ['ALPACA_PAPER_TRADING'] = 'false'
+os.environ['ALPACA_PAPER_TRADING'] = 'true'
 os.environ['PRIMARY_BROKER'] = 'IB'
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from prometheus_active_trading_session import PrometheusActiveTradingSession

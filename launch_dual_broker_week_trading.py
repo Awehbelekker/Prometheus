@@ -23,9 +23,10 @@ from datetime import datetime, timedelta
 import subprocess
 import signal
 
-# Ensure environment is set for LIVE trading
-os.environ['LIVE_TRADING_ENABLED'] = 'true'
-os.environ['ALPACA_PAPER_TRADING'] = 'false'
+# Set defaults for parallel mode: IB live + Alpaca paper.
+# Keep these as defaults so .env can still drive behavior.
+os.environ.setdefault('LIVE_TRADING_ENABLED', 'true')
+os.environ.setdefault('ALPACA_PAPER_TRADING', 'true')
 
 # Load from .env
 from dotenv import load_dotenv
@@ -115,7 +116,7 @@ import asyncio
 import os
 import sys
 os.environ['LIVE_TRADING_ENABLED'] = 'true'
-os.environ['ALPACA_PAPER_TRADING'] = 'false'
+os.environ['ALPACA_PAPER_TRADING'] = 'true'
 os.environ['PRIMARY_BROKER'] = 'IB'
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from prometheus_active_trading_session import PrometheusActiveTradingSession
@@ -136,7 +137,7 @@ import asyncio
 import os
 import sys
 os.environ['LIVE_TRADING_ENABLED'] = 'true'
-os.environ['ALPACA_PAPER_TRADING'] = 'false'
+os.environ['ALPACA_PAPER_TRADING'] = 'true'
 os.environ['PRIMARY_BROKER'] = 'ALPACA'
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from prometheus_active_trading_session import PrometheusActiveTradingSession

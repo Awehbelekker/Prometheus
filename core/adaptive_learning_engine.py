@@ -487,6 +487,14 @@ class AdaptiveLearningEngine:
                     self._stats["models_retrained"] += retrained
             except Exception as exc:
                 logger.error(f"[Model Retrain] Error: {exc}")
+
+            # Rebuild Ollama prometheus-trader model from live trade patterns
+            try:
+                from core.ollama_finetuner import maybe_finetune
+                maybe_finetune()
+            except Exception as exc:
+                logger.warning(f"[Model Retrain] Ollama fine-tune skipped: {exc}")
+
             await asyncio.sleep(self.intervals["model_retrain"])
 
     async def _auto_retrain(self) -> int:
@@ -785,10 +793,10 @@ class AdaptiveLearningEngine:
 
                 if wr < 0.33:
                     # Reduce position size
-                    new_pct = default_max_position_pct * 0.7
+                    new_pct = round(default_max_position_pct * 0.7, 4)  # 4dp to avoid rounding 0.007 -> 0.01
                     if risk_config.get("max_position_pct", default_max_position_pct) != new_pct:
                         old_val = risk_config.get("max_position_pct", default_max_position_pct)
-                        risk_config["max_position_pct"] = round(new_pct, 2)
+                        risk_config["max_position_pct"] = new_pct
                         risk_config["risk_reduced_at"] = datetime.now().isoformat()
                         self._log_risk_adaptation(
                             "max_position_pct", old_val, new_pct,

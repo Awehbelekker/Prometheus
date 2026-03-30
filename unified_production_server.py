@@ -11930,6 +11930,7 @@ async def admin_full_status_endpoint():
                     "cash": float(pinfo.get("cash", 0)),
                     "buying_power": float(pinfo.get("buying_power", 0)),
                     "equity": float(pinfo.get("equity", 0)),
+                    "last_equity": float(pinfo.get("last_equity", 0)),
                     "daytrade_count": int(pinfo.get("daytrade_count", 0)),
                     "market_status": market_status,
                     "market_open": market_is_open,
@@ -12045,6 +12046,8 @@ async def admin_full_status_endpoint():
                 "open_trades": 0,
                 "total_pnl": 0,
                 "closed_pnl": 0,
+                "open_pnl": 0,
+                "net_pnl": 0,
                 "strategies": [],
                 "query_error": None,
             }
@@ -12060,16 +12063,20 @@ async def admin_full_status_endpoint():
                             COUNT(*),
                             SUM(CASE WHEN exit_price IS NOT NULL THEN 1 ELSE 0 END),
                             SUM(CASE WHEN exit_price IS NULL THEN 1 ELSE 0 END),
-                            COALESCE(SUM(CASE WHEN exit_price IS NOT NULL THEN pnl ELSE 0 END), 0)
+                            COALESCE(SUM(CASE WHEN exit_price IS NOT NULL THEN pnl ELSE 0 END), 0),
+                            COALESCE(SUM(CASE WHEN exit_price IS NULL THEN pnl ELSE 0 END), 0)
                         FROM shadow_trade_history
                         """
                     )
-                    row = cur.fetchone() or (0, 0, 0, 0)
+                    row = cur.fetchone() or (0, 0, 0, 0, 0)
                     shadow_data["total_trades"] = int(row[0] or 0)
                     shadow_data["closed_trades"] = int(row[1] or 0)
                     shadow_data["open_trades"] = int(row[2] or 0)
-                    shadow_data["total_pnl"] = round(float(row[3] or 0), 2)
-                    shadow_data["closed_pnl"] = shadow_data["total_pnl"]
+                    shadow_data["closed_pnl"] = round(float(row[3] or 0), 2)
+                    shadow_data["open_pnl"] = round(float(row[4] or 0), 2)
+                    shadow_data["net_pnl"] = round(shadow_data["closed_pnl"] + shadow_data["open_pnl"], 2)
+                    # Keep total_pnl backwards-compatible with existing consumers that expect closed P&L.
+                    shadow_data["total_pnl"] = shadow_data["closed_pnl"]
 
                     # Strategy breakdown (all trades, plus closed-trade metrics).
                     # Note: shadow trades data grouped by status since strategy_name column doesn't exist
@@ -12378,8 +12385,11 @@ async def admin_full_status_endpoint():
         try:
             ap = result.get("alpaca_paper", {}) or {}
             sh = result.get("shadow_trading", {}) or {}
-            paper_equity = float(ap.get("account_value", 0) or 0)
-            shadow_closed_pnl = float(sh.get("total_pnl", 0) or 0)
+            paper_equity = float(ap.get("equity", ap.get("account_value", 0)) or 0)
+            paper_last_equity = float(ap.get("last_equity", 0) or 0)
+            paper_daily_pnl = round(paper_equity - paper_last_equity, 2) if paper_last_equity else 0.0
+            shadow_closed_pnl = float(sh.get("closed_pnl", sh.get("total_pnl", 0)) or 0)
+            shadow_open_pnl = float(sh.get("open_pnl", 0) or 0)
             paper_positions = int(ap.get("position_count", 0) or 0)
             shadow_threads = int(sh.get("threads_running", 0) or 0)
             shadow_open = int(sh.get("open_trades", 0) or 0)
@@ -12404,6 +12414,8 @@ async def admin_full_status_endpoint():
             result["comparison"] = {
                 "paper_connected": bool(ap.get("connected", False)),
                 "paper_equity": paper_equity,
+                "paper_last_equity": paper_last_equity,
+                "paper_daily_pnl": paper_daily_pnl,
                 "paper_cash": float(ap.get("cash", 0) or 0),
                 "paper_positions": paper_positions,
                 "shadow_threads": shadow_threads,
@@ -12411,7 +12423,10 @@ async def admin_full_status_endpoint():
                 "shadow_closed_trades": int(sh.get("closed_trades", 0) or 0),
                 "shadow_open_trades": shadow_open,
                 "shadow_closed_pnl": shadow_closed_pnl,
-                "delta_paper_equity_minus_shadow_pnl": round(paper_equity - shadow_closed_pnl, 2),
+                "shadow_open_pnl": round(shadow_open_pnl, 2),
+                "shadow_net_pnl": round(shadow_closed_pnl + shadow_open_pnl, 2),
+                "delta_paper_pnl_minus_shadow_pnl": round(paper_daily_pnl - shadow_closed_pnl, 2),
+                "delta_paper_pnl_minus_shadow_net_pnl": round(paper_daily_pnl - (shadow_closed_pnl + shadow_open_pnl), 2),
                 "paper_active": paper_active,
                 "shadow_active": shadow_active,
                 "activity_hint": activity_hint,

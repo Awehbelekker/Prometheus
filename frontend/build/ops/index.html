@@ -390,7 +390,7 @@ async function loadPaperTrading(){
   }
   const d = r;
   let html = `<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;margin-bottom:.5rem">`;
-  html += `<div class="kpi ${(d.total_pnl||0)>=0?'green':'red'}"><div class="val">$${fmt(d.total_pnl||0)}</div><div class="lbl">Total P&L</div></div>`;
+  html += `<div class="kpi ${(d.total_pnl||0)>=0?'green':'red'}"><div class="val">$${fmt(d.total_pnl||0)}</div><div class="lbl">Closed P&L</div></div>`;
   html += `<div class="kpi blue"><div class="val">${d.total_trades||0}</div><div class="lbl">Trades</div></div>`;
   html += `</div>`;
   if(d.strategies && Object.keys(d.strategies).length){

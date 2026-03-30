@@ -100,16 +100,24 @@ class AIAttributionTracker:
                     timestamp TEXT NOT NULL,
                     symbol TEXT NOT NULL,
                     ai_system TEXT NOT NULL,
+                    system_name TEXT,
                     action TEXT NOT NULL,
                     confidence REAL,
                     vote_weight REAL,
                     entry_price REAL,
                     eventual_pnl REAL,
                     pnl_pct REAL,
+                    was_correct INTEGER DEFAULT NULL,
                     outcome_recorded INTEGER DEFAULT 0,
                     trade_id TEXT
                 )
             """)
+            # Add columns to existing tables that predate this schema (safe on existing DBs)
+            for col, typedef in [("system_name", "TEXT"), ("was_correct", "INTEGER DEFAULT NULL")]:
+                try:
+                    cursor.execute(f"ALTER TABLE ai_attribution ADD COLUMN {col} {typedef}")
+                except Exception:
+                    pass  # column already exists
             
             # Create ai_system_metrics table for daily snapshots
             cursor.execute("""
@@ -187,14 +195,15 @@ class AIAttributionTracker:
                 
                 cursor.execute("""
                     INSERT OR REPLACE INTO ai_attribution
-                    (attribution_id, timestamp, symbol, ai_system, action, confidence, 
+                    (attribution_id, timestamp, symbol, ai_system, system_name, action, confidence,
                      vote_weight, entry_price, trade_id, outcome_recorded)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
                 """, (
                     attribution_id,
                     timestamp.isoformat(),
                     symbol,
                     ai_system,
+                    ai_system,   # system_name mirrors ai_system for adaptive_learning_engine queries
                     action,
                     confidence,
                     vote_weight,
@@ -230,35 +239,38 @@ class AIAttributionTracker:
             db = sqlite3.connect(self.db_path, timeout=30.0)
             cursor = db.cursor()
 
+            was_correct = 1 if pnl_pct > 0 else 0
+
             # Update attributions for this symbol/trade
             if trade_id:
                 cursor.execute("""
                     UPDATE ai_attribution
-                    SET eventual_pnl = ?, pnl_pct = ?, outcome_recorded = 1
+                    SET eventual_pnl = ?, pnl_pct = ?, outcome_recorded = 1, was_correct = ?
                     WHERE trade_id = ? AND outcome_recorded = 0
-                """, (pnl, pnl_pct, trade_id))
+                """, (pnl, pnl_pct, was_correct, trade_id))
                 # Fall back to symbol-based lookup when attributions were stored without trade_id
                 if cursor.rowcount == 0:
                     cursor.execute("""
                         UPDATE ai_attribution
-                        SET eventual_pnl = ?, pnl_pct = ?, outcome_recorded = 1, trade_id = ?
+                        SET eventual_pnl = ?, pnl_pct = ?, outcome_recorded = 1,
+                            trade_id = ?, was_correct = ?
                         WHERE id IN (
                             SELECT id FROM ai_attribution
                             WHERE symbol = ? AND outcome_recorded = 0
                             ORDER BY timestamp DESC LIMIT 10
                         )
-                    """, (pnl, pnl_pct, trade_id, symbol))
+                    """, (pnl, pnl_pct, trade_id, was_correct, symbol))
             else:
                 # SQLite doesn't support ORDER BY/LIMIT in UPDATE, so use subquery
                 cursor.execute("""
                     UPDATE ai_attribution
-                    SET eventual_pnl = ?, pnl_pct = ?, outcome_recorded = 1
+                    SET eventual_pnl = ?, pnl_pct = ?, outcome_recorded = 1, was_correct = ?
                     WHERE id IN (
                         SELECT id FROM ai_attribution
                         WHERE symbol = ? AND outcome_recorded = 0
                         ORDER BY timestamp DESC LIMIT 10
                     )
-                """, (pnl, pnl_pct, symbol))
+                """, (pnl, pnl_pct, was_correct, symbol))
 
             # Get affected AI systems and update their metrics
             cursor.execute("""

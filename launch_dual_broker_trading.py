@@ -7,21 +7,168 @@ import asyncio
 import os
 import sys
 import json
+import socket
+import struct
+import urllib.request
+import urllib.error
 from datetime import datetime, timedelta
 from pathlib import Path
 
-# Set environment for live trading
-os.environ['LIVE_TRADING_ENABLED'] = 'true'
-os.environ['ALPACA_PAPER_TRADING'] = 'false'
+# Set defaults for parallel mode: IB live + Alpaca paper.
+# Allow .env or parent process to override as needed.
+os.environ.setdefault('LIVE_TRADING_ENABLED', 'true')
+os.environ.setdefault('ALPACA_PAPER_TRADING', 'true')
+
+# ── Load .env keys ──────────────────────────────────────────────────────────
+def _load_env():
+    env_path = Path(__file__).parent / '.env'
+    if env_path.exists():
+        for line in env_path.read_text().splitlines():
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                k, _, v = line.partition('=')
+                os.environ.setdefault(k.strip(), v.strip())
+_load_env()
+
+# ── Fetch live account balances at startup ──────────────────────────────────
+def _fetch_alpaca_equity() -> float:
+    """Query Alpaca API for current account equity. Returns None on failure."""
+    paper = os.environ.get('ALPACA_PAPER_TRADING', 'true').lower() == 'true'
+    if paper:
+        base_url = 'https://paper-api.alpaca.markets'
+        key = os.environ.get('ALPACA_PAPER_API_KEY') or os.environ.get('ALPACA_API_KEY', '')
+        secret = os.environ.get('ALPACA_PAPER_SECRET_KEY') or os.environ.get('ALPACA_SECRET_KEY', '')
+    else:
+        base_url = 'https://api.alpaca.markets'
+        key = os.environ.get('ALPACA_API_KEY', '')
+        secret = os.environ.get('ALPACA_SECRET_KEY', '')
+
+    if not key or not secret:
+        return None
+    try:
+        req = urllib.request.Request(
+            f'{base_url}/v2/account',
+            headers={'APCA-API-KEY-ID': key, 'APCA-API-SECRET-KEY': secret}
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            data = json.loads(resp.read())
+        equity = float(data.get('equity', 0) or 0)
+        return equity if equity > 0 else None
+    except Exception as e:
+        print(f"   ⚠️  Could not fetch Alpaca equity: {e}")
+        return None
+
+_ALPACA_EQUITY_DEFAULT = 122.48
+_alpaca_equity = _fetch_alpaca_equity()
+if _alpaca_equity:
+    print(f"\n✅ Alpaca live equity fetched: ${_alpaca_equity:.2f} (was hardcoded ${_ALPACA_EQUITY_DEFAULT})")
+else:
+    _alpaca_equity = _ALPACA_EQUITY_DEFAULT
+    print(f"\n⚠️  Using fallback Alpaca equity: ${_alpaca_equity:.2f}")
+
+# ── Fetch IB NetLiquidation via TWS socket ──────────────────────────────────
+def _fetch_ib_equity() -> float:
+    """
+    Connect to IB Gateway/TWS, request account summary, and read NetLiquidation.
+    Uses raw TWS API protocol (no ib_insync dependency).
+    Returns None if IB Gateway is not reachable or returns 0.
+    """
+    IB_HOST = os.environ.get('IB_HOST', '127.0.0.1')
+    IB_PORT = int(os.environ.get('IB_PORT', '4002'))
+    ACCOUNT = os.environ.get('IB_ACCOUNT_ID', 'U21922116')
+
+    # 1. Quick TCP reachability check (non-blocking, 3s timeout)
+    try:
+        probe = socket.create_connection((IB_HOST, IB_PORT), timeout=3)
+        probe.close()
+    except OSError:
+        print(f"   ⚠️  IB Gateway not reachable on {IB_HOST}:{IB_PORT} — using fallback balance")
+        return None
+
+    # 2. Full handshake + reqAccountSummary
+    try:
+        sock = socket.create_connection((IB_HOST, IB_PORT), timeout=10)
+        sock.settimeout(10)
+
+        def _send(msg: str):
+            data = msg.encode()
+            sock.sendall(struct.pack('>I', len(data)) + data)
+
+        def _recv_field() -> str:
+            """Read one null-terminated field from TWS stream."""
+            buf = b''
+            while True:
+                ch = sock.recv(1)
+                if not ch or ch == b'\x00':
+                    return buf.decode('utf-8', errors='replace')
+                buf += ch
+
+        def _skip_header():
+            """Discard the 4-byte length prefix TWS sends before each message."""
+            sock.recv(4)
+
+        # Handshake: "API\0" + version field
+        sock.sendall(b'API\x00')
+        _send('v100..187')          # client version range
+
+        # Read server version response (length-prefixed)
+        _skip_header()
+        server_ver = _recv_field()  # server version number (string)
+        _recv_field()               # server time
+
+        # Send startApi: msg_id=71, version=2, clientId=91
+        _send('71\x002\x0091\x00\x00')
+
+        # reqAccountSummary: msg_id=62, version=1, reqId=9901, groupName="All", tags
+        _send('62\x001\x009901\x00All\x00NetLiquidation\x00')
+
+        # Read responses until we get accountSummary (msg 63) with NetLiquidation
+        net_liq = None
+        deadline = __import__('time').time() + 8
+        while __import__('time').time() < deadline:
+            try:
+                _skip_header()
+                msg_id = _recv_field()
+                if msg_id == '63':        # ACCT_SUMMARY
+                    _recv_field()         # version
+                    _recv_field()         # reqId
+                    acct = _recv_field()  # account
+                    tag = _recv_field()   # tag
+                    val = _recv_field()   # value
+                    _recv_field()         # currency
+                    if tag == 'NetLiquidation' and acct == ACCOUNT:
+                        net_liq = float(val)
+                        break
+                elif msg_id == '64':      # ACCT_SUMMARY_END — no more data
+                    break
+            except (socket.timeout, OSError):
+                break
+
+        sock.close()
+        return net_liq if net_liq and net_liq > 0 else None
+
+    except Exception as e:
+        print(f"   ⚠️  IB equity fetch error: {e}")
+        return None
+
+_IB_EQUITY_DEFAULT = 251.58
+_ib_equity = _fetch_ib_equity()
+if _ib_equity:
+    print(f"✅ IB live equity fetched: ${_ib_equity:.2f} (was hardcoded ${_IB_EQUITY_DEFAULT})")
+else:
+    _ib_equity = _IB_EQUITY_DEFAULT
+    print(f"⚠️  Using fallback IB equity: ${_ib_equity:.2f}")
+
+_total_capital = _ib_equity + _alpaca_equity
 
 print("\n" + "="*80)
 print("  🚀 PROMETHEUS DUAL BROKER AUTONOMOUS TRADING")
-print("  💰 FULL CAPITAL DEPLOYMENT: $374.06")
+print(f"  💰 FULL CAPITAL DEPLOYMENT: ${_total_capital:.2f}")
 print("="*80)
 
 print("\n📊 BROKER CONFIGURATION:")
-print("   • IB Gateway (U21922116): $251.58 (67%)")
-print("   • Alpaca Live API: $122.48 (33%)")
+print(f"   • IB Gateway (U21922116): ${_ib_equity:.2f} ({_ib_equity/_total_capital*100:.0f}%)")
+print(f"   • Alpaca Paper API: ${_alpaca_equity:.2f} ({_alpaca_equity/_total_capital*100:.0f}%)")
 print("\n🎯 STRATEGY:")
 print("   • Visual AI: 1,352 patterns")
 print("   • Intelligence: 8 real-world sources")
@@ -49,14 +196,14 @@ stats = {
         'total_trades': 0,
         'total_pnl': 0,
         'errors': 0,
-        'last_portfolio_value': 251.58
+        'last_portfolio_value': _ib_equity
     },
     'alpaca': {
         'sessions_completed': 0,
         'total_trades': 0,
         'total_pnl': 0,
         'errors': 0,
-        'last_portfolio_value': 122.48
+        'last_portfolio_value': _alpaca_equity
     }
 }
 
@@ -170,7 +317,7 @@ async def run_dual_session(session_num):
     print(f"\n💰 COMBINED PORTFOLIO: ${total_portfolio:.2f}")
     print(f"   • IB: ${stats['ib']['last_portfolio_value']:.2f} (Trades: {stats['ib']['total_trades']})")
     print(f"   • Alpaca: ${stats['alpaca']['last_portfolio_value']:.2f} (Trades: {stats['alpaca']['total_trades']})")
-    print(f"\n📈 TOTAL P&L: ${total_pnl:.2f} ({(total_pnl/374.06)*100:.2f}%)")
+    print(f"\n📈 TOTAL P&L: ${total_pnl:.2f} ({(total_pnl/_total_capital)*100:.2f}%)")
     print(f"📊 TOTAL TRADES: {total_trades}")
     print(f"❌ ERRORS: IB {stats['ib']['errors']} | Alpaca {stats['alpaca']['errors']}")
 
@@ -183,7 +330,7 @@ async def main():
     print(f"\n🚀 STARTING DUAL BROKER AUTONOMOUS TRADING")
     print(f"   Start: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"   End: {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
-    print(f"   Total Capital: $374.06")
+    print(f"   Total Capital: $_total_capital")
     
     try:
         while datetime.now() < end_time:
@@ -229,7 +376,7 @@ async def main():
     print(f"   • Alpaca: ${stats['alpaca']['last_portfolio_value']:.2f}")
     
     total_pnl = stats['ib']['total_pnl'] + stats['alpaca']['total_pnl']
-    total_pnl_pct = (total_pnl / 374.06) * 100
+    total_pnl_pct = (total_pnl / _total_capital) * 100
     
     print(f"\n📈 TOTAL P&L: ${total_pnl:.2f} ({total_pnl_pct:+.2f}%)")
     print(f"   • IB: ${stats['ib']['total_pnl']:.2f}")
@@ -249,7 +396,7 @@ async def main():
         'end_time': datetime.now().isoformat(),
         'duration_hours': duration_hours,
         'sessions_completed': session_count,
-        'initial_capital': 374.06,
+        'initial_capital': _total_capital,
         'final_portfolio': total_portfolio,
         'total_pnl': total_pnl,
         'total_pnl_percent': total_pnl_pct,
