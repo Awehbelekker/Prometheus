@@ -5732,6 +5732,154 @@ class PrometheusLiveTradingLauncher:
                     self.logger.debug(f"Gymnasium SB3 failed for {symbol}: {e}")
 
             # ═══════════════════════════════════════════════════════════════
+            # 📈 UNUSUAL OPTIONS ACTIVITY — Institutional sweep detector (1.3x)
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                from core.unusual_options_activity import get_unusual_options_signal
+                _uoa = await get_unusual_options_signal(symbol)
+                if _uoa and _uoa.get('action') != 'HOLD' and _uoa.get('confidence', 0) > 0.50:
+                    _uoa_action = _uoa['action']
+                    _uoa_conf   = float(_uoa['confidence'])
+                    learned_weight = self._get_ai_weight('UnusualOptions')
+                    signal_votes[_uoa_action] += _uoa_conf * 1.3 * learned_weight
+                    confidence_scores.append(_uoa_conf)
+                    reasoning_parts.append(f"UnusualOpts: {_uoa_action} P/C={_uoa.get('pc_ratio',1.0):.2f}")
+                    ai_contributions.append('UnusualOptions')
+                    self.logger.info(f"📈 Unusual Options signal for {symbol}: {_uoa_action} ({_uoa_conf:.0%})")
+            except Exception as e:
+                self.logger.debug(f"UnusualOptions skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 🏢 INSIDER TRADING — SEC Form 4 cluster signals (1.2x)
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                from core.insider_trading_scraper import get_insider_signal
+                _ins = await get_insider_signal(symbol)
+                if _ins and _ins.get('action') != 'HOLD' and _ins.get('confidence', 0) > 0.45:
+                    _ins_action = _ins['action']
+                    _ins_conf   = float(_ins['confidence'])
+                    learned_weight = self._get_ai_weight('InsiderTrading')
+                    signal_votes[_ins_action] += _ins_conf * 1.2 * learned_weight
+                    confidence_scores.append(_ins_conf)
+                    reasoning_parts.append(f"Insider: {_ins.get('signal_type','trade')} buys={_ins.get('buy_count',0)}")
+                    ai_contributions.append('InsiderTrading')
+                    self.logger.info(f"🏢 Insider signal for {symbol}: {_ins_action} ({_ins_conf:.0%})")
+            except Exception as e:
+                self.logger.debug(f"InsiderTrading skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 📋 ANALYST RATINGS — Consensus upgrades/downgrades (0.9x)
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                from core.analyst_ratings_scraper import get_analyst_signal
+                _anl = await get_analyst_signal(symbol)
+                if _anl and _anl.get('action') != 'HOLD' and _anl.get('confidence', 0) > 0.45:
+                    _anl_action = _anl['action']
+                    _anl_conf   = float(_anl['confidence'])
+                    learned_weight = self._get_ai_weight('AnalystRatings')
+                    signal_votes[_anl_action] += _anl_conf * 0.9 * learned_weight
+                    confidence_scores.append(_anl_conf)
+                    reasoning_parts.append(f"Analyst: {_anl.get('rec_key','hold')} ({_anl.get('rec_mean',3.0):.1f})")
+                    ai_contributions.append('AnalystRatings')
+                    self.logger.info(f"📋 Analyst signal for {symbol}: {_anl_action} ({_anl_conf:.0%})")
+            except Exception as e:
+                self.logger.debug(f"AnalystRatings skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 💬 STOCKTWITS SENTIMENT — Retail crowd signal (0.8x)
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                from core.stocktwits_sentiment import get_stocktwits_signal
+                _stw = await get_stocktwits_signal(symbol)
+                if _stw and _stw.get('action') != 'HOLD' and _stw.get('confidence', 0) > 0.55:
+                    _stw_action = _stw['action']
+                    _stw_conf   = float(_stw['confidence'])
+                    learned_weight = self._get_ai_weight('StockTwits')
+                    signal_votes[_stw_action] += _stw_conf * 0.8 * learned_weight
+                    confidence_scores.append(_stw_conf)
+                    reasoning_parts.append(f"StockTwits: bull={_stw.get('bull_ratio',0.5):.0%}")
+                    ai_contributions.append('StockTwits')
+                    self.logger.info(f"💬 StockTwits signal for {symbol}: {_stw_action} ({_stw_conf:.0%})")
+            except Exception as e:
+                self.logger.debug(f"StockTwits skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 🌑 DARK POOL ACTIVITY — Institutional volume surge (1.0x)
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                from core.darkpool_scraper import get_darkpool_signal
+                _dp = await get_darkpool_signal(symbol)
+                if _dp and _dp.get('action') != 'HOLD' and _dp.get('confidence', 0) > 0.50:
+                    _dp_action = _dp['action']
+                    _dp_conf   = float(_dp['confidence'])
+                    learned_weight = self._get_ai_weight('DarkPool')
+                    signal_votes[_dp_action] += _dp_conf * 1.0 * learned_weight
+                    confidence_scores.append(_dp_conf)
+                    reasoning_parts.append(f"DarkPool: surge={_dp.get('surge_ratio',1.0):.1f}x")
+                    ai_contributions.append('DarkPool')
+                    self.logger.info(f"🌑 Dark Pool signal for {symbol}: {_dp_action} ({_dp_conf:.0%})")
+            except Exception as e:
+                self.logger.debug(f"DarkPool skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 🎯 REAL OPTIONS CHAIN — IV skew & directional flow (1.1x)
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                from core.real_options_integration import get_options_chain
+                _chain = await get_options_chain(symbol)
+                if _chain and (getattr(_chain, 'calls', None) or getattr(_chain, 'puts', None)):
+                    _total_call_vol = sum(getattr(c, 'volume', 0) or 0 for c in (_chain.calls or []))
+                    _total_put_vol  = sum(getattr(p, 'volume', 0) or 0 for p in (_chain.puts or []))
+                    _opt_pc = _total_put_vol / max(_total_call_vol, 1)
+                    if _opt_pc < 0.60:
+                        _opt_action, _opt_conf = 'BUY', min(0.80, (0.60 - _opt_pc) * 2.0)
+                    elif _opt_pc > 1.80:
+                        _opt_action, _opt_conf = 'SELL', min(0.80, (_opt_pc - 1.80) * 0.4)
+                    else:
+                        _opt_action, _opt_conf = 'HOLD', 0.0
+                    if _opt_action != 'HOLD' and _opt_conf > 0.40:
+                        learned_weight = self._get_ai_weight('OptionsChain')
+                        signal_votes[_opt_action] += _opt_conf * 1.1 * learned_weight
+                        confidence_scores.append(_opt_conf)
+                        reasoning_parts.append(f"OptionsChain: P/C={_opt_pc:.2f}")
+                        ai_contributions.append('OptionsChain')
+                        self.logger.info(f"🎯 Options Chain signal for {symbol}: {_opt_action} P/C={_opt_pc:.2f}")
+            except Exception as e:
+                self.logger.debug(f"OptionsChain skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 📑 SEC FILINGS RAG — LlamaIndex 10-K/10-Q sentiment (1.0x)
+            # ═══════════════════════════════════════════════════════════════
+            if self.systems.get('sec_filings_rag'):
+                try:
+                    _sec_rag = self.systems['sec_filings_rag']
+                    if hasattr(_sec_rag, 'is_available') and _sec_rag.is_available():
+                        _loop = asyncio.get_event_loop()
+                        _sec_result = await _loop.run_in_executor(
+                            None, _sec_rag.query, symbol,
+                            "Is the company revenue growing and is management outlook positive?"
+                        )
+                        if _sec_result and _sec_result.get('success'):
+                            _ans = (_sec_result.get('answer') or '').lower()
+                            _sec_bull = sum(1 for w in ['positive','growth','strong','increase','exceed'] if w in _ans)
+                            _sec_bear = sum(1 for w in ['decline','risk','negative','loss','concern'] if w in _ans)
+                            if _sec_bull > _sec_bear:
+                                _sec_action, _sec_conf = 'BUY', min(0.75, 0.50 + _sec_bull * 0.05)
+                            elif _sec_bear > _sec_bull:
+                                _sec_action, _sec_conf = 'SELL', min(0.75, 0.50 + _sec_bear * 0.05)
+                            else:
+                                _sec_action, _sec_conf = 'HOLD', 0.0
+                            if _sec_action != 'HOLD':
+                                learned_weight = self._get_ai_weight('SECFilingsRAG')
+                                signal_votes[_sec_action] += _sec_conf * 1.0 * learned_weight
+                                confidence_scores.append(_sec_conf)
+                                reasoning_parts.append(f"SEC-RAG: {_sec_action}")
+                                ai_contributions.append('SECFilingsRAG')
+                                self.logger.info(f"📑 SEC RAG signal for {symbol}: {_sec_action} ({_sec_conf:.0%})")
+                except Exception as e:
+                    self.logger.debug(f"SEC RAG skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
             # 🎯 SYNTHESIZE FINAL SIGNAL - Weighted Consensus
             # ═══════════════════════════════════════════════════════════════
             if not ai_contributions:
@@ -8050,6 +8198,31 @@ class PrometheusLiveTradingLauncher:
 
         asyncio.create_task(self._market_calendar_refresh_loop())
         logger.info("=== Market Calendar refresh loop launched (6-hr interval) ===")
+
+        # Knowledge base ingestor — watches knowledge_input/ for dropped PDFs/docs
+        try:
+            from core.knowledge_base_ingestor import watch_and_ingest
+            asyncio.create_task(watch_and_ingest())
+            logger.info("=== Knowledge Base ingestor launched (watching knowledge_input/) ===")
+        except Exception as _kbi_e:
+            logger.debug(f"Knowledge base ingestor skipped: {_kbi_e}")
+
+        # Earnings transcript fetcher — pre-fetch for watchlist on startup
+        try:
+            from core.earnings_transcript_fetcher import fetch_earnings_transcripts
+            _et_symbols = ['AAPL', 'NVDA', 'TSLA', 'GOOGL', 'MSFT', 'AMD', 'QQQ', 'SPY']
+            async def _prefetch_transcripts():
+                for _s in _et_symbols:
+                    try:
+                        await fetch_earnings_transcripts(_s, max_filings=2)
+                        await asyncio.sleep(3)
+                    except Exception:
+                        pass
+            asyncio.create_task(_prefetch_transcripts())
+            logger.info("=== Earnings transcript pre-fetch launched ===")
+        except Exception as _et_e:
+            logger.debug(f"Earnings transcript pre-fetch skipped: {_et_e}")
+
         # ───────────────────────────────────────────────────────────────────────
 
         cycle = 0
