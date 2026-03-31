@@ -1,0 +1,3 @@
+[submodule "ThinkMesh"]
+	path = ThinkMesh
+	url = https://github.com/Awehbelekker/ThinkMesh.git
