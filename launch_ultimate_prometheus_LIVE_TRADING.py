@@ -5665,6 +5665,73 @@ class PrometheusLiveTradingLauncher:
                 regime_state = None
 
             # ═══════════════════════════════════════════════════════════════
+            # 🕸️ LANGGRAPH MULTI-AGENT ORCHESTRATION (weight 1.1x)
+            # ═══════════════════════════════════════════════════════════════
+            if self.systems.get('langgraph'):
+                try:
+                    _lg = self.systems['langgraph']
+                    if hasattr(_lg, 'analyze_trading_opportunity'):
+                        _lg_result = await _lg.analyze_trading_opportunity(
+                            symbol=symbol,
+                            market_data=market_data,
+                            current_price=current_price,
+                        )
+                        if _lg_result:
+                            _lg_action = str(_lg_result.get('action', 'HOLD')).upper()
+                            _lg_conf = float(_lg_result.get('confidence', 0.0))
+                            if _lg_action in ('BUY', 'SELL', 'HOLD') and _lg_conf > 0.45:
+                                learned_weight = self._get_ai_weight('LangGraph')
+                                signal_votes[_lg_action] += _lg_conf * 1.1 * learned_weight
+                                confidence_scores.append(_lg_conf)
+                                reasoning_parts.append(f"LangGraph: {_lg_action} ({_lg_conf:.0%})")
+                                ai_contributions.append('LangGraph')
+                                self.logger.info(f"🕸️ LangGraph signal for {symbol}: {_lg_action} ({_lg_conf:.0%})")
+                except Exception as e:
+                    self.logger.debug(f"LangGraph failed for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 🏋️ GYMNASIUM SB3 RL AGENT (PPO policy, weight 0.8x)
+            # ═══════════════════════════════════════════════════════════════
+            if self.systems.get('gymnasium_sb3'):
+                try:
+                    _gym_sys = self.systems['gymnasium_sb3']
+                    _sb3_agent_cls = _gym_sys.get('agent')
+                    if _sb3_agent_cls is not None:
+                        # Lazy-init SB3 agent (cached on self)
+                        if not hasattr(self, '_sb3_agent_instance'):
+                            _sb3_model_path = Path('trained_models/sb3_ppo_trading.zip')
+                            if _sb3_model_path.exists():
+                                self._sb3_agent_instance = _sb3_agent_cls.load(str(_sb3_model_path))
+                                self.logger.info("🏋️ SB3 PPO agent loaded from checkpoint")
+                            else:
+                                self._sb3_agent_instance = None
+                        if self._sb3_agent_instance is not None:
+                            import numpy as np
+                            _change = market_data.get('change_percent', 0.0)
+                            _rsi = market_data.get('rsi', 50.0)
+                            _vol_ratio = market_data.get('volume', 1) / max(market_data.get('avg_volume', 1), 1)
+                            _obs = np.array([
+                                float(current_price) / 1000.0,
+                                float(_change) / 10.0,
+                                float(_rsi) / 100.0,
+                                float(_vol_ratio),
+                                float(market_data.get('macd', 0.0)),
+                                float(market_data.get('volatility', 0.01)),
+                            ], dtype=np.float32)
+                            _action_idx, _ = self._sb3_agent_instance.predict(_obs, deterministic=True)
+                            _sb3_map = {0: 'SELL', 1: 'HOLD', 2: 'BUY'}
+                            _sb3_action = _sb3_map.get(int(_action_idx), 'HOLD')
+                            if _sb3_action != 'HOLD':
+                                learned_weight = self._get_ai_weight('SB3_PPO')
+                                signal_votes[_sb3_action] += 0.6 * 0.8 * learned_weight
+                                confidence_scores.append(0.6)
+                                reasoning_parts.append(f"SB3-PPO: {_sb3_action}")
+                                ai_contributions.append('SB3_PPO')
+                                self.logger.info(f"🏋️ SB3 PPO signal for {symbol}: {_sb3_action}")
+                except Exception as e:
+                    self.logger.debug(f"Gymnasium SB3 failed for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
             # 🎯 SYNTHESIZE FINAL SIGNAL - Weighted Consensus
             # ═══════════════════════════════════════════════════════════════
             if not ai_contributions:
