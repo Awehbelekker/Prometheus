@@ -71,7 +71,7 @@ def _persist(symbol: str, result: Dict):
 
 def _clean_symbol(symbol: str) -> str:
     """StockTwits uses plain ticker — strip crypto suffixes."""
-    return symbol.replace("/USD", "").replace("/", "").upper()
+    return symbol.replace("-USD", "").replace("/USD", "").replace("/", "").upper()
 
 
 async def get_stocktwits_signal(symbol: str, force_refresh: bool = False) -> Dict:

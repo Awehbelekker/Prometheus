@@ -54,6 +54,7 @@ benchmark_*.log
 *.pth
 *.onnx
 *.zip
+!trained_models/*.zip
 
 # Very large model checkpoints
 hrm_checkpoints/
@@ -97,7 +98,14 @@ shadow_trading_results/
 
 # Heavy benchmark/test sandboxes
 testing/
-ThinkMesh/
+
+# Runtime cache and large generated files
+migration_bundle/
+.thinkmesh_cache/
+prometheus_real_hrm_signal_cache.npz
+*.db-shm
+*.db-wal
+
 official_hrm/
 hrm_checkpoints/
 hrm_trading_dataset/
