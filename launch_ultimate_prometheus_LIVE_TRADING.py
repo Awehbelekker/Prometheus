@@ -7177,6 +7177,37 @@ class PrometheusLiveTradingLauncher:
         except Exception as e:
             self.logger.warning(f"⚠️ Automatic training failed: {e}")
 
+    def _apply_confidence_calibration(self, raw_confidence: float) -> float:
+        """
+        Calibrate raw confidence scores before storing.
+        Shrinks overconfident scores toward the mean to reduce bias in learned weights.
+        Uses historical win rate as the calibration anchor when available.
+        """
+        try:
+            confidence = max(0.0, min(1.0, float(raw_confidence)))
+            # Pull recent win rate from DB as calibration anchor
+            try:
+                import sqlite3
+                conn = sqlite3.connect('prometheus_learning.db', timeout=5)
+                row = conn.execute(
+                    "SELECT COUNT(*), SUM(CASE WHEN pnl > 0 THEN 1 ELSE 0 END) "
+                    "FROM live_trade_outcomes WHERE captured_at >= date('now', '-30 days')"
+                ).fetchone()
+                conn.close()
+                if row and row[0] and row[0] >= 10:
+                    historical_win_rate = row[1] / row[0]
+                else:
+                    historical_win_rate = 0.5
+            except Exception:
+                historical_win_rate = 0.5
+
+            # Shrink toward historical win rate (reduces overconfidence)
+            shrinkage = 0.15
+            calibrated = confidence * (1 - shrinkage) + historical_win_rate * shrinkage
+            return round(max(0.0, min(1.0, calibrated)), 4)
+        except Exception:
+            return max(0.0, min(1.0, float(raw_confidence)))
+
     async def _store_signal_prediction(self, signal: Dict[str, Any]):
         """Store AI signal prediction for later learning comparison"""
         try:
