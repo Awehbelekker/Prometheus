@@ -202,19 +202,10 @@ class FullHRMArchitecture:
         Returns:
             (outputs, new_carry) tuple
         """
-        if carry is None:
-            carry = self.hrm_model.initial_carry(batch)
-        
-        # Forward through HRM
-        new_carry, outputs = self.hrm_model(carry, batch)
-        
-        # Update metrics
+        tokens = batch["inputs"]
+        logits, q_val, new_carry = self.hrm_model(tokens, carry)
+        outputs = {"logits": logits, "q_val": q_val}
         self.performance_metrics['hrm_calls'] += 1
-        if 'q_halt_logits' in outputs and 'q_continue_logits' in outputs:
-            # Track halting behavior
-            halt_decision = outputs['q_halt_logits'] > outputs['q_continue_logits']
-            self.performance_metrics['halt_steps'].append(new_carry.steps.cpu().numpy().tolist())
-        
         return outputs, new_carry
     
     def make_decision(self, market_data_tokens: torch.Tensor, 
@@ -269,7 +260,7 @@ class FullHRMArchitecture:
             'logits': logits.cpu().numpy().tolist(),
             'q_halt': q_halt.cpu().item() if isinstance(q_halt, torch.Tensor) else q_halt,
             'q_continue': q_continue.cpu().item() if isinstance(q_continue, torch.Tensor) else q_continue,
-            'halt_steps': new_carry.steps.cpu().item() if hasattr(new_carry.steps, 'item') else int(new_carry.steps),
+            'halt_steps': 0,
             'carry': new_carry
         }
     

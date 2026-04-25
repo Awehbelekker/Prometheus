@@ -545,17 +545,11 @@ class OfficialHRMTradingAdapter:
             'puzzle_identifiers': torch.zeros(batch_size, dtype=torch.long, device=self.device)
         }
 
-        # Initialize carry
-        carry = model.initial_carry(batch)
-
         # Run HRM forward pass
         with torch.no_grad():
             try:
-                # Run for max steps
-                for step in range(model.config.halt_max_steps):
-                    carry, outputs = model(carry, batch)
-                    if carry.halted.all():
-                        break
+                logits, q_val = model.predict(batch['inputs'], steps=4)
+                outputs = {"logits": logits, "q_val": q_val}
 
                 # Convert output
                 decision = self._convert_hrm_output_to_trading(
