@@ -131,7 +131,23 @@ class FullHRMArchitecture:
         
         # Initialize HRM model
         try:
-            self.hrm_model = HierarchicalReasoningModel_ACTV1(hrm_config_dict)
+            # Convert dict to dataclass config — use checkpoint-verified values
+            if isinstance(hrm_config_dict, dict):
+                hrm_cfg = HierarchicalReasoningModel_ACTV1Config(
+                    vocab_size=20,       # checkpoint: embed_tokens [20, 512]
+                    hidden_size=int(hrm_config_dict.get("hidden_size", 512)),
+                    num_heads=int(hrm_config_dict.get("num_heads", 8)),
+                    H_layers=int(hrm_config_dict.get("H_layers", 4)),
+                    L_layers=int(hrm_config_dict.get("L_layers", 4)),
+                    H_cycles=int(hrm_config_dict.get("H_cycles", 2)),
+                    L_cycles=int(hrm_config_dict.get("L_cycles", 2)),
+                    expansion=3,         # checkpoint: gate_up_proj [3072,512] → expansion=3
+                    halt_max_steps=int(hrm_config_dict.get("halt_max_steps", 16)),
+                    seq_len=int(hrm_config_dict.get("seq_len", 101)),
+                )
+            else:
+                hrm_cfg = hrm_config_dict
+            self.hrm_model = HierarchicalReasoningModel_ACTV1(hrm_cfg)
             self.hrm_model = self.hrm_model.to(device)
             self.hrm_model.eval()  # Set to eval mode for inference
             logger.info("✅ Full HRM Architecture initialized successfully")

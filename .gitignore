@@ -107,7 +107,6 @@ prometheus_real_hrm_signal_cache.npz
 *.db-wal
 
 official_hrm/*.md
-# official_hrm/ — source now included (reconstructed architecture)
 hrm_checkpoints/
 hrm_trading_dataset/
 models/

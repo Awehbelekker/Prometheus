@@ -71,6 +71,22 @@ class TradingHRMOutput:
     checkpoint_used: str
 
 
+def _dict_to_hrm_cfg(d: dict):
+    """Convert a config dict to HierarchicalReasoningModel_ACTV1Config dataclass."""
+    return HierarchicalReasoningModel_ACTV1Config(
+        vocab_size=int(d.get("vocab_size", 20)),
+        hidden_size=int(d.get("hidden_size", 512)),
+        num_heads=int(d.get("num_heads", 8)),
+        H_layers=int(d.get("H_layers", 4)),
+        L_layers=int(d.get("L_layers", 4)),
+        H_cycles=int(d.get("H_cycles", 2)),
+        L_cycles=int(d.get("L_cycles", 2)),
+        expansion=3,   # verified from checkpoint weight shapes
+        halt_max_steps=int(d.get("halt_max_steps", 16)),
+        seq_len=int(d.get("seq_len", 101)),
+    )
+
+
 class OfficialHRMTradingAdapter:
     """
     Official HRM Trading Adapter
@@ -122,8 +138,10 @@ class OfficialHRMTradingAdapter:
                     # Try to load config from YAML file
                     config_dict = self._load_checkpoint_config(checkpoint_path, checkpoint_name)
 
-                    # Create model
-                    model = HierarchicalReasoningModel_ACTV1(config_dict)
+                    # Create model — convert dict to typed config
+                    model = HierarchicalReasoningModel_ACTV1(
+                        _dict_to_hrm_cfg(config_dict)
+                    )
 
                     # Load weights - handle _orig_mod prefix from torch.compile
                     if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
@@ -160,7 +178,9 @@ class OfficialHRMTradingAdapter:
                         if checkpoint_path and os.path.exists(checkpoint_path):
                             checkpoint = torch.load(checkpoint_path, map_location="cpu")
                             config_dict = self._load_checkpoint_config(checkpoint_path, checkpoint_name)
-                            model = HierarchicalReasoningModel_ACTV1(config_dict)
+                            model = HierarchicalReasoningModel_ACTV1(
+                                _dict_to_hrm_cfg(config_dict)
+                            )
 
                             # Handle state dict
                             if isinstance(checkpoint, dict) and 'model_state_dict' in checkpoint:
