@@ -586,11 +586,19 @@ class AIAttributionTracker:
                 # Performance score: combine win rate and P/L performance
                 win_rate_score = data['win_rate'] / avg_win_rate if avg_win_rate > 0 else 1.0
 
-                # P/L score: positive P/L gets boost, negative gets reduction
+                # P/L score: relative performance vs peers AND absolute direction
+                # Systems with negative avg_pnl are penalised even if they're the "least bad"
                 if avg_pnl != 0:
                     pnl_score = 1.0 + (data['avg_pnl'] - avg_pnl) / abs(avg_pnl) * 0.3
                 else:
                     pnl_score = 1.0 if data['avg_pnl'] >= 0 else 0.8
+
+                # Absolute PnL penalty: if this system's avg trade is a loss, cap its score
+                if data['avg_pnl'] < 0:
+                    # Scale penalty by loss size: -$5 avg → 0.9x, -$50 avg → 0.5x, -$200+ → 0.3x
+                    abs_loss = abs(data['avg_pnl'])
+                    abs_penalty = max(0.3, 1.0 - min(0.7, abs_loss / 300.0))
+                    pnl_score = min(pnl_score, abs_penalty)
 
                 # Combined score (60% win rate, 40% P/L)
                 combined_score = win_rate_score * 0.6 + pnl_score * 0.4

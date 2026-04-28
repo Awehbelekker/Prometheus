@@ -76,6 +76,24 @@ class AlpacaBroker(BrokerInterface):
                 logger.info(f"✅ Connected to Alpaca {'Paper' if self.paper_trading else 'Live'}")
                 if self.enable_24_5:
                     logger.info(f"🌙 Alpaca 24/5 trading ENABLED (Sun 8PM - Fri 4AM)")
+
+                # Check account restrictions — log clearly so operator knows
+                try:
+                    acct = self.api.get_account()
+                    self.account_blocked = getattr(acct, 'account_blocked', False)
+                    self.trading_blocked = getattr(acct, 'trading_blocked', False)
+                    if self.account_blocked:
+                        logger.warning(
+                            "⚠️  Alpaca account_blocked=True — equity orders will be REJECTED. "
+                            "Log into alpaca.markets to resolve (identity/compliance hold). "
+                            "Crypto-only mode active until resolved."
+                        )
+                    if self.trading_blocked:
+                        logger.error("❌ Alpaca trading_blocked=True — ALL orders will fail.")
+                except Exception:
+                    self.account_blocked = False
+                    self.trading_blocked = False
+
                 return True
                 
             except requests.exceptions.HTTPError as e:
@@ -298,18 +316,31 @@ class AlpacaBroker(BrokerInterface):
         if not self.connected or not self.api:
             raise RuntimeError("Not connected to Alpaca")
 
+        # Block equity orders when account is flagged — crypto settles differently
+        is_crypto = '/' in order.symbol
+        if not is_crypto and getattr(self, 'account_blocked', False):
+            raise OrderExecutionError(
+                message=f"Alpaca account_blocked: equity order for {order.symbol} rejected. "
+                        "Resolve account hold at alpaca.markets before trading equities.",
+                broker="Alpaca",
+                symbol=order.symbol
+            )
+
         # Check if this is a 24-hour stock (not crypto)
         is_crypto = '/' in order.symbol
         is_24hr_stock = not is_crypto and self._is_24hr_stock(order.symbol)
 
         # Check if we're in 24/5 overnight session
         is_overnight_session = self._is_overnight_session() if self.enable_24_5 else False
-        
-        # For 24-hour stocks or overnight sessions, use extended_hours=True
-        extended_hours = is_24hr_stock or is_overnight_session
-        
+
+        # Crypto trades 24/7 on Alpaca — always set extended_hours=True so orders
+        # aren't rejected when equity markets are closed.
+        extended_hours = is_crypto or is_24hr_stock or is_overnight_session
+
         if is_overnight_session:
             logger.info(f"🌙 Alpaca 24/5: Overnight session active for {order.symbol}")
+        if is_crypto:
+            logger.debug(f"₿ Crypto order {order.symbol}: extended_hours=True (24/7 market)")
 
         # CRITICAL: Alpaca extended hours orders MUST be DAY limit orders
         # Convert market orders to limit orders for extended hours trading
@@ -379,8 +410,8 @@ class AlpacaBroker(BrokerInterface):
             is_crypto = '/' in symbol or symbol.endswith('USD')
             is_24hr_stock = not is_crypto and self._is_24hr_stock(symbol)
 
-            # For 24-hour stocks or extended hours, use limit order
-            extended_hours = is_24hr_stock
+            # Crypto trades 24/7 — always allow extended hours to avoid rejections
+            extended_hours = is_crypto or is_24hr_stock
             order_type = 'market'
             time_in_force = 'gtc' if is_crypto else 'day'
             limit_price = None
