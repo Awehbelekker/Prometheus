@@ -67,7 +67,7 @@ if %ERRORLEVEL% EQU 0 (
 echo.
 echo [Step 4/6] Starting PROMETHEUS Trading System in new terminal...
 cd /d "%~dp0"
-start "PROMETHEUS Trading System" cmd /k "cd /d "%~dp0" && color 0A && echo ================================================================================ && echo PROMETHEUS ULTIMATE LIVE TRADING SYSTEM && echo ================================================================================ && echo. && echo Starting with IB Gateway on port 4002... && echo Account: U21922116 && echo. && set IB_PORT=4002 && python launch_ultimate_prometheus_LIVE_TRADING.py"
+start "PROMETHEUS Trading System" cmd /k "cd /d "%~dp0" && color 0A && echo ================================================================================ && echo PROMETHEUS ULTIMATE LIVE TRADING SYSTEM && echo ================================================================================ && echo. && echo Starting with IB Gateway on port 4002... && echo. && set IB_PORT=4002 && python launch_ultimate_prometheus_LIVE_TRADING.py"
 
 timeout /t 3 /nobreak >nul
 
@@ -99,8 +99,8 @@ echo   [3] Frontend         - New terminal window (Yellow) - Port 3002
 echo.
 echo IB Gateway Integration:
 echo   - Port: 4002 (Gateway Live)
-echo   - Account: U21922116
-echo   - Positions: NOK, F, SIRI (will auto-manage when market opens)
+echo   - Account: %IB_ACCOUNT%
+echo   - Positions: will auto-manage when market opens
 echo.
 echo Access Points:
 echo   - Frontend:    http://localhost:3002

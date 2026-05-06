@@ -30,7 +30,7 @@ echo Expected Impact: +3300-6800%% performance improvement!
 echo ================================================================================
 echo.
 
-cd /d "C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform"
+cd /d "%~dp0"
 
 set IB_PORT=4002
 

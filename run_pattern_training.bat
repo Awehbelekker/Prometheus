@@ -1,5 +1,5 @@
 @echo off
-cd /d "C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform"
+cd /d "%~dp0"
 echo Starting Pattern Training...
 python extended_pattern_training.py
 echo Training Complete!

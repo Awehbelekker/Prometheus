@@ -55,7 +55,7 @@ if errorlevel 1 (
 
 echo.
 echo === PROMETHEUS AI Systems Status ===
-cd /d C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+cd /d "%~dp0"
 
 python -c "
 import sys
@@ -126,7 +126,7 @@ if "%choice%"=="2" (
     echo   - Alpaca (Crypto + Stocks) - LIVE MODE
     echo   - Interactive Brokers (Stocks) - LIVE MODE
     echo.
-    echo Your account: IB Account U21922116
+    echo Your account: IB Account %IB_ACCOUNT%
     echo Alpaca: LIVE (not paper)
     echo.
     set /p confirm="Type 'LIVE' to confirm: "

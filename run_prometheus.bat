@@ -1,9 +1,9 @@
 @echo off
 title PROMETHEUS Trading Platform
-cd /d "C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform"
+cd /d "%~dp0"
 
-set "PROMETHEUS_PYTHON=C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\.venv_directml_test\Scripts\python.exe"
-if not exist "%PROMETHEUS_PYTHON%" set "PROMETHEUS_PYTHON=C:\Users\Judy\AppData\Local\Programs\Python\Python313\python.exe"
+set "PROMETHEUS_PYTHON=%~dp0.venv\Scripts\python.exe"
+if not exist "%PROMETHEUS_PYTHON%" set "PROMETHEUS_PYTHON=python"
 
 echo ================================================================
 echo   PROMETHEUS Trading Platform Launcher
@@ -26,15 +26,15 @@ if "%OLLAMA_RUNNING%"=="1" (
     echo [%date% %time%] Ollama already running on port 11434.
 ) else (
     echo [%date% %time%] Starting Ollama with Vulkan GPU acceleration...
-    start "" "C:\Users\Judy\AppData\Local\Programs\Ollama\ollama.exe" serve
+    start "" ollama serve
     echo [%date% %time%] Waiting for Ollama to start...
     timeout /t 5 /nobreak >nul
 )
 
 :: ---- Pre-load the trading AI model ----
-echo [%date% %time%] Pre-loading AI model (llama3.1:8b-trading)...
+echo [%date% %time%] Pre-loading AI model (llama3.1:8b)...
 echo [%date% %time%] This may take up to 60 seconds on first load...
-powershell -NoProfile -Command "try { $r = Invoke-WebRequest -Uri 'http://localhost:11434/api/generate' -Method POST -Body '{\"model\":\"llama3.1:8b-trading\",\"prompt\":\"ready\",\"stream\":false}' -ContentType 'application/json' -TimeoutSec 90 -UseBasicParsing -ErrorAction Stop; Write-Host 'AI model loaded successfully.' } catch { Write-Host 'WARNING: Model pre-load failed. PROMETHEUS will load it on first use.' }"
+powershell -NoProfile -Command "try { $r = Invoke-WebRequest -Uri 'http://localhost:11434/api/generate' -Method POST -Body '{\"model\":\"llama3.1:8b\",\"prompt\":\"ready\",\"stream\":false}' -ContentType 'application/json' -TimeoutSec 90 -UseBasicParsing -ErrorAction Stop; Write-Host 'AI model loaded successfully.' } catch { Write-Host 'WARNING: Model pre-load failed. PROMETHEUS will load it on first use.' }"
 echo.
 
 :: ---- Wait for IB Gateway to be reachable (non-blocking — just logs if not up) ----

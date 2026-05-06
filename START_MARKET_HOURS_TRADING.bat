@@ -11,7 +11,7 @@ echo.
 echo Started at: %date% %time%
 echo.
 
-cd /d C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+cd /d "%~dp0"
 
 REM Set environment variables
 set PYTHONIOENCODING=utf-8
