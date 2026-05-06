@@ -168,10 +168,10 @@ import requests
 from datetime import datetime
 
 # Set environment variables
-os.environ['ALPACA_PAPER_KEY'] = 'PKL57SQSLF436UTL8PKA'
-os.environ['ALPACA_PAPER_SECRET'] = 'KohlWcBbNmntvKv2oZ9fd9kCxKqd1tchYvS642NA'
-os.environ['ALPACA_LIVE_KEY'] = 'AKNGMUQPQGCFKRMTM5QG'
-os.environ['ALPACA_LIVE_SECRET'] = '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb'
+os.environ['ALPACA_PAPER_KEY'] = os.getenv('ALPACA_PAPER_KEY', '')
+os.environ['ALPACA_PAPER_SECRET'] = os.getenv('ALPACA_PAPER_SECRET', '')
+os.environ['ALPACA_LIVE_KEY'] = os.getenv('ALPACA_LIVE_KEY', '')
+os.environ['ALPACA_LIVE_SECRET'] = os.getenv('ALPACA_LIVE_SECRET', '')
 os.environ['ALPACA_BASE_URL'] = 'https://paper-api.alpaca.markets'
 os.environ['ALPACA_LIVE_BASE_URL'] = 'https://api.alpaca.markets'
 
@@ -278,8 +278,8 @@ if __name__ == "__main__":
     # Test Alpaca connection
     try:
         headers = {
-            'APCA-API-KEY-ID': 'PKL57SQSLF436UTL8PKA',
-            'APCA-API-SECRET-KEY': 'KohlWcBbNmntvKv2oZ9fd9kCxKqd1tchYvS642NA'
+            'APCA-API-KEY-ID': os.getenv('ALPACA_PAPER_KEY', ''),
+            'APCA-API-SECRET-KEY': os.getenv('ALPACA_PAPER_SECRET', '')
         }
         
         response = requests.get(

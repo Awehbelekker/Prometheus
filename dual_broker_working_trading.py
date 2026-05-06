@@ -112,8 +112,8 @@ class DualBrokerTradingSystem:
     
     def set_environment(self):
         """Set environment variables for both brokers"""
-        os.environ['ALPACA_LIVE_KEY'] = 'AKNGMUQPQGCFKRMTM5QG'
-        os.environ['ALPACA_LIVE_SECRET'] = '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb'
+        os.environ['ALPACA_LIVE_KEY'] = os.getenv('ALPACA_LIVE_KEY', '')
+        os.environ['ALPACA_LIVE_SECRET'] = os.getenv('ALPACA_LIVE_SECRET', '')
         os.environ['IB_HOST'] = '127.0.0.1'
         os.environ['IB_PORT'] = '7496'
         os.environ['IB_CLIENT_ID'] = '2'

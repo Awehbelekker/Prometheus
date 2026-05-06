@@ -65,7 +65,7 @@ async def check_status():
                 'host': '127.0.0.1',
                 'port': int(os.getenv('IB_PORT', '4002')),
                 'client_id': 2,
-                'account_id': 'U21922116',
+                'account_id': os.getenv('IB_ACCOUNT', ''),
                 'paper_trading': False
             })
             

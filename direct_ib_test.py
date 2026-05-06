@@ -85,7 +85,7 @@ def test_connection():
                 time.sleep(0.1)
             
             print("\n2️⃣ Getting Account Data...")
-            client.reqAccountUpdates(True, "U21922116")
+            client.reqAccountUpdates(True, os.getenv("IB_ACCOUNT", ""))
             
             # Wait for account data
             time.sleep(8)

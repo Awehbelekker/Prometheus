@@ -13,8 +13,8 @@ import time
 from datetime import datetime
 
 # Set environment variables
-os.environ['ALPACA_PAPER_KEY'] = 'PKL57SQSLF436UTL8PKA'
-os.environ['ALPACA_PAPER_SECRET'] = 'KohlWcBbNmntvKv2oZ9fd9kCxKqd1tchYvS642NA'
+os.environ['ALPACA_PAPER_KEY'] = os.getenv('ALPACA_PAPER_KEY', '')
+os.environ['ALPACA_PAPER_SECRET'] = os.getenv('ALPACA_PAPER_SECRET', '')
 os.environ['ALPACA_BASE_URL'] = 'https://paper-api.alpaca.markets'
 os.environ['TRADING_MODE'] = 'paper_trading'
 os.environ['USE_PAPER_TRADING'] = 'true'

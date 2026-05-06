@@ -136,7 +136,7 @@ def test_real_trading_execution():
             print(f"   Account: {account}")
             print(f"   Balance: ${balance:.2f}")
             
-            if connected and account == "U21922116":
+            if connected and account == os.getenv('IB_ACCOUNT', ''):
                 print("   [CHECK] Interactive Brokers: Ready for real trades")
                 ib_ready = True
             else:

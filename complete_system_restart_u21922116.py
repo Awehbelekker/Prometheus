@@ -61,7 +61,7 @@ def load_environment():
     
     # Verify account ID
     account_id = os.getenv('IB_ACCOUNT_ID')
-    if account_id != 'U21922116':
+    if account_id != os.getenv('IB_ACCOUNT', ''):
         print(f"   [ERROR] Wrong account ID: {account_id} (expected U21922116)")
         return False
     
@@ -123,7 +123,7 @@ def verify_account_configuration():
             print(f"   📋 Account ID: {account_id}")
             print(f"   📈 Trading Mode: {trading_mode}")
             
-            if account_id == 'U21922116':
+            if account_id == os.getenv('IB_ACCOUNT', ''):
                 print("   [CHECK] Correct account configured!")
                 return True
             else:

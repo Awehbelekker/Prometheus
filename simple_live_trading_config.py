@@ -32,8 +32,8 @@ def configure_live_trading():
     print("-" * 45)
     
     # Set Alpaca to live trading mode (with safety checks)
-    os.environ['ALPACA_LIVE_KEY'] = 'AKNGMUQPQGCFKRMTM5QG'
-    os.environ['ALPACA_LIVE_SECRET'] = '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb'
+    os.environ['ALPACA_LIVE_KEY'] = os.getenv('ALPACA_LIVE_KEY', '')
+    os.environ['ALPACA_LIVE_SECRET'] = os.getenv('ALPACA_LIVE_SECRET', '')
     os.environ['ALPACA_LIVE_BASE_URL'] = 'https://api.alpaca.markets'
     
     # Set live trading mode with safety

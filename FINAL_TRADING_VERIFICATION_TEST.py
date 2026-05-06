@@ -24,8 +24,8 @@ print("TEST 1: ALPACA CONNECTION & ACCOUNT STATUS")
 print("=" * 80)
 
 try:
-    api_key = os.getenv('ALPACA_LIVE_KEY', 'AKNGMUQPQGCFKRMTM5QG')
-    api_secret = os.getenv('ALPACA_LIVE_SECRET', '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb')
+    api_key = os.getenv('ALPACA_LIVE_KEY', '')
+    api_secret = os.getenv('ALPACA_LIVE_SECRET', '')
     base_url = 'https://api.alpaca.markets'
     
     alpaca = AlpacaREST(api_key, api_secret, base_url, api_version='v2')

@@ -12,8 +12,8 @@ print("🔧 ENABLE ALPACA TRADING VIA API")
 print("=" * 80)
 print()
 
-api_key = os.getenv('ALPACA_LIVE_KEY', 'AKNGMUQPQGCFKRMTM5QG')
-api_secret = os.getenv('ALPACA_LIVE_SECRET', '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb')
+api_key = os.getenv('ALPACA_LIVE_KEY', '')
+api_secret = os.getenv('ALPACA_LIVE_SECRET', '')
 base_url = 'https://api.alpaca.markets'
 
 headers = {

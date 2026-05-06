@@ -69,7 +69,7 @@ class EnhancedTradingSystem:
                 'port': 7497,  # TWS paper trading
                 'client_id': 1,
                 'paper_trading': True,
-                'account_id': 'U21922116'
+                'account_id': os.getenv('IB_ACCOUNT', '')
             }
             
             self.ib_broker = InteractiveBrokersBroker(ib_config)

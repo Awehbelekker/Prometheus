@@ -104,7 +104,7 @@ def create_optimal_ib_stock_config():
         "broker": "interactive_brokers",
         "asset_class": "stocks",
         "trading_hours": "9:30 AM - 4:00 PM ET (Mon-Fri)",
-        "account": "U21922116",
+        "account": os.getenv("IB_ACCOUNT", ""),
         "starting_capital": 250.0,  # Your IB account
         
         # Risk Management (Stock-Specific)

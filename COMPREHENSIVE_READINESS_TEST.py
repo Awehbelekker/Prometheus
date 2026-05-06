@@ -119,7 +119,7 @@ async def main():
         ib_port = os.getenv('IB_PORT')
         primary_broker = os.getenv('PRIMARY_BROKER')
         
-        if ib_account == 'U21922116':
+        if ib_account == os.getenv('IB_ACCOUNT', ''):
             test_result(f"IB Account configured correctly ({ib_account})", True, critical=True)
         else:
             test_result(f"IB Account incorrect ({ib_account})", False, critical=True)

@@ -15,8 +15,8 @@ def liquidate_positions():
     print()
     
     # Alpaca API credentials
-    api_key = 'AKNGMUQPQGCFKRMTM5QG'
-    secret_key = '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb'
+    api_key = os.getenv('ALPACA_LIVE_KEY', '')
+    secret_key = os.getenv('ALPACA_LIVE_SECRET', '')
     
     headers = {
         'APCA-API-KEY-ID': api_key,

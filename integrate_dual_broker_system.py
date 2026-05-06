@@ -30,12 +30,12 @@ def integrate_dual_broker_system():
     print("\n1. CONFIGURING DUAL-BROKER ENVIRONMENT")
     print("-" * 50)
     
-    # Alpaca credentials (paper trading)
+    # Alpaca credentials (read from environment / .env)
     alpaca_credentials = {
-        'ALPACA_PAPER_KEY': 'PKL57SQSLF436UTL8PKA',
-        'ALPACA_PAPER_SECRET': 'KohlWcBbNmntvKv2oZ9fd9kCxKqd1tchYvS642NA',
-        'ALPACA_LIVE_KEY': 'AKNGMUQPQGCFKRMTM5QG',
-        'ALPACA_LIVE_SECRET': '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb',
+        'ALPACA_PAPER_KEY': os.getenv('ALPACA_PAPER_KEY', ''),
+        'ALPACA_PAPER_SECRET': os.getenv('ALPACA_PAPER_SECRET', ''),
+        'ALPACA_LIVE_KEY': os.getenv('ALPACA_LIVE_KEY', ''),
+        'ALPACA_LIVE_SECRET': os.getenv('ALPACA_LIVE_SECRET', ''),
         'ALPACA_BASE_URL': 'https://paper-api.alpaca.markets',
         'ALPACA_LIVE_BASE_URL': 'https://api.alpaca.markets'
     }
@@ -45,7 +45,7 @@ def integrate_dual_broker_system():
         'IB_HOST': '127.0.0.1',
         'IB_PORT': '7496',
         'IB_CLIENT_ID': '7777',
-        'IB_ACCOUNT': 'U21922116'
+        'IB_ACCOUNT': os.getenv('IB_ACCOUNT', '')
     }
     
     # Set environment variables
@@ -93,7 +93,7 @@ def integrate_dual_broker_system():
     
     # Test IB connection (simulated - would need actual IB Gateway/TWS)
     print("   OK IB Connection: 127.0.0.1:7496 (client_id: 7777)")
-    print("   Account: U21922116")
+    print(f"   Account: {os.getenv('IB_ACCOUNT', '')}")
     print("   Status: Connecting (requires IB Gateway/TWS running)")
     ib_working = True  # Assume working based on logs
     
@@ -113,7 +113,7 @@ def integrate_dual_broker_system():
                 "host": "127.0.0.1",
                 "port": 7496,
                 "client_id": 7777,
-                "account": "U21922116",
+                "account": os.getenv("IB_ACCOUNT", ""),
                 "capabilities": [
                     "live_trading",
                     "options_trading",
@@ -310,10 +310,10 @@ import time
 from datetime import datetime
 
 # Set environment variables
-os.environ['ALPACA_PAPER_KEY'] = 'PKL57SQSLF436UTL8PKA'
-os.environ['ALPACA_PAPER_SECRET'] = 'KohlWcBbNmntvKv2oZ9fd9kCxKqd1tchYvS642NA'
-os.environ['ALPACA_LIVE_KEY'] = 'AKNGMUQPQGCFKRMTM5QG'
-os.environ['ALPACA_LIVE_SECRET'] = '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb'
+os.environ['ALPACA_PAPER_KEY'] = os.getenv('ALPACA_PAPER_KEY', '')
+os.environ['ALPACA_PAPER_SECRET'] = os.getenv('ALPACA_PAPER_SECRET', '')
+os.environ['ALPACA_LIVE_KEY'] = os.getenv('ALPACA_LIVE_KEY', '')
+os.environ['ALPACA_LIVE_SECRET'] = os.getenv('ALPACA_LIVE_SECRET', '')
 os.environ['ALPACA_BASE_URL'] = 'https://paper-api.alpaca.markets'
 os.environ['ALPACA_LIVE_BASE_URL'] = 'https://api.alpaca.markets'
 os.environ['IB_HOST'] = '127.0.0.1'
@@ -434,7 +434,7 @@ if __name__ == "__main__":
     print("\nPROMETHEUS DUAL-BROKER SYSTEM READY!")
     print("=" * 60)
     print("System Features:")
-    print("- IB: Primary live trading broker (U21922116)")
+    print(f"- IB: Primary live trading broker ({os.getenv('IB_ACCOUNT', '')})")
     print("- Alpaca: Paper trading + backup live trading")
     print("- Advanced Internal Paper Trading: Strategy validation")
     print("- Dual-Mode System: Paper + Live trading")

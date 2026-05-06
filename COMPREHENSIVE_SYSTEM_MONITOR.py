@@ -44,8 +44,8 @@ class PrometheusSystemMonitor:
         self.alpaca_api = None
         if ALPACA_AVAILABLE:
             try:
-                api_key = os.getenv('ALPACA_API_KEY', 'AKNGMUQPQGCFKRMTM5QG')
-                secret_key = os.getenv('ALPACA_SECRET_KEY', '7dNZf4igDG89MBp9dAzd7IabiAxsCIMEvgaCH0Pb')
+                api_key = os.getenv('ALPACA_API_KEY', '')
+                secret_key = os.getenv('ALPACA_SECRET_KEY', '')
                 base_url = 'https://paper-api.alpaca.markets'  # Use paper for monitoring
                 
                 self.alpaca_api = tradeapi.REST(api_key, secret_key, base_url, api_version='v2')

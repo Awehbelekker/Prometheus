@@ -148,7 +148,7 @@ class AuditRecommendationsImplementer:
                 'port': active_port,
                 'client_id': 99,  # Test client ID
                 'paper_trading': (active_port == 7497),
-                'account_id': 'U21922116' if active_port == 7496 else 'DUN683505'
+                'account_id': os.getenv('IB_ACCOUNT', '') if active_port == 7496 else 'DUN683505'
             }
             
             self.print_status("IB Broker module loaded successfully", "SUCCESS")
