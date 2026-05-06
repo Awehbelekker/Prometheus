@@ -54,8 +54,10 @@ class Mercury2Adapter:
         # STAGE 3: Inference Resilience - Timeout & Circuit Breaker
         self.timeout_seconds = int(os.getenv('INFERENCE_TIMEOUT_SECONDS', '10'))
         self.circuit_breaker_threshold = int(os.getenv('INFERENCE_CIRCUIT_BREAKER_THRESHOLD', '3'))
+        self.circuit_breaker_reset_timeout = int(os.getenv('INFERENCE_CIRCUIT_BREAKER_RESET_SECONDS', '300'))  # auto-reset after 5 min
         self.consecutive_failures = 0
         self.circuit_breaker_open = False
+        self.circuit_breaker_opened_at: Optional[float] = None
 
         # Stats tracking
         self.total_requests = 0
@@ -110,14 +112,27 @@ class Mercury2Adapter:
         Returns dict with keys: success, response, model, cost, source, tokens_used, latency_ms
         STAGE 3: Includes timeout (10s default) and circuit breaker (3 failures → fallback)
         """
-        # STAGE 3: Check circuit breaker
+        # STAGE 3: Check circuit breaker — auto-reset (HALF_OPEN) after recovery timeout
         if self.circuit_breaker_open:
-            logger.warning(f"🔌 STAGE 3 CIRCUIT BREAKER OPEN - Mercury 2 disabled (>{self.circuit_breaker_threshold} failures)")
-            return {
-                "success": False,
-                "error": f"Circuit breaker open after {self.consecutive_failures} consecutive failures",
-                "needs_fallback": True,
-            }
+            elapsed = time.time() - (self.circuit_breaker_opened_at or time.time())
+            if elapsed >= self.circuit_breaker_reset_timeout:
+                logger.info(
+                    f"🔄 STAGE 3: Circuit breaker RESET after {elapsed:.0f}s — retrying Mercury 2"
+                )
+                self.circuit_breaker_open = False
+                self.consecutive_failures = 0
+                self.circuit_breaker_opened_at = None
+            else:
+                remaining = int(self.circuit_breaker_reset_timeout - elapsed)
+                logger.warning(
+                    f"🔌 STAGE 3 CIRCUIT BREAKER OPEN - Mercury 2 disabled "
+                    f"(>{self.circuit_breaker_threshold} failures, resets in {remaining}s)"
+                )
+                return {
+                    "success": False,
+                    "error": f"Circuit breaker open after {self.consecutive_failures} consecutive failures",
+                    "needs_fallback": True,
+                }
 
         if not self.client:
             return {
@@ -194,7 +209,8 @@ class Mercury2Adapter:
             logger.warning(f"🔴 STAGE 3: Mercury 2 TIMEOUT after {elapsed_ms:.0f}ms (>{self.timeout_seconds}s)")
             if self.consecutive_failures >= self.circuit_breaker_threshold:
                 self.circuit_breaker_open = True
-                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} timeouts")
+                self.circuit_breaker_opened_at = time.time()
+                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} timeouts — will auto-reset in {self.circuit_breaker_reset_timeout}s")
             return {
                 "success": False,
                 "error": f"Mercury 2 timeout ({self.timeout_seconds}s)",
@@ -207,7 +223,8 @@ class Mercury2Adapter:
             logger.error(f"Mercury 2 generation failed ({elapsed_ms:.0f}ms, failure #{self.consecutive_failures}): {exc}")
             if self.consecutive_failures >= self.circuit_breaker_threshold:
                 self.circuit_breaker_open = True
-                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} failures")
+                self.circuit_breaker_opened_at = time.time()
+                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} failures — will auto-reset in {self.circuit_breaker_reset_timeout}s")
             return {
                 "success": False,
                 "error": str(exc),
