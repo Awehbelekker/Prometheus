@@ -1,0 +1,8 @@
+TITLE: Model order reduction for parametrized variational inequalities: application to crowd motion
+AUTHORS: Giulia Sambataro, Virginie Ehrlacher
+PUBLISHED: 2026-05-05
+SOURCE: arXiv http://arxiv.org/abs/2605.04037v1
+CATEGORIES: math.NA
+
+ABSTRACT:
+This work investigates model order reduction for time-dependent parametrized variational inequalities, with a focus on discrete contact problems. As a prototypical example, we consider an agent-based crowd model [Maury et al., 2011] in which agent velocities are obtained at each time step from a constrained least-squares problem. Geometric parameter variations induce significant variability in both agent positions and contact forces, leading to a slowly decaying Kolmogorov $n$-width of the solution manifold. We propose a nonlinear approach that combines a linear reduced-order model with a deep-learning-based correction. The method utilizes a greedy index selection (gIS) algorithm for compressing Lagrange multipliers and Proper Orthogonal Decomposition (POD) applied to velocity snapshots. Additionally, we explore hyper-reduction techniques, comparing the Empirical Interpolation Method (EIM) and the Empirical Quadrature (EQ) procedure from both computational complexity and accuracy perspectives. Finally, we demonstrate the applicability of the methodology in a complex scenario involving many agents in a highly congested geometric configuration. This work represents the first attempt to apply model order reduction to a discrete contact problem of the type introduced in [Maury et al., 2011] and paves the way for future advancements in nonlinear MOR specifically for this class of problems.

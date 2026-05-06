@@ -1,0 +1,8 @@
+TITLE: Probabilistic-bit Guided CDCL for SAT Solving using Ising Consensus Assumptions
+AUTHORS: Melki Bino
+PUBLISHED: 2026-05-05
+SOURCE: arXiv http://arxiv.org/abs/2605.04033v1
+CATEGORIES: cs.CR, cs.LO
+
+ABSTRACT:
+Boolean satisfiability (SAT) solvers are widely used in hardware verification, cryptanalysis, automatic test-pattern generation, and side-channel reasoning workflows. Modern conflict-driven clause-learning (CDCL) solvers are highly effective, but satisfiable instances may still require substantial conflict analysis and Boolean propagation before identifying productive regions of the search space. This paper studies a hybrid SAT-solving framework in which a probabilistic-bit (p-bit) Ising sampler proposes high-agreement literals that are passed to CDCL as temporary assumptions. The goal is not to replace CDCL, but to evaluate whether stochastic low-violation samples can reduce CDCL internal search effort while retaining correctness through CDCL fallback. On selected controlled-backbone random 3-SAT benchmarks, the hybrid method reduces median conflicts by 80.8-85.5% and median propagations by 80.2-84.6% relative to pure CDCL. The observed benefit is distribution-sensitive, suggesting that p-bit guidance is effective only for certain instance classes. We further report exploratory machine-learning gates that estimate when hybrid solving is likely to help. On the selected run, a random-forest gate retains 94.8% of hybrid wins, indicating that lightweight gating may help avoid unproductive hybrid calls.

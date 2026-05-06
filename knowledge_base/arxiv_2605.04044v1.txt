@@ -1,0 +1,8 @@
+TITLE: UniCorrn: Unified Correspondence Transformer Across 2D and 3D
+AUTHORS: Prajnan Goswami, Tianye Ding, Feng Liu
+PUBLISHED: 2026-05-05
+SOURCE: arXiv http://arxiv.org/abs/2605.04044v1
+CATEGORIES: cs.CV
+
+ABSTRACT:
+Visual correspondence across image-to-image (2D-2D), image-to-point cloud (2D-3D), and point cloud-to-point cloud (3D-3D) geometric matching forms the foundation for numerous 3D vision tasks. Despite sharing a similar problem structure, current methods use task-specific designs with separate models for each modality combination. We present UniCorrn, the first correspondence model with shared weights that unifies geometric matching across all three tasks. Our key insight is that Transformer attention naturally captures cross-modal feature similarity. We propose a dual-stream decoder that maintains separate appearance and positional feature streams. This design enables end-to-end learning through stack-able layers while supporting flexible query-based correspondence estimation across heterogeneous modalities. Our architecture employs modality-specific backbones followed by shared encoder and decoder components, trained jointly on diverse data combining pseudo point clouds from depth maps with real 3D correspondence annotations. UniCorrn achieves competitive performance on 2D-2D matching and surpasses prior state-of-the-art by 8% on 7Scenes (2D-3D) and 10% on 3DLoMatch (3D-3D) in registration recall. Project website: https://neu-vi.github.io/UniCorrn

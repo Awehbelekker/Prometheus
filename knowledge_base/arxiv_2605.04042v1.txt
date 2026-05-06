@@ -1,0 +1,8 @@
+TITLE: Ergotropy Protection via Cavity Detuning in Collective Open Quantum Batteries
+AUTHORS: Tariq Zeyad Jawad
+PUBLISHED: 2026-05-05
+SOURCE: arXiv http://arxiv.org/abs/2605.04042v1
+CATEGORIES: quant-ph
+
+ABSTRACT:
+This study investigates the performance and ergotropy protection of open collective quantum batteries subject to superradiant decay. By employing a passive spectral detuning strategy within an intermediate cavity, an optimal detuning value ($Δ^*$) is analytically derived and numerically verified to spectrally isolate the system and protect quantum coherence, achieving up to 1088% ergotropy improvement for single qubits and superextensive collective advantage for $N \ge 3$. Our analysis resolves a "non-Markovian paradox," revealing that maximizing ergotropy does not strictly require non-Markovian memory; rather, suppressing environmental memory via detuning optimally preserves coherence, which serves as the fundamental resource. Survival maps across different environments demonstrate that thermal noise dissipates coherence more severely than telegraph noise. Finally, we establish that collective amplification of the effective coupling ($g_{\rm eff} = g\sqrt{N})$ inevitably drives large qubit arrays into the ultra-strong coupling regime, providing a quantitative ceiling $N_{\rm max}$ on the validity of the Tavis-Cummings description and the current ergotropy protection protocol.
