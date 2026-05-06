@@ -118,7 +118,7 @@ def feed_arxiv_compiled(pipeline) -> int:
         if doc_id:
             ingested += 1
 
-    log.info(f"  ✅ Ingested {ingested} arXiv sections")
+    log.info(f"  [OK] Ingested {ingested} arXiv sections")
     return ingested
 
 
@@ -139,10 +139,11 @@ def feed_own_trade_history(pipeline) -> int:
 
         # Pull closed trades with full context
         rows = conn.execute("""
-            SELECT ai_system, signal_action, symbol, entry_price, exit_price,
-                   pnl, win, confidence, regime, timestamp
+            SELECT ai_system, action as signal_action, symbol, entry_price,
+                   eventual_pnl as pnl, was_correct as win, confidence,
+                   'unknown' as regime, timestamp
             FROM ai_attribution
-            WHERE exit_price IS NOT NULL
+            WHERE outcome_recorded = 1
             ORDER BY timestamp DESC
             LIMIT 5000
         """).fetchall()
@@ -190,7 +191,7 @@ def feed_own_trade_history(pipeline) -> int:
         if doc_id:
             ingested += 1
 
-    log.info(f"  ✅ Ingested {ingested} episodic memory batches ({len(rows)} trades)")
+    log.info(f"  [OK] Ingested {ingested} episodic memory batches ({len(rows)} trades)")
     return ingested
 
 
@@ -254,7 +255,7 @@ def pull_arxiv_rss(pipeline) -> int:
         except Exception as e:
             log.warning(f"  arXiv {cat} feed failed: {e}")
 
-    log.info(f"  ✅ Ingested {ingested} new arXiv papers")
+    log.info(f"  [OK] Ingested {ingested} new arXiv papers")
     return ingested
 
 
@@ -316,7 +317,7 @@ def pull_fred_releases(pipeline) -> int:
             except Exception as e:
                 log.warning(f"  FRED {series_id}: {e}")
 
-        log.info(f"  ✅ Ingested {ingested} FRED series")
+        log.info(f"  [OK] Ingested {ingested} FRED series")
         return ingested
     except Exception as e:
         log.warning(f"  FRED pull failed: {e}")
@@ -420,7 +421,7 @@ def pull_aqr_insights(pipeline) -> int:
         if doc_id:
             ingested += 1
 
-    log.info(f"  ✅ Ingested {ingested} AQR research papers")
+    log.info(f"  [OK] Ingested {ingested} AQR research papers")
     return ingested
 
 
@@ -447,7 +448,7 @@ def feed_learned_patterns(pipeline) -> int:
         except Exception as e:
             log.warning(f"  Could not ingest {fp.name}: {e}")
 
-    log.info(f"  ✅ Ingested {ingested} pattern files")
+    log.info(f"  [OK] Ingested {ingested} pattern files")
     return ingested
 
 
@@ -467,7 +468,7 @@ def feed_missing_pdfs(pipeline) -> int:
             if doc_id:
                 ingested += 1
 
-    log.info(f"  ✅ Ingested {ingested} new PDFs")
+    log.info(f"  [OK] Ingested {ingested} new PDFs")
     return ingested
 
 
@@ -500,7 +501,7 @@ def feed_ai_knowledge_training(pipeline) -> int:
                     )
                     if doc_id:
                         ingested += 1
-        log.info(f"  ✅ Ingested {ingested} training knowledge items")
+        log.info(f"  [OK] Ingested {ingested} training knowledge items")
         return ingested
     except Exception as e:
         log.warning(f"  Error: {e}")
@@ -570,7 +571,7 @@ def run_once(local_only: bool = False):
 
     total = pipeline.get_total_embeddings() if hasattr(pipeline, 'get_total_embeddings') else '?'
     log.info(f"Knowledge base now contains ~{total} embeddings")
-    log.info("AUTO-DISCOVERY COMPLETE ✅")
+    log.info("AUTO-DISCOVERY COMPLETE [OK]")
 
 
 def run_daemon(interval_hours: int = 168):

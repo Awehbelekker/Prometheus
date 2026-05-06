@@ -137,10 +137,14 @@ def run_ingestion(new_files):
         ingested = 0
         for fpath in new_files:
             try:
-                result = pipeline.ingest_document(fpath)
+                p = Path(fpath)
+                if p.suffix == '.pdf':
+                    result = pipeline.ingest_pdf(fpath, title=p.stem)
+                else:
+                    result = pipeline.ingest_text(fpath, title=p.stem)
                 if result:
                     ingested += 1
-                    log.info(f"Ingested: {Path(fpath).name}")
+                    log.info(f"Ingested: {p.name}")
             except Exception as e:
                 log.warning(f"Failed to ingest {fpath}: {e}")
 
