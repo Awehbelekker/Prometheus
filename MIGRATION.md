@@ -29,7 +29,7 @@ The `migration_bundle/` folder in the project root contains everything you need.
 | `.env` | All API keys |
 | `*.json` configs | AI voter weights, broker configs |
 
-Do NOT transfer: `.venv_directml_test/`, `.venv-gpu311/` — recreate fresh with CUDA PyTorch.
+Do NOT transfer: `.venv/`, `.venv_directml_test/`, `.venv-gpu311/` — recreate fresh with CUDA PyTorch.
 
 ---
 
@@ -94,9 +94,8 @@ git checkout main
 ## Step 5 — Create Virtual Environment
 
 ```bash
-# Must use this exact name — scripts reference it
-python -m venv .venv_directml_test
-.venv_directml_test\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate
 
 # Install PyTorch with CUDA 12.1 (works with GTX 1080 Ti CUDA 6.1)
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
@@ -208,7 +207,7 @@ Run these in order before going live:
 
 ```bash
 # Activate venv first
-.venv_directml_test\Scripts\activate
+.venv\Scripts\activate
 
 # 1. GPU
 python -c "import torch; print('CUDA:', torch.cuda.is_available(), torch.cuda.get_device_name(0))"

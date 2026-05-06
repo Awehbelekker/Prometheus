@@ -4,6 +4,7 @@ PROMETHEUS ts-bench Integration Script
 Integrates ts-bench with existing testing pipeline
 """
 
+import shutil
 import sys
 import subprocess
 from pathlib import Path
@@ -36,7 +37,7 @@ def _run_ai_benchmarks(self) -> Dict[str, Any]:
     
     try:
         ts_bench_path = self.project_root / "testing" / "ts-bench"
-        bun_path = "/c/Users/Judy/.bun/bin/bun.exe"
+        bun_path = shutil.which("bun") or "bun"
         
         # Run ts-bench system check
         cmd = [str(bun_path), "src/index.ts", "--list"]

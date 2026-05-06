@@ -46,7 +46,7 @@ HEAD_RESULT   = _ROOT / "hrm_checkpoints" / "market_finetuned" / "finetune_meta.
 
 # The DirectML venv python to use for extraction + head training
 import shutil
-_DML_PYTHON = str(_ROOT / ".venv_directml_test" / "Scripts" / "python.exe")
+_DML_PYTHON = str(_ROOT / ".venv" / "Scripts" / "python.exe")
 if not Path(_DML_PYTHON).exists():
     _DML_PYTHON = sys.executable   # fallback to current python
 

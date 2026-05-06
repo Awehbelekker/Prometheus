@@ -5,7 +5,7 @@ try:
     from ibapi.execution import ExecutionFilter
     import threading
 
-    WANT_ACCOUNT = "U21922116"
+    WANT_ACCOUNT = os.getenv("IB_ACCOUNT", "")
 
     class IBChecker(EWrapper, EClient):
         def __init__(self):

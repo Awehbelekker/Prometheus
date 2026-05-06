@@ -27,7 +27,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--runs", type=int, default=5, help="Number of benchmark runs")
     parser.add_argument(
         "--python-exe",
-        default=r".venv_directml_test\Scripts\python.exe",
+        default=r".venv\Scripts\python.exe",
         help="Python executable to run benchmark script",
     )
     parser.add_argument(

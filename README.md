@@ -159,9 +159,8 @@ cd Prometheus
 ### 3. Virtual Environment
 
 ```bash
-# Keep this exact name — all scripts reference .venv_directml_test
-python -m venv .venv_directml_test
-.venv_directml_test\Scripts\activate
+python -m venv .venv
+.venv\Scripts\activate
 ```
 
 ### 4. PyTorch
@@ -232,7 +231,7 @@ migration_bundle/
 run_prometheus.bat
 
 # Option B — manual
-.venv_directml_test\Scripts\activate
+.venv\Scripts\activate
 python launch_ultimate_prometheus_LIVE_TRADING.py
 
 # Option C — watchdog (auto-restarts on crash)

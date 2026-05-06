@@ -42,7 +42,7 @@ async def check_all_systems():
     alpaca_key = os.getenv('ALPACA_API_KEY')
     alpaca_secret = os.getenv('ALPACA_SECRET_KEY')
     ib_port = os.getenv('IB_PORT', '4002')
-    ib_account = os.getenv('IB_ACCOUNT', 'U21922116')
+    ib_account = os.getenv('IB_ACCOUNT', '')
     
     print(f"ALPACA_API_KEY: {'✅ SET (...' + alpaca_key[-4:] + ')' if alpaca_key else '❌ MISSING'}")
     print(f"ALPACA_SECRET_KEY: {'✅ SET (...' + alpaca_secret[-4:] + ')' if alpaca_secret else '❌ MISSING'}")

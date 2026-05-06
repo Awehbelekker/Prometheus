@@ -13,9 +13,8 @@ from typing import Dict, Any, Optional
 logger = logging.getLogger(__name__)
 
 DIRECTML_VENV_PATHS = [
-    r"C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\.venv_directml_test\Scripts\python.exe",
-    r".venv_directml_test\Scripts\python.exe",
-    r".\.venv_directml_test\Scripts\python.exe",
+    r".venv\Scripts\python.exe",
+    r".\.venv\Scripts\python.exe",
 ]
 
 

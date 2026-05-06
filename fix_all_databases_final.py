@@ -82,8 +82,8 @@ def main():
     print(f"Fix Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
     
     # Define all possible database locations
-    trading_platform_dir = Path("C:/Users/Judy/Desktop/PROMETHEUS-Trading-Platform/databases")
-    enterprise_dir = Path("C:/Users/Judy/Desktop/PROMETHEUS-Enterprise-Package-COMPLETE/databases")
+    trading_platform_dir = Path(__file__).parent / "databases"
+    enterprise_dir = Path(__file__).parent.parent / "PROMETHEUS-Enterprise-Package-COMPLETE" / "databases"
     
     all_db_paths = []
     

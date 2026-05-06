@@ -25,7 +25,7 @@ class StatsDashboard(EWrapper, EClient):
         self.next_order_id = None
         
         # Account data
-        self.account_id = os.getenv('IB_ACCOUNT_ID', 'U21922116')
+        self.account_id = os.getenv('IB_ACCOUNT_ID', '')
         self.cash = 0.0
         self.equity = 0.0
         self.buying_power = 0.0

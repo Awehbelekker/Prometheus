@@ -95,7 +95,7 @@ def main():
     print("\n[4/6] Checking Environment Configuration...")
     ib_host = os.getenv('IB_HOST', '127.0.0.1')
     ib_port = os.getenv('IB_PORT', '4002')
-    ib_account = os.getenv('IB_ACCOUNT', 'U21922116')
+    ib_account = os.getenv('IB_ACCOUNT', '')
     
     print(f"  IB_HOST: {ib_host}")
     print(f"  IB_PORT: {ib_port}")

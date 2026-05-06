@@ -3,7 +3,7 @@ import sqlite3, os, json
 from datetime import datetime, timedelta
 from collections import Counter
 
-BASE = r'c:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform'
+BASE = os.path.dirname(os.path.abspath(__file__))
 
 def section(title):
     print(f"\n{'='*65}")

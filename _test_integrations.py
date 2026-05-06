@@ -1,7 +1,7 @@
 """Test all Phase 21 integrations."""
 import sys, os, warnings
 warnings.filterwarnings("ignore")
-os.chdir(r'c:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform')
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, '.')
 
 results = {}

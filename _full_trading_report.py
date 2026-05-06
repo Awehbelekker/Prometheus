@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Full Alpaca + IB Trading Report"""
+import os
 import requests
 import json
 from collections import defaultdict, Counter
@@ -235,8 +236,7 @@ if ib_connected:
         ib = IB()
         ib.connect('127.0.0.1', ib_port, clientId=99, timeout=5)
         
-        # Target the correct account (U21922116 has funds)
-        TARGET_IB_ACCOUNT = 'U21922116'
+        TARGET_IB_ACCOUNT = os.getenv('IB_ACCOUNT', '')
         managed = ib.managedAccounts()
         print(f"  Managed accounts: {managed}")
         

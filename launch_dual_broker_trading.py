@@ -75,7 +75,7 @@ def _fetch_ib_equity() -> float:
     """
     IB_HOST = os.environ.get('IB_HOST', '127.0.0.1')
     IB_PORT = int(os.environ.get('IB_PORT', '4002'))
-    ACCOUNT = os.environ.get('IB_ACCOUNT_ID', 'U21922116')
+    ACCOUNT = os.environ.get('IB_ACCOUNT_ID', os.environ.get('IB_ACCOUNT', ''))
 
     # 1. Quick TCP reachability check (non-blocking, 3s timeout)
     try:
@@ -167,7 +167,8 @@ print(f"  💰 FULL CAPITAL DEPLOYMENT: ${_total_capital:.2f}")
 print("="*80)
 
 print("\n📊 BROKER CONFIGURATION:")
-print(f"   • IB Gateway (U21922116): ${_ib_equity:.2f} ({_ib_equity/_total_capital*100:.0f}%)")
+_ib_account = os.environ.get('IB_ACCOUNT', 'IB')
+print(f"   • IB Gateway ({_ib_account}): ${_ib_equity:.2f} ({_ib_equity/_total_capital*100:.0f}%)")
 print(f"   • Alpaca Paper API: ${_alpaca_equity:.2f} ({_alpaca_equity/_total_capital*100:.0f}%)")
 print("\n🎯 STRATEGY:")
 print("   • Visual AI: 1,352 patterns")
@@ -211,7 +212,7 @@ async def run_ib_session(session_num, duration_minutes):
     """Run IB Gateway trading session"""
     try:
         print(f"\n🔵 IB SESSION {session_num} STARTING...")
-        print(f"   Account: U21922116 | Capital: ${stats['ib']['last_portfolio_value']:.2f}")
+        print(f"   Account: {os.environ.get('IB_ACCOUNT', '')} | Capital: ${stats['ib']['last_portfolio_value']:.2f}")
         
         # Import and run IB session
         from prometheus_active_trading_session import PrometheusActiveTradingSession

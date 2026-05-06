@@ -32,7 +32,7 @@ async def check_ib():
         }
         
         print(f"\n[TEST] Connecting to {config['host']}:{config['port']}...")
-        print("       Account: U21922116")
+        print(f"       Account: {os.getenv('IB_ACCOUNT', '')}")
         print("       Timeout: 10 seconds")
         
         broker = InteractiveBrokersBroker(config)
@@ -47,7 +47,7 @@ async def check_ib():
                 
                 account = await broker.get_account()
                 
-                print(f"\nAccount: U21922116")
+                print(f"\nAccount: {os.getenv('IB_ACCOUNT', '')}")
                 print(f"Equity: ${float(account.equity):,.2f}")
                 print(f"Cash: ${float(account.cash):,.2f}")
                 
@@ -77,11 +77,11 @@ if __name__ == "__main__":
     result = asyncio.run(check_ib())
     
     if result:
-        print("\n[READY] IB U21922116 can be added to trading system!")
+        print("\n[READY] IB can be added to trading system!")
     else:
         print("\n[INFO] IB not available - system continues with Alpaca only")
         print("\nTo enable IB:")
         print("  1. Open IB Gateway")
-        print("  2. Login to account U21922116")
+        print("  2. Login to your IB account")
         print("  3. Configure > API > Enable")
         print("  4. Restart this test")

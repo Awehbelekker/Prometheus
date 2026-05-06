@@ -7,7 +7,7 @@ from pathlib import Path
 from datetime import datetime
 from collections import Counter
 
-BASE = Path(r"C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform")
+BASE = Path(__file__).parent
 os.chdir(BASE)
 
 def section(title):

@@ -4,6 +4,7 @@ PROMETHEUS AI Quality Monitor
 Integrates ts-bench for continuous AI validation
 """
 
+import shutil
 import subprocess
 import json
 import time
@@ -24,7 +25,7 @@ class PrometheusAIQualityMonitor:
         self.project_root = Path("Desktop/PROMETHEUS-Trading-Platform")
         self.ts_bench_path = self.project_root / "testing" / "ts-bench"
         self.results_file = self.project_root / "ai_quality_results.json"
-        self.bun_path = "/c/Users/Judy/.bun/bin/bun.exe"
+        self.bun_path = shutil.which("bun") or "bun"
         
         # Industry benchmarks for comparison
         self.industry_benchmarks = {

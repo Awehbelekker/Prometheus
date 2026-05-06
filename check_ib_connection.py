@@ -3,6 +3,7 @@
 🏦 PROMETHEUS - Interactive Brokers Connection Test
 """
 import asyncio
+import os
 import sys
 import socket
 
@@ -44,8 +45,8 @@ async def test_ib_connection():
             'host': '127.0.0.1',
             'port': 4002,
             'client_id': 99,  # Use unique client ID to avoid conflicts
-            'paper_trading': False,  # Live trading (account U21922116)
-            'account_id': 'U21922116'
+            'paper_trading': False,
+            'account_id': os.getenv('IB_ACCOUNT', '')
         }
         
         print(f"   Connecting to {ib_config['host']}:{ib_config['port']}...")

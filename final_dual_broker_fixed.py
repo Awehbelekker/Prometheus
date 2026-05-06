@@ -82,7 +82,7 @@ class FinalDualBrokerTradingSystem:
         self.ib_broker: Optional[InteractiveBrokersBroker] = None
         self.alpaca_trades_today = 0
         self.ib_trades_today = 0
-        self.ib_account = os.getenv('IB_ACCOUNT', "U21922116")  # From .env
+        self.ib_account = os.getenv('IB_ACCOUNT', '')  # From .env
         
         # Capital allocation
         self.ib_capital = 251.58  # IB account balance

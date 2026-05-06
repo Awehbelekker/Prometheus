@@ -272,7 +272,7 @@ class SystemAuditor:
         
         # IB
         ib_port = os.getenv('IB_PORT', '7497')
-        ib_account = os.getenv('IB_ACCOUNT', 'U21922116')
+        ib_account = os.getenv('IB_ACCOUNT', '')
         print(f"IB Port: {ib_port} ({'LIVE' if ib_port == '7497' else 'PAPER'})")
         print(f"IB Account: {ib_account}")
         

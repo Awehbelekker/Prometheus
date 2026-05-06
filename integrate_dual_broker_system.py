@@ -319,7 +319,7 @@ os.environ['ALPACA_LIVE_BASE_URL'] = 'https://api.alpaca.markets'
 os.environ['IB_HOST'] = '127.0.0.1'
 os.environ['IB_PORT'] = '7496'
 os.environ['IB_CLIENT_ID'] = '7777'
-os.environ['IB_ACCOUNT'] = 'U21922116'
+os.environ.setdefault('IB_ACCOUNT', os.getenv('IB_ACCOUNT', ''))
 
 def launch_dual_broker_system():
     """Launch the complete dual-broker system"""

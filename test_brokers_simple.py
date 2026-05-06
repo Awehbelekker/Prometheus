@@ -109,7 +109,7 @@ async def test_ib_connection():
             'host': host,
             'port': port,
             'client_id': client_id,
-            'account': os.getenv('IB_ACCOUNT', 'U21922116')
+            'account': os.getenv('IB_ACCOUNT', '')
         }
         
         broker = InteractiveBrokersBroker(config)

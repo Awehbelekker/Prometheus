@@ -45,7 +45,7 @@ Should show: `Virtualization Enabled In Firmware: Yes`
 2. Create username/password when prompted
 3. Run the ROCm setup scripts:
 ```bash
-cd /mnt/c/Users/Judy/Desktop/PROMETHEUS-Trading-Platform/wsl_setup
+cd /mnt/c/Users/$USER/Desktop/Prometheus/wsl_setup
 chmod +x *.sh
 ./install_rocm.sh
 ./install_ollama_rocm.sh

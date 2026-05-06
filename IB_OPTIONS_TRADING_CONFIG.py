@@ -184,7 +184,7 @@ def get_ib_config() -> Dict[str, Any]:
         "port": int(os.getenv("IB_PORT", "4002")),  # Default to Gateway Live port
         "client_id": int(os.getenv("IB_CLIENT_ID", "2")),
         "paper_trading": os.getenv("IB_PAPER_TRADING", "false").lower() == "true",
-        "account_id": os.getenv("IB_ACCOUNT", "U21922116")
+        "account_id": os.getenv('IB_ACCOUNT', '')
     }
 
 def get_options_config() -> Dict[str, Any]:

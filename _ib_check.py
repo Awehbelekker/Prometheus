@@ -1,6 +1,7 @@
 """Quick IB account check."""
 import asyncio
 import logging
+import os
 logging.disable(logging.CRITICAL)
 
 from brokers.interactive_brokers_broker import InteractiveBrokersBroker
@@ -9,7 +10,7 @@ async def main():
     config = {
         'host': '127.0.0.1',
         'port': 4002,
-        'account_id': 'U21922116',
+        'account_id': os.getenv('IB_ACCOUNT', ''),
         'paper_trading': False,
         'client_id': 55
     }

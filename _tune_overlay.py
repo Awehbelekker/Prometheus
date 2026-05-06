@@ -6,7 +6,7 @@ Runs the 50-year benchmark 8 times with PROMETHEUS_OVERLAY_SCALE set to
 efficiency-frontier point (best Sharpe where Legacy CAGR >= 41%).
 
 Usage:
-    .venv_directml_test\Scripts\python.exe _tune_overlay.py
+    .venv\Scripts\python.exe _tune_overlay.py
 """
 
 import glob

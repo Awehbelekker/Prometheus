@@ -31,8 +31,8 @@ class PrometheusAuditor:
     """Comprehensive auditor for Trading Platform improvements"""
     
     def __init__(self):
-        self.platform_path = Path("C:/Users/Judy/Desktop/PROMETHEUS-Trading-Platform")
-        self.audit_log_path = Path("C:/Users/Judy/Desktop/PROMETHEUS-AUDIT-LOGS")
+        self.platform_path = Path(__file__).parent
+        self.audit_log_path = self.platform_path / "audit-logs"
         self.v2_3_baseline_date = datetime(2025, 10, 18)  # v2.3 release date
         
         # Setup logging

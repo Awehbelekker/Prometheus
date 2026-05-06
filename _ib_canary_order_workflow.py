@@ -110,7 +110,7 @@ async def main() -> int:
         "port": int(os.getenv("IB_PORT", "4002")),
         "client_id": int(os.getenv("IB_CLIENT_ID", "92")),
         "paper_trading": False,
-        "account_id": os.getenv("IB_ACCOUNT_ID", "U21922116"),
+        "account_id": os.getenv('IB_ACCOUNT_ID', ''),
     }
 
     broker = InteractiveBrokersBroker(config)

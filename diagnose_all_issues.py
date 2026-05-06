@@ -187,7 +187,7 @@ class ComprehensiveDiagnostics:
         
         # Check IB configuration
         self.print_subheader("IB Configuration")
-        ib_account = os.getenv('IB_ACCOUNT', 'U21922116')
+        ib_account = os.getenv('IB_ACCOUNT', '')
         print(f"IB Account: {ib_account}")
         
         try:

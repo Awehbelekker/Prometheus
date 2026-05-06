@@ -38,7 +38,7 @@ def launch_final_system():
     os.environ['IB_HOST'] = '127.0.0.1'
     os.environ['IB_PORT'] = '4002'
     os.environ['IB_CLIENT_ID'] = '7777'
-    os.environ['IB_ACCOUNT'] = 'U21922116'
+    os.environ.setdefault('IB_ACCOUNT', os.getenv('IB_ACCOUNT', ''))
     os.environ['IB_TRADING_MODE'] = 'live'
 
     # Alpaca Live Trading (Real Money)
@@ -182,7 +182,7 @@ def launch_final_system():
                 "enabled": True,
                 "host": "127.0.0.1",
                 "port": 4002,
-                "account": "U21922116",
+                "account": os.getenv('IB_ACCOUNT', ''),
                 "status": "connected",
                 "role": "primary_live_trading"
             },

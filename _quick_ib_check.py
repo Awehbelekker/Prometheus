@@ -6,7 +6,7 @@ sys.path.insert(0, '.')
 from dotenv import load_dotenv
 load_dotenv()
 
-os.environ.setdefault('IB_ACCOUNT', 'U21922116')
+os.environ.setdefault('IB_ACCOUNT', '')
 os.environ.setdefault('IB_HOST', '127.0.0.1')
 os.environ.setdefault('IB_PORT', '4002')
 os.environ.setdefault('IB_CLIENT_ID', '99')

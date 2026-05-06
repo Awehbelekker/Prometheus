@@ -110,7 +110,7 @@ def check_ib():
     
     ib_host = os.getenv('IB_HOST', '127.0.0.1')
     ib_port = int(os.getenv('IB_PORT', '4002'))
-    ib_account = os.getenv('IB_ACCOUNT', 'U21922116')
+    ib_account = os.getenv('IB_ACCOUNT', '')
     ib_client_id = 99  # Use unique client ID to avoid conflicts with running server
     
     print(f"  Config: {ib_host}:{ib_port}  Account={ib_account}  ClientID={ib_client_id}")

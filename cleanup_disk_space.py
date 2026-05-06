@@ -25,7 +25,7 @@ def cleanup_prometheus():
     print("  PROMETHEUS DISK CLEANUP")
     print("=" * 60)
     
-    base_path = Path(r"C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform")
+    base_path = Path(__file__).parent
     total_freed = 0
     
     # 1. Clean old log files (keep last 7 days)
@@ -144,7 +144,7 @@ if __name__ == "__main__":
     
     # Delete archive if requested
     if "--delete-archive" in sys.argv:
-        archive_path = Path(r"C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\ARCHIVE_2025_10_20")
+        archive_path = Path(__file__).parent / "ARCHIVE_2025_10_20"
         if archive_path.exists():
             print(f"\n⚠️ Deleting archive folder...")
             shutil.rmtree(archive_path)

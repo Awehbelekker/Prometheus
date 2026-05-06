@@ -21,7 +21,7 @@ Open Ubuntu terminal and run:
 
 ```bash
 # Navigate to setup scripts (from Windows path)
-cd /mnt/c/Users/Judy/Desktop/PROMETHEUS-Trading-Platform/wsl_setup
+cd /mnt/c/Users/$USER/Desktop/Prometheus/wsl_setup
 
 # Make scripts executable
 chmod +x install_rocm.sh install_ollama_rocm.sh

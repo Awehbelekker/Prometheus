@@ -34,7 +34,7 @@ try:
             self.account_value = {}
             self.connected = False
             self.done = False
-            self.target_account = os.getenv('IB_ACCOUNT', 'U21922116')
+            self.target_account = os.getenv('IB_ACCOUNT', '')
             
         def nextValidId(self, orderId: int):
             self.connected = True

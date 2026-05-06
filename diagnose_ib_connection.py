@@ -128,7 +128,7 @@ def check_environment_variables():
     
     ib_host = os.getenv('IB_HOST', os.getenv('IB_GATEWAY_HOST', '127.0.0.1'))
     ib_port = int(os.getenv('IB_PORT', os.getenv('IB_GATEWAY_PORT', '7497')))
-    ib_account = os.getenv('IB_ACCOUNT', os.getenv('IB_ACCOUNT_ID', 'U21922116'))
+    ib_account = os.getenv('IB_ACCOUNT', os.getenv('IB_ACCOUNT_ID', ''))
     ib_client_id = int(os.getenv('IB_CLIENT_ID', '7777'))
     
     print(f"IB_HOST: {ib_host}")

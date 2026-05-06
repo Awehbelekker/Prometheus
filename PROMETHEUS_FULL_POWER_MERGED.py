@@ -289,7 +289,7 @@ class PrometheusFullPowerMerged:
         # ═══════════════════════════════════════════════════════════════════
         self.alpaca_broker: Optional[AlpacaBroker] = None
         self.ib_broker = None
-        self.ib_account = os.getenv('IB_ACCOUNT', "U21922116")
+        self.ib_account = os.getenv('IB_ACCOUNT', '')
         self.ib_port = int(os.getenv('IB_PORT', '4002'))
         
         # Capital tracking

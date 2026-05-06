@@ -117,7 +117,7 @@ ib_connected = False
 
 ib_host = os.getenv('IB_HOST', '127.0.0.1')
 ib_port = int(os.getenv('IB_PORT', '4002'))
-ib_account = os.getenv('IB_ACCOUNT', 'U21922116')
+ib_account = os.getenv('IB_ACCOUNT', '')
 print(f"  Config: {ib_host}:{ib_port}  Account={ib_account}")
 
 try:

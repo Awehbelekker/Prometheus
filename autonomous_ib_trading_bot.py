@@ -43,7 +43,7 @@ class TradingBot(EWrapper, EClient):
         self.next_order_id = None
         
         # Account data
-        self.account_id = os.getenv('IB_ACCOUNT_ID', 'U21922116')
+        self.account_id = os.getenv('IB_ACCOUNT_ID', '')
         self.account_value = {}
         self.positions = {}
         self.cash_balance = 0.0
@@ -287,7 +287,7 @@ def main():
     print("  🚀 PROMETHEUS AUTONOMOUS IB TRADING BOT")
     print("=" * 80)
     print("[WARNING]️  WARNING: THIS WILL MAKE REAL TRADES WITH REAL MONEY")
-    print(f"💰 Account: {os.getenv('IB_ACCOUNT_ID', 'U21922116')}")
+    print(f"💰 Account: {os.getenv('IB_ACCOUNT_ID', '')}")
     print(f"💵 Capital: ${os.getenv('STARTING_CAPITAL_USD', '250')} USD")
     print("=" * 80)
     

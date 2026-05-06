@@ -43,7 +43,7 @@ class VisualTradingMonitor:
         self.alpaca_secret = os.getenv('ALPACA_SECRET_KEY')
         self.alpaca_base_url = "https://api.alpaca.markets"
         self.ib_port = int(os.getenv('IB_PORT', '4002'))
-        self.ib_account = os.getenv('IB_ACCOUNT', 'U21922116')
+        self.ib_account = os.getenv('IB_ACCOUNT', '')
         self.ib_broker = None
         self.update_interval = 5  # seconds
         self.alpaca_headers = {

@@ -27,7 +27,7 @@ AVAILABLE TRADING ACCESS:
 
 TO RUN OUTSIDE VS CODE:
   1. Open PowerShell or Command Prompt
-  2. Navigate to: cd C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform
+  2. Navigate to the project directory
   3. Run: python prometheus_autonomous_24_7.py
 
 ================================================================================

@@ -28,10 +28,10 @@ class PrometheusSyncManager:
     """Manages synchronization between Trading Platform and Enterprise Package"""
     
     def __init__(self):
-        self.trading_platform_path = Path("C:/Users/Judy/Desktop/PROMETHEUS-Trading-Platform")
-        self.enterprise_package_path = Path("C:/Users/Judy/Desktop/PROMETHEUS-Enterprise-Package-COMPLETE")
-        self.backup_path = Path("C:/Users/Judy/Desktop/PROMETHEUS-SYNC-BACKUP")
-        self.sync_log_path = Path("C:/Users/Judy/Desktop/PROMETHEUS-SYNC-LOGS")
+        self.trading_platform_path = Path(__file__).parent
+        self.enterprise_package_path = self.trading_platform_path.parent / "PROMETHEUS-Enterprise-Package-COMPLETE"
+        self.backup_path = self.trading_platform_path.parent / "PROMETHEUS-SYNC-BACKUP"
+        self.sync_log_path = self.trading_platform_path.parent / "PROMETHEUS-SYNC-LOGS"
         
         # Setup logging
         self.setup_logging()

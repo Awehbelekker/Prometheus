@@ -25,7 +25,7 @@ async def main():
             'port': int(os.getenv('IB_PORT', '4002')),
             'client_id': 98,
             'paper_trading': False,
-            'account_id': os.getenv('IB_ACCOUNT', 'U21922116'),
+            'account_id': os.getenv('IB_ACCOUNT', ''),
         }
     )
 

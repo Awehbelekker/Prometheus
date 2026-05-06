@@ -2,7 +2,7 @@
 import sqlite3, os
 from datetime import datetime
 
-BASE = r'c:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform'
+BASE = os.path.dirname(os.path.abspath(__file__))
 db = sqlite3.connect(os.path.join(BASE, 'prometheus_learning.db'))
 db.row_factory = sqlite3.Row
 

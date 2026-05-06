@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import asyncio
+import os
 from decimal import Decimal
 
 from brokers.interactive_brokers_broker import InteractiveBrokersBroker
@@ -12,7 +13,7 @@ async def main() -> int:
         'port': 4002,
         'client_id': 93,
         'paper_trading': False,
-        'account_id': 'U21922116',
+        'account_id': os.getenv('IB_ACCOUNT', ''),
     })
     ok = await broker.connect()
     print('CONNECTED', ok)

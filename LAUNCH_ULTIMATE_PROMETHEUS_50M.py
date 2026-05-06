@@ -110,7 +110,7 @@ async def verify_and_start_ultimate():
                 'host': '127.0.0.1',
                 'port': ib_port,
                 'client_id': 1,
-                'account_id': os.getenv('IB_ACCOUNT', 'U21922116'),
+                'account_id': os.getenv('IB_ACCOUNT', ''),
                 'paper_trading': False
             }
             
