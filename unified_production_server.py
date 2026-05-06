@@ -3031,7 +3031,7 @@ ROLE_UPGRADES: dict[str, str] = {}
 # Live IB Account Mapping
 LIVE_IB_ACCOUNT_MAPPING = {
     'rileydai2024': {
-        'ib_account_id': 'U21922116',
+        'ib_account_id': os.getenv('IB_ACCOUNT', ''),
         'ib_username': 'rileydai2024',
         'capital_usd': 250.0,
         'tier': 'live_trader',
@@ -9418,13 +9418,13 @@ def get_ib_broker():
             from brokers.interactive_brokers_broker import InteractiveBrokersBroker
             ib_port = int(os.getenv('IB_PORT', '4002'))
             _ib_broker = InteractiveBrokersBroker(config={
-                'account_id': os.getenv('IB_ACCOUNT', 'U21922116'),
+                'account_id': os.getenv('IB_ACCOUNT', ''),
                 'host': os.getenv('IB_HOST', '127.0.0.1'),
                 'port': ib_port,
                 'client_id': int(os.getenv('IB_CLIENT_ID', '3')),
                 'paper_trading': ib_port in (4001, 7496)
             })
-            logger.info(f" IB Broker initialized (fallback) for account {os.getenv('IB_ACCOUNT', 'U21922116')}")
+            logger.info(f" IB Broker initialized (fallback) for account {os.getenv('IB_ACCOUNT', '')}")
         except Exception as e:
             logger.error(f" Failed to initialize IB Broker: {e}")
             _ib_broker = None
@@ -9562,7 +9562,7 @@ async def get_ib_status(current_user: dict = Depends(require_authenticated_user)
                 "success": True,
                 "connected": False,
                 "available": False,
-                "account": os.getenv('IB_ACCOUNT', 'U21922116'),
+                "account": os.getenv('IB_ACCOUNT', ''),
                 "host": os.getenv('IB_HOST', '127.0.0.1'),
                 "port": int(os.getenv('IB_PORT', '4002')),
                 "error": "IB Broker not initialized",
@@ -9573,7 +9573,7 @@ async def get_ib_status(current_user: dict = Depends(require_authenticated_user)
             "success": True,
             "connected": ib_broker.connected,
             "available": True,
-            "account": os.getenv('IB_ACCOUNT', 'U21922116'),
+            "account": os.getenv('IB_ACCOUNT', ''),
             "host": os.getenv('IB_HOST', '127.0.0.1'),
             "port": int(os.getenv('IB_PORT', '4002')),
             "timestamp": datetime.now().isoformat()
@@ -13870,7 +13870,7 @@ async def get_admin_dashboard_metrics(current_user: dict = Depends(get_current_u
                 "port_reachable": ib_reachable,
                 "host": ib_host,
                 "port": ib_port,
-                "account": os.getenv("IB_ACCOUNT", "U21922116"),
+                "account": os.getenv("IB_ACCOUNT", ""),
             }
             # Try full connection for account data
             if ib_reachable:

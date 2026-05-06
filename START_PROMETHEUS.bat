@@ -29,10 +29,14 @@ echo.
 echo ============================================================================
 echo.
 
-cd /d "C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform"
+cd /d "%~dp0"
 
-set "PROMETHEUS_PYTHON=C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform\.venv_directml_test\Scripts\python.exe"
-if not exist "%PROMETHEUS_PYTHON%" set "PROMETHEUS_PYTHON=python"
+set "PROMETHEUS_PYTHON=%~dp0.venv\Scripts\python.exe"
+if not exist "%PROMETHEUS_PYTHON%" (
+    echo [ERROR] Virtual environment not found. Run: python -m venv .venv ^&^& .venv\Scripts\pip install -r requirements.txt
+    pause
+    exit /b 1
+)
 
 :: Force live trading runtime mode for both backend and live trader process
 set "ALWAYS_LIVE=1"
@@ -171,7 +175,7 @@ echo.
 echo [3/6] Starting Unified Production Server (port 8000)...
 echo   STAGE 1 Configuration: Memory cap=%MEMORY_CAP_PERCENT%^%, auto-pause at %MEMORY_AUTO_PAUSE_PERCENT%^%
 echo   STAGE 2 Configuration: IB reconnect base delay=%IB_RECONNECT_DELAY_BASE%s, heartbeat every %IB_HEARTBEAT_INTERVAL%s
-start "PROMETHEUS-Server" /MIN cmd /c "cd /d "C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform" && "%PROMETHEUS_PYTHON%" -X utf8 unified_production_server.py >> logs\server.log 2>&1"
+start "PROMETHEUS-Server" /MIN cmd /c "cd /d "%~dp0" && "%PROMETHEUS_PYTHON%" -X utf8 unified_production_server.py >> logs\server.log 2>&1"
 echo   Server launching in minimized window...
 echo.
 
@@ -192,7 +196,7 @@ echo.
 :: ──────────── Start Live Trading Engine ────────────
 echo [5/6] Starting Live Trading Engine (Alpaca + IB)...
 echo   STAGE 5 Configuration: HRM Checkpointing=%ENABLE_HRM_CHECKPOINTING%, Pattern Learning=%ENABLE_PATTERN_LEARNING%
-start "PROMETHEUS-LiveTrader" /MIN cmd /c "cd /d "C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform" && "%PROMETHEUS_PYTHON%" -X utf8 launch_ultimate_prometheus_LIVE_TRADING.py >> logs\live_trader.log 2>&1"
+start "PROMETHEUS-LiveTrader" /MIN cmd /c "cd /d "%~dp0" && "%PROMETHEUS_PYTHON%" -X utf8 launch_ultimate_prometheus_LIVE_TRADING.py >> logs\live_trader.log 2>&1"
 echo   Live Trader launching in minimized window...
 echo.
 

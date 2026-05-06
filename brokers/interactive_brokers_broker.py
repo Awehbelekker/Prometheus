@@ -112,7 +112,7 @@ if IB_AVAILABLE:
         def accountSummary(self, reqId: int, account: str, tag: str, value: str, currency: str):
             """Receive account summary - ONLY use primary account"""
             # Get the primary account ID from config
-            primary_account = self.broker.config.get('account_id', 'U21922116')
+            primary_account = self.broker.config.get('account_id', os.getenv('IB_ACCOUNT', ''))
             
             # Only store data from the primary account (ignore other linked accounts)
             if account == primary_account or primary_account in account:

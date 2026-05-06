@@ -12,7 +12,7 @@ LIVE PERFORMANCE (All-Time, Dec 14, 2025 - Mar 11, 2026):
 
 CURRENT MODE: LIVE TRADING + Shadow Learning
 - Alpaca: LIVE trading (~$98.65 real capital)
-- Interactive Brokers: Account U21922116 (LIVE on port 4002)
+- Interactive Brokers: Account $IB_ACCOUNT (LIVE on port 4002)
 - Shadow Trading: $100K virtual capital (parallel learning system)
 - All AI Systems: Fully autonomous (trading, learning, adapting)
 
@@ -379,7 +379,7 @@ class PrometheusLiveTradingLauncher:
 
         # Live Trading Configuration
         self.live_mode = True
-        self.ib_account = "U21922116"
+        self.ib_account = os.getenv('IB_ACCOUNT', '')
         # IB Ports:
         #   TWS: 7496 = Paper Trading, 7497 = Live Trading
         #   Gateway: 4001 = Paper Trading, 4002 = Live Trading
@@ -1345,7 +1345,7 @@ class PrometheusLiveTradingLauncher:
                 'port': self.ib_port,  # 4002 = Gateway Live, 7497 = TWS Live
                 'client_id': ib_client_id,  # Random ID (10-99) to avoid conflicts
                 'paper_trading': is_paper,
-                'account_id': self.ib_account  # U21922116
+                'account_id': self.ib_account
             }
             print(f"   Connecting to IB Gateway on port {self.ib_port} (client_id: {ib_client_id}, {'PAPER' if is_paper else 'LIVE'} trading)...")
             self.systems['ib_broker'] = InteractiveBrokersBroker(config=ib_config)

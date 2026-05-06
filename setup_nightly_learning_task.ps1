@@ -6,7 +6,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $workspace = Split-Path -Parent $MyInvocation.MyCommand.Path
-$python = Join-Path $workspace ".venv_directml_test\Scripts\python.exe"
+$python = Join-Path $workspace ".venv\Scripts\python.exe"
 if (-not (Test-Path $python)) {
     $python = "python"
 }

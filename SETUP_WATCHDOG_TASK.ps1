@@ -5,8 +5,8 @@
 # (so after a reboot you just log into IB Gateway normally, watchdog handles the rest).
 
 $TaskName   = "PrometheusWatchdog"
-$RootDir    = "C:\Users\Judy\Desktop\PROMETHEUS-Trading-Platform"
-$PythonExe  = "$RootDir\.venv_directml_test\Scripts\python.exe"
+$RootDir    = Split-Path -Parent $MyInvocation.MyCommand.Path
+$PythonExe  = Join-Path $RootDir ".venv\Scripts\python.exe"
 $Script     = "$RootDir\prometheus_watchdog.py"
 $LogDir     = $RootDir
 

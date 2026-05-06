@@ -20,7 +20,7 @@ Usage:
 Or set it as a Windows Task Scheduler task with:
     Trigger: At startup (or At log on)
     Action:  python prometheus_watchdog.py
-    Start in: C:/Users/Judy/Desktop/PROMETHEUS-Trading-Platform
+    Start in: <path to Prometheus repo root>
 """
 
 import os
@@ -87,7 +87,7 @@ def _wait_for_ib():
 def _python_exe() -> str:
     """Return the Python executable that should run the trading script."""
     # Prefer the venv Python if it exists
-    venv_python = ROOT / '.venv_directml_test' / 'Scripts' / 'python.exe'
+    venv_python = ROOT / '.venv' / 'Scripts' / 'python.exe'
     if venv_python.exists():
         return str(venv_python)
     return sys.executable
