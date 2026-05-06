@@ -12,7 +12,7 @@ IMMEDIATE FEED (no internet required):
   - PROMETHEUS own trade history as episodic memory
   - Learned pattern files from all learning cycles
   - ai_knowledge_training_data.json
-  - Missing PDFs (Transformer_Time_Series.pdf)
+  - All PDFs in knowledge_base/ (28 papers + books; dedup is chunk-level)
 
 AUTONOMOUS WEEKLY PULL (internet, all free / no API key):
   - arXiv RSS  — q-fin, cs.LG, cs.AI new papers
@@ -457,18 +457,24 @@ def feed_learned_patterns(pipeline) -> int:
 # ─────────────────────────────────────────────────────────────────────────────
 
 def feed_missing_pdfs(pipeline) -> int:
-    """Ingest any PDFs not yet in the index."""
-    log.info("FEED 4/5 — Missing PDFs...")
-    indexed_paths = {doc.source_path for doc in pipeline.index.values()}
-    ingested = 0
-    for pdf in sorted(KNOWLEDGE_DIR.glob('*.pdf')):
-        if str(pdf) not in indexed_paths and str(pdf.resolve()) not in indexed_paths:
-            log.info(f"  Ingesting: {pdf.name}")
-            doc_id = pipeline.ingest_pdf(str(pdf), source_type='paper')
-            if doc_id:
-                ingested += 1
+    """Ingest all PDFs in knowledge_base/ — let _ingest_content handle deduplication.
 
-    log.info(f"  [OK] Ingested {ingested} new PDFs")
+    Previously this skipped PDFs whose path was in the metadata index, which caused
+    documents indexed under the old ChromaDB backend to never be embedded in the
+    numpy fallback store.  Passing every PDF through ingest_pdf() is safe because
+    _ingest_content checks whether the doc's first chunk already exists in the
+    *vector* store before embedding; already-embedded docs are skipped in <1ms.
+    """
+    log.info("FEED 4/5 — All PDFs in knowledge_base/...")
+    ingested = 0
+    pdfs = sorted(KNOWLEDGE_DIR.glob('*.pdf'))
+    for pdf in pdfs:
+        log.info(f"  Checking: {pdf.name}")
+        doc_id = pipeline.ingest_pdf(str(pdf), source_type='paper')
+        if doc_id:
+            ingested += 1
+
+    log.info(f"  [OK] Processed {len(pdfs)} PDFs, {ingested} newly embedded")
     return ingested
 
 

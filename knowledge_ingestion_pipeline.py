@@ -55,6 +55,73 @@ class KnowledgeDocument:
     embedding_ids: List[str] = None
 
 
+class NumpyVectorStore:
+    """
+    Pure-Python persistent vector store using numpy cosine similarity.
+    Drop-in fallback for ChromaDB when its Rust bindings are unavailable.
+    Stores embeddings as a .npy file and metadata as JSON — no C extensions needed.
+    """
+
+    def __init__(self, db_path):
+        import numpy as np
+        self._np = np
+        self._dir = Path(db_path)
+        self._dir.mkdir(parents=True, exist_ok=True)
+        self._emb_file  = self._dir / "numpy_embeddings.npy"
+        self._meta_file = self._dir / "numpy_metadata.json"
+        self._embeddings = []   # list of 1-D float lists
+        self._metadata   = []   # list of dicts: {id, document, metadata}
+        self._load()
+
+    def _load(self):
+        if self._meta_file.exists():
+            self._metadata = json.loads(self._meta_file.read_text(encoding='utf-8'))
+        if self._emb_file.exists() and self._metadata:
+            arr = self._np.load(str(self._emb_file))
+            self._embeddings = arr.tolist()
+
+    def _save(self):
+        self._meta_file.write_text(
+            json.dumps(self._metadata, ensure_ascii=False), encoding='utf-8'
+        )
+        if self._embeddings:
+            self._np.save(str(self._emb_file), self._np.array(self._embeddings, dtype='float32'))
+
+    def add(self, ids, embeddings, documents, metadatas):
+        existing_ids = {m['id'] for m in self._metadata}
+        for chunk_id, emb, doc, meta in zip(ids, embeddings, documents, metadatas):
+            if chunk_id not in existing_ids:
+                self._embeddings.append(emb)
+                self._metadata.append({'id': chunk_id, 'document': doc, 'metadata': meta})
+        self._save()
+
+    def count(self):
+        return len(self._metadata)
+
+    def query(self, query_embedding, n_results=5):
+        if not self._embeddings:
+            return []
+        np = self._np
+        q = np.array(query_embedding, dtype='float32')
+        q_norm = q / (np.linalg.norm(q) + 1e-10)
+        matrix = np.array(self._embeddings, dtype='float32')
+        norms  = np.linalg.norm(matrix, axis=1, keepdims=True) + 1e-10
+        sims   = (matrix / norms) @ q_norm
+        top_k  = min(n_results, len(sims))
+        top_idx = np.argsort(-sims)[:top_k]
+        results = []
+        for i in top_idx:
+            m = self._metadata[i]
+            sim = float(sims[i])
+            results.append({
+                'content':   m['document'],
+                'metadata':  m['metadata'],
+                'distance':  1.0 - sim,
+                'relevance': sim,
+            })
+        return results
+
+
 class KnowledgeIngestionPipeline:
     """
     Ingests and indexes external knowledge for PROMETHEUS.
@@ -118,6 +185,13 @@ class KnowledgeIngestionPipeline:
             logger.warning("sentence-transformers not available, using fallback")
             self.embedder = None
         
+        # ChromaDB 1.1.x Rust bindings have a known panic bug on Python 3.13/Windows.
+        # We try ChromaDB first; if it panics we fall back to a pure-numpy store that
+        # is persistent (pickle + npy files) and uses exact cosine similarity.
+        self.vector_store = None
+        self.collection = None
+        self._numpy_store = None  # fallback
+
         try:
             import chromadb
             self.vector_store = chromadb.PersistentClient(path=str(self.vector_db_path))
@@ -127,9 +201,15 @@ class KnowledgeIngestionPipeline:
             )
             logger.info(f"ChromaDB initialized with {self.collection.count()} vectors")
         except ImportError:
-            logger.warning("ChromaDB not available, will use JSON fallback")
-            self.vector_store = None
-            self.collection = None
+            logger.warning("ChromaDB not available — using numpy vector store")
+            self._numpy_store = NumpyVectorStore(self.vector_db_path)
+        except Exception as e:
+            logger.warning(f"ChromaDB failed ({type(e).__name__}: {e}) — using numpy vector store")
+            self._numpy_store = NumpyVectorStore(self.vector_db_path)
+        except BaseException as e:
+            # pyo3 PanicException inherits BaseException, not Exception
+            logger.warning(f"ChromaDB Rust panic ({type(e).__name__}) — using numpy vector store")
+            self._numpy_store = NumpyVectorStore(self.vector_db_path)
     
     def _generate_doc_id(self, content: str, source: str) -> str:
         """Generate unique document ID"""
@@ -245,10 +325,25 @@ class KnowledgeIngestionPipeline:
         # Generate ID
         doc_id = self._generate_doc_id(content, source_path)
         
-        # Check if already ingested
+        # Check if already ingested — but verify the doc's chunks are actually in the
+        # vector store (handles DB migrations / backend switches gracefully).
         if doc_id in self.index:
-            logger.info(f"Document already ingested: {title}")
-            return doc_id
+            # Check if at least the first chunk for this doc exists in the vector store
+            first_chunk_id = f"{doc_id}_0"
+            chunk_in_store = False
+            try:
+                if self.collection:
+                    chunk_in_store = self.collection.count() > 0
+                elif self._numpy_store:
+                    stored_ids = {m["id"] for m in self._numpy_store._metadata}
+                    chunk_in_store = first_chunk_id in stored_ids
+            except Exception:
+                pass
+            if chunk_in_store:
+                logger.info(f"Document already ingested: {title}")
+                return doc_id
+            # Doc is in metadata index but not in the vector store — re-embed
+            logger.info(f"Re-embedding (missing from vector store): {title}")
         
         # Chunk content
         chunks = self._chunk_text(content)
@@ -268,27 +363,29 @@ class KnowledgeIngestionPipeline:
         )
         
         # Generate embeddings and store in vector DB
-        if self.embedder and self.collection:
+        if self.embedder and (self.collection or self._numpy_store):
             try:
                 embeddings = self.embedder.encode(chunks).tolist()
-                
-                # Add to ChromaDB
                 chunk_ids = [f"{doc_id}_{i}" for i in range(len(chunks))]
-                self.collection.add(
-                    ids=chunk_ids,
-                    embeddings=embeddings,
-                    documents=chunks,
-                    metadatas=[{
-                        "doc_id": doc_id,
-                        "title": title,
-                        "source_type": source_type,
-                        "chunk_index": i
-                    } for i in range(len(chunks))]
-                )
-                
+                meta_list = [{"doc_id": doc_id, "title": title,
+                              "source_type": source_type, "chunk_index": i}
+                             for i in range(len(chunks))]
+
+                if self.collection:
+                    # ChromaDB path
+                    self.collection.add(
+                        ids=chunk_ids,
+                        embeddings=embeddings,
+                        documents=chunks,
+                        metadatas=meta_list
+                    )
+                    logger.info(f"Added {len(chunk_ids)} vectors to ChromaDB")
+                elif self._numpy_store:
+                    # Numpy fallback path
+                    self._numpy_store.add(chunk_ids, embeddings, chunks, meta_list)
+                    logger.info(f"Added {len(chunk_ids)} vectors to numpy store")
+
                 doc.embedding_ids = chunk_ids
-                logger.info(f"Added {len(chunk_ids)} vectors to ChromaDB")
-                
             except Exception as e:
                 logger.error(f"Embedding failed: {e}")
         
@@ -301,35 +398,38 @@ class KnowledgeIngestionPipeline:
     
     def query(self, query: str, n_results: int = 5) -> List[Dict[str, Any]]:
         """Query knowledge base for relevant content"""
-        if not self.embedder or not self.collection:
-            logger.warning("Vector search not available")
+        if not self.embedder:
+            logger.warning("No embedder — using keyword fallback")
             return self._fallback_search(query, n_results)
-        
-        try:
-            # Get query embedding
-            query_embedding = self.embedder.encode([query]).tolist()
-            
-            # Search ChromaDB
-            results = self.collection.query(
-                query_embeddings=query_embedding,
-                n_results=n_results
-            )
-            
-            # Format results
-            formatted = []
-            for i, doc in enumerate(results['documents'][0]):
-                formatted.append({
-                    'content': doc,
-                    'metadata': results['metadatas'][0][i] if results['metadatas'] else {},
-                    'distance': results['distances'][0][i] if results['distances'] else 0,
-                    'relevance': 1 - (results['distances'][0][i] if results['distances'] else 0)
-                })
-            
-            return formatted
-            
-        except Exception as e:
-            logger.error(f"Query failed: {e}")
-            return []
+
+        query_embedding = self.embedder.encode([query]).tolist()
+
+        # ── ChromaDB path ──────────────────────────────────────────────────
+        if self.collection:
+            try:
+                results = self.collection.query(
+                    query_embeddings=query_embedding,
+                    n_results=n_results
+                )
+                formatted = []
+                for i, doc in enumerate(results['documents'][0]):
+                    formatted.append({
+                        'content': doc,
+                        'metadata': results['metadatas'][0][i] if results['metadatas'] else {},
+                        'distance': results['distances'][0][i] if results['distances'] else 0,
+                        'relevance': 1 - (results['distances'][0][i] if results['distances'] else 0)
+                    })
+                return formatted
+            except Exception as e:
+                logger.error(f"ChromaDB query failed: {e}")
+                return []
+
+        # ── Numpy fallback path ────────────────────────────────────────────
+        if self._numpy_store:
+            return self._numpy_store.query(query_embedding[0], n_results)
+
+        logger.warning("No vector store available — keyword fallback")
+        return self._fallback_search(query, n_results)
     
     def _fallback_search(self, query: str, n_results: int) -> List[Dict[str, Any]]:
         """Fallback keyword search when vector DB not available"""
@@ -560,7 +660,9 @@ class KnowledgeIngestionPipeline:
             "total_documents": len(self.index),
             "by_type": {},
             "total_chunks": 0,
-            "vector_count": self.collection.count() if self.collection else 0
+            "vector_count": (self.collection.count() if self.collection
+                             else self._numpy_store.count() if self._numpy_store else 0),
+            "backend": "chromadb" if self.collection else ("numpy" if self._numpy_store else "none")
         }
         
         for doc in self.index.values():
