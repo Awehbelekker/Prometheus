@@ -96,6 +96,30 @@ Register-ScheduledTask `
 
 Write-Host "  [OK] Weekly knowledge update — Sunday 07:00 (arXiv pull)" -ForegroundColor Green
 
+# ── Task 5: Nightly PPO retraining — 22:00 every weekday ─────────────────────
+$action5  = New-ScheduledTaskAction `
+    -Execute $PYTHON `
+    -Argument "nightly_ppo_retrain.py" `
+    -WorkingDirectory $ROOT
+
+$trigger5 = New-ScheduledTaskTrigger -Weekly `
+    -DaysOfWeek Monday,Tuesday,Wednesday,Thursday,Friday `
+    -At "10:00PM"
+
+$settings5 = New-ScheduledTaskSettingsSet `
+    -ExecutionTimeLimit (New-TimeSpan -Minutes 15) `
+    -StartWhenAvailable
+
+Register-ScheduledTask `
+    -TaskName   "PROMETHEUS PPO Retrain" `
+    -Action     $action5 `
+    -Trigger    $trigger5 `
+    -Settings   $settings5 `
+    -RunLevel   Highest `
+    -Force | Out-Null
+
+Write-Host "  [OK] Nightly PPO retraining — 22:00 Mon-Fri (RL learns from today's trades)" -ForegroundColor Green
+
 # ── Summary ───────────────────────────────────────────────────────────────────
 Write-Host ""
 Write-Host "All tasks registered. Verify in Task Scheduler:" -ForegroundColor Cyan

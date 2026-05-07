@@ -184,3 +184,6 @@ pdfplumber>=0.11.0
 arxiv>=2.1.0
 
 PyMuPDF>=1.27.0
+
+# New AI voters
+google-genai>=1.0.0
