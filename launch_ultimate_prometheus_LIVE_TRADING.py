@@ -5742,17 +5742,47 @@ class PrometheusLiveTradingLauncher:
                                 self._sb3_agent_instance = None
                         if self._sb3_agent_instance is not None:
                             import numpy as np
-                            _change = market_data.get('change_percent', 0.0)
-                            _rsi = market_data.get('rsi', 50.0)
+                            _change    = market_data.get('change_percent', 0.0)
+                            _rsi       = market_data.get('rsi', 50.0)
                             _vol_ratio = market_data.get('volume', 1) / max(market_data.get('avg_volume', 1), 1)
-                            _obs = np.array([
-                                float(current_price) / 1000.0,
-                                float(_change) / 10.0,
-                                float(_rsi) / 100.0,
-                                float(_vol_ratio),
-                                float(market_data.get('macd', 0.0)),
-                                float(market_data.get('volatility', 0.01)),
-                            ], dtype=np.float32)
+                            _macd      = market_data.get('macd', 0.0)
+                            _vola      = market_data.get('volatility', 0.01)
+                            # Regime: use HMM output if available (0=bear, 0.5=neutral, 1=bull)
+                            _regime_map = {'bull': 1.0, 'bear': 0.0, 'sideways': 0.5,
+                                           'volatile': 0.3, 'crisis': 0.1, 'unknown': 0.5}
+                            _regime_raw = market_data.get('regime', 'unknown')
+                            _regime     = _regime_map.get(str(_regime_raw).lower(), 0.5)
+                            # VIX: from FRED cache or market_data fallback (normalised VIX/40)
+                            _vix_raw   = market_data.get('vix', 20.0)
+                            _vix_norm  = min(float(_vix_raw) / 40.0, 1.0)
+
+                            # Detect model obs dimension for backward compatibility
+                            _obs_dim = getattr(
+                                self._sb3_agent_instance.observation_space, 'shape', (6,)
+                            )[0]
+
+                            if _obs_dim >= 8:
+                                # New 8-feature model (multi-asset, 20-year training)
+                                _obs = np.array([
+                                    float(current_price) / 1000.0,
+                                    float(_change) / 10.0,
+                                    float(_rsi) / 100.0,
+                                    float(_vol_ratio),
+                                    float(_macd),
+                                    float(_vola),
+                                    float(_regime),
+                                    float(_vix_norm),
+                                ], dtype=np.float32)
+                            else:
+                                # Legacy 6-feature model
+                                _obs = np.array([
+                                    float(current_price) / 1000.0,
+                                    float(_change) / 10.0,
+                                    float(_rsi) / 100.0,
+                                    float(_vol_ratio),
+                                    float(_macd),
+                                    float(_vola),
+                                ], dtype=np.float32)
                             _action_idx, _ = self._sb3_agent_instance.predict(_obs, deterministic=True)
                             _sb3_map = {0: 'SELL', 1: 'HOLD', 2: 'BUY'}
                             _sb3_action = _sb3_map.get(int(_action_idx), 'HOLD')

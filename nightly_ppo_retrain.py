@@ -106,7 +106,10 @@ def trades_to_experiences(trades):
         volatility  = max(0.001, abs(change_pct / 100.0))
 
         obs = np.array([price_norm, change_norm, rsi_proxy, vol_ratio,
-                        macd_proxy, volatility], dtype=np.float32)
+                        macd_proxy, volatility,
+                        0.5,   # regime: neutral (unknown at exit time)
+                        0.5,   # vix_norm: neutral default
+                        ], dtype=np.float32)
 
         # Action: 2=BUY (we only log buys), 0=SELL, 1=HOLD
         action = 2  # BUY was taken
@@ -163,7 +166,8 @@ def retrain(experiences, timesteps: int = 5000):
             super().__init__()
             self.experiences = experiences
             self.idx = 0
-            self.observation_space = spaces.Box(low=-5.0, high=5.0, shape=(6,), dtype=np.float32)
+            obs_dim = len(experiences[0][0]) if experiences else 8
+            self.observation_space = spaces.Box(low=-5.0, high=5.0, shape=(obs_dim,), dtype=np.float32)
             self.action_space = spaces.Discrete(3)
 
         def reset(self, **kwargs):
