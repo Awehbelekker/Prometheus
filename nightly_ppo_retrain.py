@@ -84,8 +84,9 @@ def load_recent_trades(days: int = 30):
 def trades_to_experiences(trades):
     """
     Convert raw trade rows to (obs, action, reward, next_obs, done) tuples.
-    Observation matches the 6-feature space used by train_sb3_ppo.py:
-      [price_norm, change_pct/10, rsi_proxy/100, vol_ratio, macd_proxy, volatility]
+    Observation matches the 8-feature space used by train_sb3_ppo.py:
+      [price_norm, change_pct/10, rsi_proxy/100, vol_ratio, macd_proxy, volatility,
+       regime (0.5=neutral), vix_norm (0.5=neutral)]
     """
     import numpy as np
 
