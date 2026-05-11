@@ -7224,6 +7224,14 @@ class PrometheusLiveTradingLauncher:
             selected_order_type = OrderType.MARKET if ai_order_decision['order_type'] == 'MARKET' else OrderType.LIMIT
             limit_price = ai_order_decision.get('limit_price')
 
+            # Force MARKET for micro-notional orders — fractional limit orders rarely fill
+            # during volatile sessions, causing stale_pending_timeout waste.
+            notional_value = quantity * current_price
+            if notional_value < 50.0 and selected_order_type == OrderType.LIMIT:
+                selected_order_type = OrderType.MARKET
+                limit_price = None
+                self.logger.info(f"   Overriding LIMIT -> MARKET (notional ${notional_value:.2f} < $50 threshold)")
+
             # Create Order object with AI-selected order type
             order_obj = Order(
                 symbol=symbol,
