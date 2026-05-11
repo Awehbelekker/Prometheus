@@ -112,5 +112,10 @@ hrm_trading_dataset/
 models/
 ai_models/
 knowledge_vectors/
+knowledge_vectors_backup/
+
+# Knowledge base large files (PDFs tracked separately outside git)
+knowledge_base/*.pdf
+.gitignore_knowledge_books.txt
 
 # Keep only source by default under these paths if needed later via explicit ! rules
