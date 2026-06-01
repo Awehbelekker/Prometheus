@@ -410,14 +410,28 @@ class AlpacaBroker(BrokerInterface):
             is_crypto = '/' in symbol or symbol.endswith('USD')
             is_24hr_stock = not is_crypto and self._is_24hr_stock(symbol)
 
-            # Crypto trades 24/7 — always allow extended hours to avoid rejections
-            extended_hours = is_crypto or is_24hr_stock
             order_type = 'market'
-            time_in_force = 'gtc' if is_crypto else 'day'
+            time_in_force = 'day'
             limit_price = None
+            extended_hours = False
 
-            if extended_hours:
-                # Extended hours requires limit order
+            if is_crypto:
+                # Normalize to Alpaca crypto format (ETHUSD -> ETH/USD): the
+                # crypto data/order API rejects the slashless form, which
+                # previously made catastrophic-stop price lookups fail.
+                if '/' not in symbol and symbol.endswith('USD'):
+                    symbol = f"{symbol[:-3]}/USD"
+                # Crypto trades 24/7 and supports MARKET orders. Use market to
+                # GUARANTEE execution — critical for catastrophic stops, where a
+                # limit order below a fast-falling bid may never fill. No limit
+                # price or extended_hours flag needed for crypto.
+                order_type = 'market'
+                time_in_force = 'gtc'
+                limit_price = None
+                extended_hours = False
+            elif is_24hr_stock:
+                # 24hr stock outside RTH: Alpaca requires a DAY limit order.
+                extended_hours = True
                 order_type = 'limit'
                 time_in_force = 'day'
                 try:
