@@ -228,22 +228,33 @@ class UniversalReasoningEngine:
             except Exception as e:
                 logger.warning(f"  ⚠️ HRM Reasoning failed: {e}")
         
-        # 2. GPT-OSS Reasoning (25%)
+        # 2. GPT-OSS Reasoning (15%)
         if self.gpt_oss:
             try:
-                # Try different method names
-                if hasattr(self.gpt_oss, 'analyze_market'):
-                    gpt_oss_decision = self.gpt_oss.analyze_market(context.get('market_data', {}))
-                elif hasattr(self.gpt_oss, 'get_trading_recommendation'):
-                    gpt_oss_decision = self.gpt_oss.get_trading_recommendation(context.get('market_data', {}))
+                market_data = context.get('market_data', {})
+                symbol = market_data.get('symbol', 'UNKNOWN')
+                # generate_trading_signal is async; make_ultimate_decision is sync and
+                # called from a running event loop, so we cannot await it here.
+                # Use the sync heuristic (RSI / volume / momentum) which is a real signal,
+                # not the dead HOLD/0.500 stub that used non-existent method names.
+                import asyncio as _asyncio
+                try:
+                    loop = _asyncio.get_running_loop()
+                    loop_running = loop.is_running()
+                except RuntimeError:
+                    loop_running = False
+
+                if not loop_running and hasattr(self.gpt_oss, 'generate_trading_signal'):
+                    loop = _asyncio.get_event_loop()
+                    gpt_oss_decision = loop.run_until_complete(
+                        self.gpt_oss.generate_trading_signal(symbol, market_data)
+                    )
+                    if hasattr(gpt_oss_decision, '__dict__'):
+                        gpt_oss_decision = gpt_oss_decision.__dict__
+                elif hasattr(self.gpt_oss, '_heuristic_signal'):
+                    gpt_oss_decision = self.gpt_oss._heuristic_signal(symbol, market_data)
                 else:
-                    # Fallback: create decision from GPT-OSS context
-                    gpt_oss_decision = {
-                        'action': 'HOLD',
-                        'confidence': 0.5,
-                        'reasoning': 'GPT-OSS analysis',
-                        'source': 'gpt_oss'
-                    }
+                    gpt_oss_decision = {'action': 'HOLD', 'confidence': 0.5, 'source': 'gpt_oss'}
                 reasoning_sources['gpt_oss'] = {
                     'decision': gpt_oss_decision,
                     'weight': self.weights['gpt_oss'],

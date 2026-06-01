@@ -2573,7 +2573,7 @@ class PrometheusLiveTradingLauncher:
                 'crypto': [
                     # Alpaca-supported crypto pairs
                     'BTC/USD', 'ETH/USD', 'SOL/USD', 'AVAX/USD', 'LINK/USD', 'UNI/USD',
-                    'AAVE/USD', 'SUSHI/USD', 'CRV/USD', 'DOGE/USD', 'SHIB/USD', 'PEPE/USD',
+                    'AAVE/USD', 'CRV/USD', 'DOGE/USD', 'SHIB/USD', 'PEPE/USD',
                     'USDC/USD', 'USDT/USD',
                 ],
                 'forex': [
@@ -6430,7 +6430,7 @@ class PrometheusLiveTradingLauncher:
             # Alpaca positions come as LINKUSD but APIs need LINK/USD format
             # ═══════════════════════════════════════════════════════════════
             crypto_bases = ['BTC', 'ETH', 'SOL', 'LINK', 'AVAX', 'AAVE', 'DOGE', 'PEPE',
-                           'UNI', 'SUSHI', 'CRV', 'ADA', 'DOT', 'MATIC', 'ATOM', 'XRP',
+                           'UNI', 'CRV', 'ADA', 'DOT', 'MATIC', 'ATOM', 'XRP',
                            'LTC', 'BCH', 'SHIB', 'NEAR', 'FTM', 'ALGO', 'XLM', 'VET']
 
             # If symbol is like LINKUSD (no slash) and ends with USD, convert to LINK/USD
