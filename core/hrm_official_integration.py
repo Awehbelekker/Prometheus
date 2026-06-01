@@ -427,14 +427,15 @@ class OfficialHRMTradingAdapter:
         #   index 0 = SELL,  index 1 = HOLD,  index 2 = BUY
         # All other checkpoints use the old third-split heuristic.
         if checkpoint_name == 'market_finetuned' and last_logits.shape[-1] >= 3:
-            label_logits = last_logits[0, :3]  # [SELL, HOLD, BUY]
+            label_logits = torch.nan_to_num(last_logits[0, :3], nan=0.0)  # [SELL, HOLD, BUY]
             label_probs  = torch.softmax(label_logits, dim=-1)
             sell_prob = label_probs[0].item()
             hold_prob = label_probs[1].item()
             buy_prob  = label_probs[2].item()
         else:
             # Generic: map vocab thirds to buy/hold/sell
-            probs     = torch.softmax(last_logits, dim=-1)
+            safe_logits = torch.nan_to_num(last_logits, nan=0.0)
+            probs     = torch.softmax(safe_logits, dim=-1)
             vocab_size = probs.shape[-1]
             third      = vocab_size // 3
             buy_prob   = probs[0, :third].sum().item()

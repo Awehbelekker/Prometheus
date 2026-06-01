@@ -44,8 +44,8 @@ class RSSNewsFeeds:
     # RSS Feed URLs (ALL FREE)
     RSS_FEEDS = {
         # Major Financial News
-        "reuters_business": "https://www.reutersagency.com/feed/?best-topics=business-finance",
-        "reuters_markets": "https://www.reutersagency.com/feed/?taxonomy=best-sectors&post_type=best",
+        "apnews_business": "https://feeds.apnews.com/rss/business",
+        "wsj_markets": "https://feeds.a.dj.com/rss/RSSMarketsMain.xml",
         "marketwatch": "https://www.marketwatch.com/rss/topstories",
         "cnbc_top": "https://www.cnbc.com/id/100003114/device/rss/rss.html",
         "cnbc_market": "https://www.cnbc.com/id/20910258/device/rss/rss.html",
@@ -221,7 +221,7 @@ class RSSNewsFeeds:
         
         # Base impact by source
         source_impacts = {
-            "reuters": 0.5,
+            "apnews": 0.5,
             "wsj": 0.6,
             "cnbc": 0.4,
             "bloomberg": 0.6,

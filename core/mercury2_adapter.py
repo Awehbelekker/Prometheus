@@ -220,11 +220,21 @@ class Mercury2Adapter:
         except Exception as exc:
             elapsed_ms = (time.perf_counter() - start) * 1000
             self.consecutive_failures += 1
+            # Quota/payment errors are permanent — retrying in 5 min wastes calls
+            is_quota_error = (
+                (hasattr(exc, 'status_code') and exc.status_code == 402)
+                or 'free_tier_quota_exceeded' in str(exc)
+                or '402' in str(exc)
+            )
             logger.error(f"Mercury 2 generation failed ({elapsed_ms:.0f}ms, failure #{self.consecutive_failures}): {exc}")
-            if self.consecutive_failures >= self.circuit_breaker_threshold:
+            if is_quota_error or self.consecutive_failures >= self.circuit_breaker_threshold:
                 self.circuit_breaker_open = True
                 self.circuit_breaker_opened_at = time.time()
-                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} failures — will auto-reset in {self.circuit_breaker_reset_timeout}s")
+                if is_quota_error:
+                    self.circuit_breaker_reset_timeout = 86400  # 24 h — quota won't clear in 5 min
+                    logger.critical("🔌 Mercury 2 QUOTA EXCEEDED — circuit breaker locked for 24 hours")
+                else:
+                    logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} failures — will auto-reset in {self.circuit_breaker_reset_timeout}s")
             return {
                 "success": False,
                 "error": str(exc),
