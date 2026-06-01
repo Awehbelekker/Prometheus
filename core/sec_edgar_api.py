@@ -110,8 +110,17 @@ class SECEdgarAPI:
         """Parse SEC Atom RSS feed"""
         filings = []
         try:
+            # Strip BOM, stylesheet/processing instructions and any junk before
+            # the root element — SEC occasionally prepends a <?xml-stylesheet?>
+            # PI or returns an HTML error page with a 200 status.
+            xml_text = xml_text.lstrip('﻿').strip()
+            xml_text = re.sub(r'<\?xml-stylesheet[^>]*\?>', '', xml_text)
             # Remove namespace for easier parsing
             xml_text = re.sub(r'\sxmlns="[^"]+"', '', xml_text)
+            # Trim anything before the first real tag (keep the XML declaration)
+            feed_start = xml_text.find('<feed')
+            if feed_start > 0 and not xml_text[:feed_start].lstrip().startswith('<?xml'):
+                xml_text = xml_text[feed_start:]
             root = ET.fromstring(xml_text)
             
             for entry in root.findall('.//entry'):
@@ -136,8 +145,11 @@ class SECEdgarAPI:
                     }
                     filings.append(filing)
         except ET.ParseError as e:
-            logger.error(f"XML parse error: {e}")
-        
+            # Non-fatal: we return [] and the caller degrades gracefully. Log at
+            # warning with a content snippet instead of spamming ERROR every cycle.
+            snippet = (xml_text[:120] if isinstance(xml_text, str) else str(xml_text)[:120])
+            logger.warning(f"SEC atom feed not parseable ({e}); first 120 chars: {snippet!r}")
+
         return filings
     
     async def get_insider_trades_for_symbol(self, symbol: str) -> List[InsiderTrade]:

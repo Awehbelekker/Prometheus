@@ -2574,7 +2574,6 @@ class PrometheusLiveTradingLauncher:
                     # Alpaca-supported crypto pairs
                     'BTC/USD', 'ETH/USD', 'SOL/USD', 'AVAX/USD', 'LINK/USD', 'UNI/USD',
                     'AAVE/USD', 'CRV/USD', 'DOGE/USD', 'SHIB/USD', 'PEPE/USD',
-                    'USDC/USD', 'USDT/USD',
                 ],
                 'forex': [
                     # Major pairs
