@@ -10,7 +10,7 @@ Data Available:
 """
 
 import asyncio
-import aiohttp
+import requests
 import logging
 import xml.etree.ElementTree as ET
 from typing import Dict, List, Any, Optional
@@ -78,6 +78,22 @@ class SECEdgarAPI:
         
         logger.info("✅ SEC Edgar API initialized - FREE insider trading data enabled")
     
+    async def _fetch_atom(self, url: str, params: Dict) -> Optional[str]:
+        """Fetch a SEC atom feed via requests (run in executor).
+
+        aiohttp+aiodns was intermittently returning SEC's HTML company-search
+        page instead of the atom feed; requests with identical params reliably
+        returns valid atom XML, so we use it here.
+        """
+        def _do_get() -> Optional[str]:
+            r = requests.get(url, params=params, headers=self.headers, timeout=15)
+            if r.status_code == 200:
+                return r.text
+            logger.warning(f"⚠️ SEC API returned status {r.status_code}")
+            return None
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(None, _do_get)
+
     async def get_recent_form4_filings(self, limit: int = 100) -> List[Dict]:
         """Get recent Form 4 filings (insider trades)"""
         url = f"{self.RSS_FEED}"
@@ -92,16 +108,16 @@ class SECEdgarAPI:
         }
         
         try:
-            async with aiohttp.ClientSession(headers=self.headers) as session:
-                async with session.get(url, params=params, timeout=15) as response:
-                    if response.status == 200:
-                        text = await response.text()
-                        filings = self._parse_atom_feed(text)
-                        logger.info(f"✅ Fetched {len(filings)} recent Form 4 filings")
-                        return filings
-                    else:
-                        logger.warning(f"⚠️ SEC API returned status {response.status}")
-                        return []
+            text = await self._fetch_atom(url, params)
+            if text is None:
+                return []
+            all_filings = self._parse_atom_feed(text)
+            # getcurrent ignores the type= filter and returns mixed forms, so
+            # keep only actual Form 4 entries client-side.
+            filings = [f for f in all_filings if f.get("form_type") == "4"]
+            logger.info(f"✅ Fetched {len(filings)} recent Form 4 filings "
+                        f"({len(all_filings)} total entries)")
+            return filings
         except Exception as e:
             logger.error(f"❌ SEC Edgar error: {e}")
             return []
@@ -131,17 +147,19 @@ class SECEdgarAPI:
                 
                 if title is not None:
                     title_text = title.text or ""
-                    # Parse title: "4 - Company Name (0001234567) (Insider Name)"
-                    match = re.match(r'4\s*-\s*(.+?)\s*\((\d+)\)\s*\((.+?)\)', title_text)
-                    
+                    # Title format: "<FORM> - <COMPANY> (<CIK>) (<ROLE>)"
+                    # e.g. "4 - ACME CORP (0001234567) (Reporting)"
+                    match = re.match(r'^(.+?)\s*-\s*(.+?)\s*\((\d+)\)\s*\((.+?)\)', title_text)
+
                     filing = {
                         "title": title_text,
                         "link": link.get('href') if link is not None else "",
                         "updated": updated.text if updated is not None else "",
                         "summary": summary.text if summary is not None else "",
-                        "company": match.group(1) if match else "",
-                        "cik": match.group(2) if match else "",
-                        "insider": match.group(3) if match else ""
+                        "form_type": match.group(1).strip() if match else "",
+                        "company": match.group(2).strip() if match else "",
+                        "cik": match.group(3) if match else "",
+                        "insider": match.group(4).strip() if match else ""
                     }
                     filings.append(filing)
         except ET.ParseError as e:
@@ -166,14 +184,11 @@ class SECEdgarAPI:
         }
         
         try:
-            async with aiohttp.ClientSession(headers=self.headers) as session:
-                async with session.get(url, params=params, timeout=15) as response:
-                    if response.status == 200:
-                        text = await response.text()
-                        filings = self._parse_atom_feed(text)
-                        trades = self._convert_to_trades(filings, symbol)
-                        return trades
-                    return []
+            text = await self._fetch_atom(url, params)
+            if text is None:
+                return []
+            filings = self._parse_atom_feed(text)
+            return self._convert_to_trades(filings, symbol)
         except Exception as e:
             logger.error(f"❌ Error fetching trades for {symbol}: {e}")
             return []

@@ -58,6 +58,7 @@ class Mercury2Adapter:
         self.consecutive_failures = 0
         self.circuit_breaker_open = False
         self.circuit_breaker_opened_at: Optional[float] = None
+        self._last_breaker_log_at: float = 0.0  # throttle "breaker open" spam
 
         # Stats tracking
         self.total_requests = 0
@@ -124,10 +125,15 @@ class Mercury2Adapter:
                 self.circuit_breaker_opened_at = None
             else:
                 remaining = int(self.circuit_breaker_reset_timeout - elapsed)
-                logger.warning(
-                    f"🔌 STAGE 3 CIRCUIT BREAKER OPEN - Mercury 2 disabled "
-                    f"(>{self.circuit_breaker_threshold} failures, resets in {remaining}s)"
-                )
+                # Throttle: while open (esp. the 24h quota lock) this fires every
+                # reasoning cycle. Log at most once every 5 min.
+                now = time.time()
+                if now - self._last_breaker_log_at >= 300:
+                    self._last_breaker_log_at = now
+                    logger.warning(
+                        f"🔌 STAGE 3 CIRCUIT BREAKER OPEN - Mercury 2 disabled "
+                        f"(>{self.circuit_breaker_threshold} failures, resets in {remaining}s)"
+                    )
                 return {
                     "success": False,
                     "error": f"Circuit breaker open after {self.consecutive_failures} consecutive failures",
