@@ -30,9 +30,14 @@ class GoogleTrendsDataSource:
     Note: Uses pytrends library for Google Trends API access
     """
     
+    # When Google returns 429, stop hitting the API for this long. Continuing to
+    # poll a rate-limited endpoint only extends the block and floods the log.
+    RATE_LIMIT_COOLDOWN_SEC = 1800  # 30 minutes
+
     def __init__(self):
         self.trends_api = None
-        
+        self._rate_limited_until = 0.0  # epoch seconds; 0 = not limited
+
         # Try to import pytrends
         try:
             from pytrends.request import TrendReq
@@ -41,15 +46,29 @@ class GoogleTrendsDataSource:
         except ImportError:
             logger.warning("[WARNING]️ pytrends not installed - using mock data")
             logger.info("   Install with: pip install pytrends")
-        
+
         logger.info("🔍 Google Trends Data Source initialized")
+
+    def _is_rate_limited(self) -> bool:
+        """True while we're inside the post-429 cooldown window."""
+        import time
+        return time.time() < self._rate_limited_until
+
+    def _trip_rate_limit(self):
+        """Enter cooldown after a 429 so we stop hammering Google."""
+        import time
+        self._rate_limited_until = time.time() + self.RATE_LIMIT_COOLDOWN_SEC
+        logger.warning(
+            f"Google Trends rate-limited (429) — backing off for "
+            f"{self.RATE_LIMIT_COOLDOWN_SEC // 60} min, using mock data"
+        )
     
     async def get_search_volume(self, keywords: List[str], timeframe: str = 'now 7-d') -> Dict[str, Any]:
         """Get search volume for keywords"""
         try:
-            if not self.trends_api:
+            if not self.trends_api or self._is_rate_limited():
                 return self._generate_mock_search_volume(keywords)
-            
+
             # Build payload
             self.trends_api.build_payload(keywords, timeframe=timeframe)
             
@@ -78,7 +97,10 @@ class GoogleTrendsDataSource:
             return results
             
         except Exception as e:
-            logger.error(f"Error getting Google Trends data: {e}")
+            if '429' in str(e) or 'TooManyRequests' in type(e).__name__:
+                self._trip_rate_limit()
+            else:
+                logger.error(f"Error getting Google Trends data: {e}")
             return self._generate_mock_search_volume(keywords)
     
     def _generate_mock_search_volume(self, keywords: List[str]) -> Dict[str, Any]:
@@ -102,9 +124,9 @@ class GoogleTrendsDataSource:
     async def get_trending_searches(self, region: str = 'united_states') -> List[Dict[str, Any]]:
         """Get trending searches"""
         try:
-            if not self.trends_api:
+            if not self.trends_api or self._is_rate_limited():
                 return self._generate_mock_trending()
-            
+
             trending = self.trends_api.trending_searches(pn=region)
             
             if trending.empty:
@@ -122,7 +144,10 @@ class GoogleTrendsDataSource:
             return results
             
         except Exception as e:
-            logger.error(f"Error getting trending searches: {e}")
+            if '429' in str(e) or 'TooManyRequests' in type(e).__name__:
+                self._trip_rate_limit()
+            else:
+                logger.error(f"Error getting trending searches: {e}")
             return self._generate_mock_trending()
     
     def _generate_mock_trending(self) -> List[Dict[str, Any]]:
@@ -146,9 +171,9 @@ class GoogleTrendsDataSource:
     async def get_related_queries(self, keyword: str) -> Dict[str, List[str]]:
         """Get related queries for a keyword"""
         try:
-            if not self.trends_api:
+            if not self.trends_api or self._is_rate_limited():
                 return self._generate_mock_related(keyword)
-            
+
             self.trends_api.build_payload([keyword])
             related = self.trends_api.related_queries()
             
@@ -169,7 +194,10 @@ class GoogleTrendsDataSource:
             return results
             
         except Exception as e:
-            logger.error(f"Error getting related queries: {e}")
+            if '429' in str(e) or 'TooManyRequests' in type(e).__name__:
+                self._trip_rate_limit()
+            else:
+                logger.error(f"Error getting related queries: {e}")
             return self._generate_mock_related(keyword)
     
     def _generate_mock_related(self, keyword: str) -> Dict[str, List[str]]:
