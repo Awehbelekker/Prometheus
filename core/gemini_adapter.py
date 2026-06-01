@@ -35,7 +35,11 @@ class GeminiAdapter:
     CIRCUIT_BREAKER_RESET_SEC = 300  # 5 minutes
 
     def __init__(self, model: str = "gemini-2.0-flash"):
-        self.api_key = os.getenv("GOOGLE_AI_API_KEY", "")
+        # Accept either GOOGLE_AI_API_KEY (google-genai SDK name) or the
+        # older GOOGLE_API_KEY that many .env files use.
+        self.api_key = (os.getenv("GOOGLE_AI_API_KEY")
+                        or os.getenv("GOOGLE_API_KEY")
+                        or "")
         self.model_name = os.getenv("GEMINI_MODEL", model)
         self.client = None
         self.model = None

@@ -2990,13 +2990,18 @@ class PrometheusLiveTradingLauncher:
                             self.logger.info(f"{profit_emoji} ✅ [IB] SOLD {symbol}: {sell_qty} shares - {sell_reason}")
                             from datetime import datetime as dt
                             self.trades_this_hour.append(dt.now())
+                            # FIX: Compute realized P&L from actual prices, not
+                            # broker unrealized_pnl (which can be 0/stale at fill time)
+                            _ib_exit = getattr(result, 'filled_price', None) or current_price
+                            _ib_pnl  = (_ib_exit - avg_price) * sell_qty
+                            _ib_ppct = ((_ib_exit / avg_price) - 1) if avg_price else pnl_pct
                             await self._record_learning_outcome(
                                 symbol=symbol,
                                 entry_price=avg_price,
-                                exit_price=current_price,
+                                exit_price=_ib_exit,
                                 quantity=sell_qty,
-                                profit_loss=unrealized_pnl * (sell_qty / qty),
-                                profit_pct=pnl_pct,
+                                profit_loss=_ib_pnl,
+                                profit_pct=_ib_ppct,
                                 exit_reason=sell_reason,
                                 broker='IB'
                             )
@@ -3773,14 +3778,22 @@ class PrometheusLiveTradingLauncher:
                         from datetime import datetime as dt
                         self.trades_this_hour.append(dt.now())
 
+                        # FIX: Compute realized P&L from actual prices, NOT from
+                        # unrealized_pnl which Alpaca zeroes out at order submission.
+                        _avg   = sell_pos['avg_price']
+                        _exit  = result.get('filled_price') or (_avg * (1 + pnl_pct))
+                        _exit  = float(_exit) if _exit else _avg
+                        _pnl   = (_exit - _avg) * qty          # realized P&L
+                        _ppct  = ((_exit / _avg) - 1) if _avg else pnl_pct
+
                         # 🧠 LEARNING FEEDBACK: Feed outcome to learning engines
                         await self._record_learning_outcome(
                             symbol=symbol,
-                            entry_price=sell_pos['avg_price'],
-                            exit_price=result.get('filled_price', sell_pos['avg_price'] * (1 + pnl_pct)),
+                            entry_price=_avg,
+                            exit_price=_exit,
                             quantity=qty,
-                            profit_loss=sell_pos['unrealized_pnl'],
-                            profit_pct=pnl_pct,
+                            profit_loss=_pnl,
+                            profit_pct=_ppct,
                             exit_reason=sell_reason,
                             broker='Alpaca'
                         )
