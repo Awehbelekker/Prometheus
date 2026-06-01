@@ -17,6 +17,7 @@ import os
 import sys
 import json
 import time
+import re
 import logging
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -47,6 +48,47 @@ ARXIV_QUERIES = [
 
 MAX_AGE_DAYS = 90   # only fetch papers published in last 90 days
 
+# A bare multi-word query sorted by SubmittedDate returns the newest papers
+# that loosely match ANY common word (e.g. "machine", "learning") across all
+# of arXiv — i.e. essentially random recent papers. These two filters keep
+# only genuinely finance/trading-relevant results.
+RELEVANT_CATEGORY_PREFIXES = ("q-fin",)  # any q-fin.* subcategory is on-topic
+# For broad ML/stats categories we additionally require a finance keyword.
+BROAD_ML_CATEGORIES = {"cs.LG", "cs.AI", "stat.ML", "cs.CE", "econ.EM"}
+# Finance-specific terms only. Single ambiguous words (return, alpha, trade,
+# price, asset, market) are deliberately excluded — they match generic ML
+# papers ("returns", "trade-off", significance "alpha"). Prefer multi-word
+# phrases that are unambiguous in a finance context.
+FINANCE_KEYWORDS = (
+    "stock market", "stock trading", "stock price", "stock return",
+    "trading strategy", "trading strateg", "algorithmic trading",
+    "high-frequency trading", "high frequency trading", "quantitative trading",
+    "portfolio management", "portfolio optimization", "portfolio allocation",
+    "asset pricing", "asset allocation", "financial market",
+    "financial time series", "market microstructure", "limit order book",
+    "order book", "market regime", "quantitative finance", "sharpe ratio",
+    "volatility forecast", "implied volatility", "hedge fund", "hedging",
+    "foreign exchange", "forex", "cryptocurrency", "crypto trading",
+    "backtest", "trading signal", "price prediction", "return prediction",
+)
+
+# Match keywords on word boundaries so e.g. "forex" won't hit "before extra".
+_KEYWORD_RE = re.compile(
+    r"(?<![a-z])(?:" + "|".join(re.escape(k) for k in FINANCE_KEYWORDS) + r")",
+    re.IGNORECASE,
+)
+
+
+def _is_relevant(categories, title, abstract):
+    """True only for finance/trading-relevant papers."""
+    cats = [c.lower() for c in categories]
+    if any(c.startswith(p) for c in cats for p in RELEVANT_CATEGORY_PREFIXES):
+        return True
+    # Broad ML category alone isn't enough — require a finance phrase.
+    if any(c in {b.lower() for b in BROAD_ML_CATEGORIES} for c in cats):
+        return bool(_KEYWORD_RE.search(f"{title} {abstract}"))
+    return False
+
 
 def fetch_arxiv_papers():
     """Download recent arXiv papers matching trading/ML topics."""
@@ -67,7 +109,7 @@ def fetch_arxiv_papers():
             client = arxiv.Client()
             search = arxiv.Search(
                 query=query,
-                max_results=max_results * 2,  # over-fetch, filter by date
+                max_results=max_results * 6,  # over-fetch, filter by date + relevance
                 sort_by=arxiv.SortCriterion.SubmittedDate,
                 sort_order=arxiv.SortOrder.Descending,
             )
@@ -75,6 +117,9 @@ def fetch_arxiv_papers():
                 if paper.entry_id in seen_ids:
                     continue
                 if paper.published.replace(tzinfo=None) < cutoff:
+                    continue
+                if not _is_relevant(paper.categories, paper.title, paper.summary):
+                    log.debug(f"  Skipping off-topic: {paper.title[:60]} {paper.categories}")
                     continue
                 seen_ids.add(paper.entry_id)
                 all_papers.append({

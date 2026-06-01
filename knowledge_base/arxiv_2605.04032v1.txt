@@ -1,8 +1,0 @@
-TITLE: Holographic Derivation of BPZ-Type Null State Equations in Higher Dimensional CFTs
-AUTHORS: Kuo-Wei Huang
-PUBLISHED: 2026-05-05
-SOURCE: arXiv http://arxiv.org/abs/2605.04032v1
-CATEGORIES: hep-th
-
-ABSTRACT:
-A set of linear differential equations was recently put forward as higher-dimensional generalizations of the BPZ null-state equations in two-dimensional CFTs at large central charge. In this work, we derive these higher-dimensional equations from gravity, based on the AdS/CFT correspondence. A near-boundary expansion is employed to analyze a light scalar field equation in a black hole background. There is a decoupling mechanism in the bulk perturbative series at certain conformal dimensions, resulting in isolated lower-order equations. We find that the results agree with the previously proposed four-dimensional CFT equations, which capture the resummed contributions from minimal-twist multi-stress tensor operators. The holographic calculation also allows one to obtain additional CFT differential equations that extend beyond the near-lightcone regime.
