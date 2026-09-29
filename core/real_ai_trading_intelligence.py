@@ -175,12 +175,12 @@ class RealGPTOSSTradingIntelligence:
                     "prompt": prompt,
                     "stream": False,
                     "options": {
-                        "num_predict": 400 if model_name == "20b" else 600,
+                        "num_predict": 300 if model_name == "20b" else 400,
                         "temperature": 0.7,
                         "top_p": 0.9
                     }
                 },
-                timeout=60
+                timeout=90
             ))
             
             if response.status_code == 200:

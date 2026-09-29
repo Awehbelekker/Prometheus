@@ -29,6 +29,9 @@ import time
 import socket
 import subprocess
 import logging
+import shutil
+import urllib.request
+import urllib.parse
 from datetime import datetime
 from pathlib import Path
 
@@ -40,13 +43,20 @@ LOG_FILE = ROOT / 'prometheus_watchdog.log'
 IB_HOST = os.environ.get('IB_HOST', '127.0.0.1')
 IB_PORT = int(os.environ.get('IB_PORT', '4002'))
 
-MAX_CRASHES = 10              # give up after this many consecutive crashes
+MAX_CRASHES = 10              # consecutive crashes before entering cooldown (NOT giving up)
+COOLDOWN_AFTER_MAX = 1800     # seconds to wait after MAX_CRASHES before resetting (30 min)
 IB_POLL_INTERVAL = 60         # seconds between IB reachability checks when waiting
 MIN_RESTART_DELAY = 30        # seconds before first restart after crash
 MAX_RESTART_DELAY = 600       # cap backoff at 10 minutes
 HEALTHY_RUN_THRESHOLD = 300   # seconds — if process runs >5 min, reset crash count
+DISK_WARN_PCT = 10            # warn if free disk < this %
+LOG_MAX_MB = 50               # rotate log when it exceeds this size
 
 ALPACA_ONLY = os.environ.get('WATCHDOG_ALPACA_ONLY', 'false').lower() == 'true'
+
+# WhatsApp alerts (uses same CallMeBot config as reporter)
+_WHATSAPP_NUM = os.environ.get('CALLMEBOT_PHONE', '+27645755210')
+_WHATSAPP_KEY = os.environ.get('CALLMEBOT_API_KEY', '')
 
 # ── Logging ──────────────────────────────────────────────────────────────────
 logging.basicConfig(
@@ -59,6 +69,42 @@ logging.basicConfig(
     ]
 )
 log = logging.getLogger('watchdog')
+
+
+def _whatsapp_alert(message: str):
+    """Send a WhatsApp alert (best-effort, never crashes watchdog)."""
+    if not _WHATSAPP_KEY:
+        return
+    try:
+        encoded = urllib.parse.quote(f"PROMETHEUS WATCHDOG\n{message}")
+        url = f"https://api.callmebot.com/whatsapp.php?phone={_WHATSAPP_NUM}&text={encoded}&apikey={_WHATSAPP_KEY}"
+        urllib.request.urlopen(url, timeout=10)
+    except Exception:
+        pass
+
+
+def _check_disk():
+    """Log a warning if disk space is low."""
+    try:
+        usage = shutil.disk_usage(str(ROOT))
+        free_pct = usage.free / usage.total * 100
+        if free_pct < DISK_WARN_PCT:
+            msg = f"⚠️ Low disk space: {free_pct:.1f}% free ({usage.free // (1024**3)}GB)"
+            log.warning(msg)
+            _whatsapp_alert(msg)
+    except Exception:
+        pass
+
+
+def _rotate_log():
+    """Rotate watchdog log if it exceeds LOG_MAX_MB."""
+    try:
+        if LOG_FILE.exists() and LOG_FILE.stat().st_size > LOG_MAX_MB * 1024 * 1024:
+            archive = LOG_FILE.with_suffix(f".{datetime.now().strftime('%Y%m%d')}.log")
+            LOG_FILE.rename(archive)
+            log.info(f"Rotated log → {archive.name}")
+    except Exception:
+        pass
 
 
 def _ib_reachable() -> bool:
@@ -139,23 +185,31 @@ def main():
 
     crash_count = 0
     restart_delay = MIN_RESTART_DELAY
+    _check_disk()
 
     while True:
-        # Wait for IB to be ready before each (re)start
+        _rotate_log()
         _wait_for_ib()
 
+        # After MAX_CRASHES enter a cooldown — never permanently give up
         if crash_count >= MAX_CRASHES:
-            log.error(
-                f"Reached {MAX_CRASHES} consecutive crashes. "
-                "Watchdog giving up. Investigate logs before restarting manually."
+            msg = (
+                f"⚠️ {MAX_CRASHES} consecutive crashes. "
+                f"Cooling down {COOLDOWN_AFTER_MAX//60}min before retrying."
             )
-            sys.exit(1)
+            log.error(msg)
+            _whatsapp_alert(msg)
+            time.sleep(COOLDOWN_AFTER_MAX)
+            crash_count = 0
+            restart_delay = MIN_RESTART_DELAY
+            log.info("Cooldown complete — resuming watchdog loop.")
+            continue
 
         start_ts = time.monotonic()
         proc = _launch()
 
         try:
-            proc.wait()  # blocks until process exits
+            proc.wait()
         except KeyboardInterrupt:
             log.info("Watchdog interrupted by user — sending SIGTERM to child.")
             proc.terminate()
@@ -177,8 +231,8 @@ def main():
             f"Process exited with rc={rc} after {elapsed:.0f}s. "
             f"Crash #{crash_count + 1}/{MAX_CRASHES}."
         )
+        _check_disk()
 
-        # If it ran long enough, treat as healthy run → reset crash counter
         if elapsed >= HEALTHY_RUN_THRESHOLD:
             log.info(
                 f"Run lasted {elapsed:.0f}s (>{HEALTHY_RUN_THRESHOLD}s threshold) — "
@@ -189,6 +243,11 @@ def main():
         else:
             crash_count += 1
             restart_delay = min(restart_delay * 2, MAX_RESTART_DELAY)
+            if crash_count == 3:
+                _whatsapp_alert(
+                    f"Crash #{crash_count} in rapid succession (rc={rc}). "
+                    "Check logs if this continues."
+                )
 
         log.info(f"Waiting {restart_delay}s before restart...")
         time.sleep(restart_delay)

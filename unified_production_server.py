@@ -11881,8 +11881,7 @@ async def admin_full_status_endpoint():
 
         # ALPACA LIVE
         try:
-            from core.alpaca_trading_service import AlpacaTradingService
-            svc = AlpacaTradingService(use_paper_trading=False)
+            svc = get_alpaca_service(use_paper=False)
             info = svc.get_account_info()
             if info and "error" not in info:
                 result["alpaca_live"] = {
@@ -11920,8 +11919,7 @@ async def admin_full_status_endpoint():
 
         # ALPACA PAPER
         try:
-            from core.alpaca_trading_service import AlpacaTradingService
-            psvc = AlpacaTradingService(use_paper_trading=True)
+            psvc = get_alpaca_service(use_paper=True)
             pinfo = psvc.get_account_info()
             if pinfo and "error" not in pinfo:
                 result["alpaca_paper"] = {
@@ -13807,8 +13805,7 @@ async def get_admin_dashboard_metrics(current_user: dict = Depends(get_current_u
 
         # ── ALPACA LIVE ────────────────────────────────────────────
         try:
-            from core.alpaca_trading_service import AlpacaTradingService
-            svc = AlpacaTradingService(use_paper_trading=False)
+            svc = get_alpaca_service(use_paper=False)
             info = svc.get_account_info()
             if info and "error" not in info:
                 result["alpaca_live"] = {
@@ -13842,8 +13839,7 @@ async def get_admin_dashboard_metrics(current_user: dict = Depends(get_current_u
 
         # ── ALPACA PAPER ───────────────────────────────────────────
         try:
-            from core.alpaca_trading_service import AlpacaTradingService
-            psvc = AlpacaTradingService(use_paper_trading=True)
+            psvc = get_alpaca_service(use_paper=True)
             pinfo = psvc.get_account_info()
             if pinfo and "error" not in pinfo:
                 result["alpaca_paper"] = {

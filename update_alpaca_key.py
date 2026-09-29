@@ -157,9 +157,12 @@ def update_env_secret(new_secret: str, key_type: str = 'LIVE'):
 if __name__ == "__main__":
     import sys
     
-    # New API key and secret from user
-    new_key = "AKMMN6U5DXKTM7A2UEAAF4ZQ5Z"
-    new_secret = "At2pPUS7TyGj3vAdjRAA6wuDXQDKkaejxTGL5w3rBhJX"
+    # New API key and secret from user (pass via env, never hardcode)
+    new_key = os.getenv('ALPACA_API_KEY', '')
+    new_secret = os.getenv('ALPACA_SECRET_KEY', '')
+    if not new_key or not new_secret:
+        print("[ERROR] Set ALPACA_API_KEY and ALPACA_SECRET_KEY env vars first")
+        sys.exit(1)
     
     print("="*80)
     print("UPDATING ALPACA API KEY AND SECRET")

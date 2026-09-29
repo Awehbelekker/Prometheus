@@ -11,14 +11,14 @@ async def test_alpaca_live():
     print("="*70)
     
     # Your key
-    api_key = "AKMMN6U5DXKTM7A2UEAAF4ZQ5Z"
-    
+    api_key = os.getenv('ALPACA_API_KEY', '')
+
     # Need to get secret key from Alpaca dashboard
     print("\n[INFO] To complete the test, you need:")
-    print("1. Your API Key: AKMMN6U5DXKTM7A2UEAAF4ZQ5Z ✓ (you provided)")
+    print(f"1. Your API Key: {api_key[:4]}... (from ALPACA_API_KEY env var)")
     print("2. Your Secret Key: (please copy from Alpaca dashboard)")
     print("\nOn the Alpaca page, you should see:")
-    print("  - Key: AKMMN6U5DXKTM7A2UEAAF4ZQ5Z")
+    print(f"  - Key: {api_key[:4]}...")
     print("  - Secret: [Click 'Reveal' to see it]")
     print("\nPaste your secret key here, then press Enter:")
     

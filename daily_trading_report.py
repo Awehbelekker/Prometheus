@@ -21,8 +21,8 @@ def generate_daily_trading_report():
     print("=" * 80)
     
     # Set environment variables
-    os.environ['ALPACA_LIVE_KEY'] = 'AKMMN6U5DXKTM7A2UEAAF4ZQ5Z'
-    os.environ['ALPACA_LIVE_SECRET'] = 'At2pPUS7TyGj3vAdjRAA6wuDXQDKkaejxTGL5w3rBhJX'
+    os.environ['ALPACA_LIVE_KEY'] = os.getenv('ALPACA_LIVE_KEY', '')
+    os.environ['ALPACA_LIVE_SECRET'] = os.getenv('ALPACA_LIVE_SECRET', '')
     os.environ['ALPACA_PAPER_KEY'] = os.getenv('ALPACA_PAPER_KEY', '')
     os.environ['ALPACA_PAPER_SECRET'] = os.getenv('ALPACA_PAPER_SECRET', '')
     

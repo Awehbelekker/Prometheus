@@ -18,6 +18,7 @@ Features:
 
 import asyncio
 import json
+import os
 import requests
 import time
 from datetime import datetime, timedelta
@@ -41,8 +42,8 @@ class AlpacaOrdersDemo:
             response = self.session.post(
                 f"{self.base_url}/api/auth/login",
                 json={
-                    "email": "admin@prometheus-trader.com",
-                    "password": "PrometheusAdmin2024!"
+                    "email": os.getenv("PROMETHEUS_ADMIN_EMAIL", "admin@prometheus-trader.com"),
+                    "password": os.getenv("PROMETHEUS_ADMIN_PASSWORD", "")
                 }
             )
             if response.status_code == 200:

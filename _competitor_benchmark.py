@@ -29,8 +29,8 @@ REPORTS = BASE / "backtest_reports"
 # ─────────────────────────────────────────────
 def get_prometheus_live():
     headers = {
-        'APCA-API-KEY-ID':    os.getenv('ALPACA_API_KEY', 'AKMMN6U5DXKTM7A2UEAAF4ZQ5Z'),
-        'APCA-API-SECRET-KEY':os.getenv('ALPACA_SECRET_KEY', 'At2pPUS7TyGj3vAdjRAA6wuDXQDKkaejxTGL5w3rBhJX')
+        'APCA-API-KEY-ID':    os.getenv('ALPACA_API_KEY', ''),
+        'APCA-API-SECRET-KEY':os.getenv('ALPACA_SECRET_KEY', '')
     }
     base = 'https://api.alpaca.markets'
     acct = requests.get(f'{base}/v2/account', headers=headers, timeout=10).json()

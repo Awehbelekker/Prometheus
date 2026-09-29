@@ -54,8 +54,11 @@ class Mercury2Adapter:
         # STAGE 3: Inference Resilience - Timeout & Circuit Breaker
         self.timeout_seconds = int(os.getenv('INFERENCE_TIMEOUT_SECONDS', '10'))
         self.circuit_breaker_threshold = int(os.getenv('INFERENCE_CIRCUIT_BREAKER_THRESHOLD', '3'))
+        self.circuit_breaker_reset_timeout = int(os.getenv('INFERENCE_CIRCUIT_BREAKER_RESET_SECONDS', '300'))  # auto-reset after 5 min
         self.consecutive_failures = 0
         self.circuit_breaker_open = False
+        self.circuit_breaker_opened_at: Optional[float] = None
+        self._last_breaker_log_at: float = 0.0  # throttle "breaker open" spam
 
         # Stats tracking
         self.total_requests = 0
@@ -110,14 +113,32 @@ class Mercury2Adapter:
         Returns dict with keys: success, response, model, cost, source, tokens_used, latency_ms
         STAGE 3: Includes timeout (10s default) and circuit breaker (3 failures → fallback)
         """
-        # STAGE 3: Check circuit breaker
+        # STAGE 3: Check circuit breaker — auto-reset (HALF_OPEN) after recovery timeout
         if self.circuit_breaker_open:
-            logger.warning(f"🔌 STAGE 3 CIRCUIT BREAKER OPEN - Mercury 2 disabled (>{self.circuit_breaker_threshold} failures)")
-            return {
-                "success": False,
-                "error": f"Circuit breaker open after {self.consecutive_failures} consecutive failures",
-                "needs_fallback": True,
-            }
+            elapsed = time.time() - (self.circuit_breaker_opened_at or time.time())
+            if elapsed >= self.circuit_breaker_reset_timeout:
+                logger.info(
+                    f"🔄 STAGE 3: Circuit breaker RESET after {elapsed:.0f}s — retrying Mercury 2"
+                )
+                self.circuit_breaker_open = False
+                self.consecutive_failures = 0
+                self.circuit_breaker_opened_at = None
+            else:
+                remaining = int(self.circuit_breaker_reset_timeout - elapsed)
+                # Throttle: while open (esp. the 24h quota lock) this fires every
+                # reasoning cycle. Log at most once every 5 min.
+                now = time.time()
+                if now - self._last_breaker_log_at >= 300:
+                    self._last_breaker_log_at = now
+                    logger.warning(
+                        f"🔌 STAGE 3 CIRCUIT BREAKER OPEN - Mercury 2 disabled "
+                        f"(>{self.circuit_breaker_threshold} failures, resets in {remaining}s)"
+                    )
+                return {
+                    "success": False,
+                    "error": f"Circuit breaker open after {self.consecutive_failures} consecutive failures",
+                    "needs_fallback": True,
+                }
 
         if not self.client:
             return {
@@ -194,7 +215,8 @@ class Mercury2Adapter:
             logger.warning(f"🔴 STAGE 3: Mercury 2 TIMEOUT after {elapsed_ms:.0f}ms (>{self.timeout_seconds}s)")
             if self.consecutive_failures >= self.circuit_breaker_threshold:
                 self.circuit_breaker_open = True
-                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} timeouts")
+                self.circuit_breaker_opened_at = time.time()
+                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} timeouts — will auto-reset in {self.circuit_breaker_reset_timeout}s")
             return {
                 "success": False,
                 "error": f"Mercury 2 timeout ({self.timeout_seconds}s)",
@@ -204,10 +226,21 @@ class Mercury2Adapter:
         except Exception as exc:
             elapsed_ms = (time.perf_counter() - start) * 1000
             self.consecutive_failures += 1
+            # Quota/payment errors are permanent — retrying in 5 min wastes calls
+            is_quota_error = (
+                (hasattr(exc, 'status_code') and exc.status_code == 402)
+                or 'free_tier_quota_exceeded' in str(exc)
+                or '402' in str(exc)
+            )
             logger.error(f"Mercury 2 generation failed ({elapsed_ms:.0f}ms, failure #{self.consecutive_failures}): {exc}")
-            if self.consecutive_failures >= self.circuit_breaker_threshold:
+            if is_quota_error or self.consecutive_failures >= self.circuit_breaker_threshold:
                 self.circuit_breaker_open = True
-                logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} failures")
+                self.circuit_breaker_opened_at = time.time()
+                if is_quota_error:
+                    self.circuit_breaker_reset_timeout = 86400  # 24 h — quota won't clear in 5 min
+                    logger.critical("🔌 Mercury 2 QUOTA EXCEEDED — circuit breaker locked for 24 hours")
+                else:
+                    logger.critical(f"🔌 STAGE 3: Circuit breaker opened after {self.consecutive_failures} failures — will auto-reset in {self.circuit_breaker_reset_timeout}s")
             return {
                 "success": False,
                 "error": str(exc),

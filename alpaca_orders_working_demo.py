@@ -6,6 +6,7 @@ Testing all existing order functionality with live demo
 This demonstrates Alpaca order management working with your 48-hour demo
 """
 
+import os
 import requests
 import json
 import time
@@ -28,8 +29,8 @@ class AlpacaOrdersWorkingDemo:
             response = self.session.post(
                 f"{self.base_url}/api/auth/login",
                 json={
-                    "email": "admin@prometheus-trader.com",
-                    "password": "PrometheusAdmin2024!"
+                    "email": os.getenv("PROMETHEUS_ADMIN_EMAIL", "admin@prometheus-trader.com"),
+                    "password": os.getenv("PROMETHEUS_ADMIN_PASSWORD", "")
                 }
             )
             if response.status_code == 200:

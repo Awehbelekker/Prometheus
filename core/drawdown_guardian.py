@@ -523,8 +523,72 @@ class DrawdownGuardian:
                 reasons.append(f"low_conf {confidence:.1%}->50% size")
 
             # ── Layer 10: Minimum Size Check ──
-            if adjusted_size <= 0 or (price > 0 and adjusted_size * price < 1.0):
-                return False, 0.0, "Size too small after adjustments"
+            # Require at least $10 per trade (or 2% of portfolio, whichever is larger)
+            # Prevents spread erosion on tiny positions that can never overcome transaction costs
+            min_trade_value = max(10.0, portfolio_value * 0.02) if portfolio_value > 0 else 10.0
+            trade_value = adjusted_size * price if price > 0 else 0
+            if adjusted_size <= 0 or (price > 0 and trade_value < min_trade_value):
+                return False, 0.0, f"Size too small: ${trade_value:.2f} < ${min_trade_value:.2f} minimum"
+
+            # ── Layer 11: Minimum Hold Time (anti-churn) ──
+            # Prevent exits within 1 hour of entry — eliminates spread erosion from rapid cycling
+            if action.lower() in ('sell', 'close') and open_positions:
+                MIN_HOLD_SECONDS = 3600  # 1 hour
+                pos = (open_positions.get(symbol)
+                       or open_positions.get(symbol.replace('/USD', 'USD'))
+                       or open_positions.get(symbol.replace('USD', '/USD')))
+                if pos:
+                    opened_at = (pos.get('opened_at') or pos.get('entry_time')
+                                 or pos.get('open_time') or pos.get('created_at'))
+                    if opened_at:
+                        try:
+                            from datetime import datetime as _dt
+                            opened_dt = (_dt.fromisoformat(str(opened_at).replace('Z', ''))
+                                         if isinstance(opened_at, str) else opened_at)
+                            age_sec = (_dt.now() - opened_dt).total_seconds()
+                            if age_sec < MIN_HOLD_SECONDS:
+                                remaining_min = (MIN_HOLD_SECONDS - age_sec) / 60
+                                self._log_block(symbol, action, proposed_size,
+                                                f"Hold time {age_sec/60:.0f}min < 60min minimum",
+                                                "min_hold_time")
+                                return False, 0.0, f"MIN_HOLD: {age_sec/60:.0f}min held, {remaining_min:.0f}min remaining"
+                        except Exception:
+                            pass  # unparseable timestamp — allow the sell
+
+            # ── Layer 12: Asset Class PnL Gate ──
+            # If 7-day crypto PnL is negative, require higher confidence and halve size
+            if action.lower() == 'buy':
+                sector = self.sector_map.get(symbol, 'other')
+                if sector in ('crypto', 'crypto_meme'):
+                    try:
+                        import sqlite3 as _sql
+                        from pathlib import Path as _Path
+                        _db = _Path(__file__).parent.parent / "prometheus_learning.db"
+                        if _db.exists():
+                            _conn = _sql.connect(str(_db), timeout=3)
+                            _row = _conn.execute("""
+                                SELECT SUM(pnl) FROM live_trade_outcomes
+                                WHERE (symbol LIKE '%USD%' OR symbol LIKE '%BTC%'
+                                       OR symbol LIKE '%ETH%' OR symbol LIKE '%SOL%')
+                                AND captured_at > datetime('now', '-7 days')
+                            """).fetchone()
+                            _conn.close()
+                            if _row and _row[0] is not None and _row[0] < 0:
+                                crypto_7d_pnl = _row[0]
+                                if confidence < 0.70:
+                                    self._log_block(symbol, action, proposed_size,
+                                                    f"Crypto 7d PnL ${crypto_7d_pnl:.0f}, confidence {confidence:.0%} < 70%",
+                                                    "crypto_pnl_gate")
+                                    return False, 0.0, (f"CRYPTO_GATE: 7d crypto PnL ${crypto_7d_pnl:.0f}, "
+                                                        f"need 70% confidence (have {confidence:.0%})")
+                                old_size = adjusted_size
+                                adjusted_size *= 0.5
+                                reasons.append(f"crypto_gate(7d PnL ${crypto_7d_pnl:.0f})->50% size")
+                                self._log_adjustment(symbol, old_size, adjusted_size,
+                                                     f"Crypto PnL gate: 7d ${crypto_7d_pnl:.0f}",
+                                                     "crypto_pnl_gate")
+                    except Exception:
+                        pass  # never block on DB error
 
             # Compose reason
             if reasons:

@@ -1503,7 +1503,40 @@ class PrometheusLiveTradingLauncher:
         else:
             print("   LlamaIndex SEC Filings RAG (not available)")
 
-        # 8. FinRL Portfolio Optimizer
+        # 8. Knowledge RAG — NumpyVectorStore (19K vectors: 28 PDFs, trade history, patterns)
+        try:
+            from knowledge_ingestion_pipeline import KnowledgeIngestionPipeline, EnhancedMarketOracle
+            _kb_pipeline = KnowledgeIngestionPipeline()
+            self.systems['knowledge_rag'] = EnhancedMarketOracle(_kb_pipeline)
+            print("   📚 Knowledge RAG (19K vectors — books, papers, episodic memory)")
+            self.system_health['knowledge_rag'] = 'ACTIVE'
+        except Exception as e:
+            self.logger.warning(f"Knowledge RAG unavailable: {e}")
+
+        # 9. Gemini 2.0 Flash (Google AI — free tier, 1M context)
+        try:
+            from core.gemini_adapter import GeminiAdapter
+            self.systems['gemini'] = GeminiAdapter()
+            if self.systems['gemini'].model is not None:
+                print("   Gemini 2.0 Flash (1M context, free tier voter)")
+                self.system_health['gemini'] = 'ACTIVE'
+            else:
+                del self.systems['gemini']
+        except Exception as e:
+            self.logger.warning(f"Gemini unavailable: {e}")
+
+        # 10. DeepSeek-R1 (local Ollama or cloud API)
+        try:
+            from core.deepseek_adapter import DeepSeekAdapter
+            _ds_model = os.getenv('DEEPSEEK_MODEL', 'deepseek-r1:8b')
+            _ds_endpoint = os.getenv('OLLAMA_ENDPOINT', 'http://localhost:11434')
+            self.systems['deepseek'] = DeepSeekAdapter(endpoint=_ds_endpoint, model=_ds_model)
+            print("   DeepSeek-R1 (reasoning LLM voter)")
+            self.system_health['deepseek'] = 'ACTIVE'
+        except Exception as e:
+            self.logger.warning(f"DeepSeek unavailable: {e}")
+
+        # 10. FinRL Portfolio Optimizer
         if FINRL_AVAILABLE:
             try:
                 self.systems['finrl_optimizer'] = get_finrl_optimizer()
@@ -1515,10 +1548,10 @@ class PrometheusLiveTradingLauncher:
         else:
             print("   FinRL Portfolio Optimizer (not available)")
 
-        all_tier6 = ['prometheus_cache', 'langgraph', 'openbb', 'ccxt_bridge', 'gymnasium_sb3', 'mercury2', 'sec_filings_rag', 'finrl_optimizer']
+        all_tier6 = ['prometheus_cache', 'langgraph', 'openbb', 'ccxt_bridge', 'gymnasium_sb3', 'mercury2', 'sec_filings_rag', 'finrl_optimizer', 'knowledge_rag', 'deepseek', 'gemini']
         active_count = sum(1 for s in all_tier6 if s in self.systems)
-        print(f"\n   Phase 21 integrations: {active_count}/8 active")
-        self.logger.info(f"Phase 21: {active_count}/8 new integrations initialized")
+        print(f"\n   Phase 21 integrations: {active_count}/11 active")
+        self.logger.info(f"Phase 21: {active_count}/9 new integrations initialized")
 
     async def monitor_resources(self):
         """Monitor system resources and alert if critical"""
@@ -2540,8 +2573,7 @@ class PrometheusLiveTradingLauncher:
                 'crypto': [
                     # Alpaca-supported crypto pairs
                     'BTC/USD', 'ETH/USD', 'SOL/USD', 'AVAX/USD', 'LINK/USD', 'UNI/USD',
-                    'AAVE/USD', 'SUSHI/USD', 'CRV/USD', 'DOGE/USD', 'SHIB/USD', 'PEPE/USD',
-                    'USDC/USD', 'USDT/USD',
+                    'AAVE/USD', 'CRV/USD', 'DOGE/USD', 'SHIB/USD', 'PEPE/USD',
                 ],
                 'forex': [
                     # Major pairs
@@ -2957,13 +2989,18 @@ class PrometheusLiveTradingLauncher:
                             self.logger.info(f"{profit_emoji} ✅ [IB] SOLD {symbol}: {sell_qty} shares - {sell_reason}")
                             from datetime import datetime as dt
                             self.trades_this_hour.append(dt.now())
+                            # FIX: Compute realized P&L from actual prices, not
+                            # broker unrealized_pnl (which can be 0/stale at fill time)
+                            _ib_exit = getattr(result, 'filled_price', None) or current_price
+                            _ib_pnl  = (_ib_exit - avg_price) * sell_qty
+                            _ib_ppct = ((_ib_exit / avg_price) - 1) if avg_price else pnl_pct
                             await self._record_learning_outcome(
                                 symbol=symbol,
                                 entry_price=avg_price,
-                                exit_price=current_price,
+                                exit_price=_ib_exit,
                                 quantity=sell_qty,
-                                profit_loss=unrealized_pnl * (sell_qty / qty),
-                                profit_pct=pnl_pct,
+                                profit_loss=_ib_pnl,
+                                profit_pct=_ib_ppct,
                                 exit_reason=sell_reason,
                                 broker='IB'
                             )
@@ -3740,14 +3777,22 @@ class PrometheusLiveTradingLauncher:
                         from datetime import datetime as dt
                         self.trades_this_hour.append(dt.now())
 
+                        # FIX: Compute realized P&L from actual prices, NOT from
+                        # unrealized_pnl which Alpaca zeroes out at order submission.
+                        _avg   = sell_pos['avg_price']
+                        _exit  = result.get('filled_price') or (_avg * (1 + pnl_pct))
+                        _exit  = float(_exit) if _exit else _avg
+                        _pnl   = (_exit - _avg) * qty          # realized P&L
+                        _ppct  = ((_exit / _avg) - 1) if _avg else pnl_pct
+
                         # 🧠 LEARNING FEEDBACK: Feed outcome to learning engines
                         await self._record_learning_outcome(
                             symbol=symbol,
-                            entry_price=sell_pos['avg_price'],
-                            exit_price=result.get('filled_price', sell_pos['avg_price'] * (1 + pnl_pct)),
+                            entry_price=_avg,
+                            exit_price=_exit,
                             quantity=qty,
-                            profit_loss=sell_pos['unrealized_pnl'],
-                            profit_pct=pnl_pct,
+                            profit_loss=_pnl,
+                            profit_pct=_ppct,
                             exit_reason=sell_reason,
                             broker='Alpaca'
                         )
@@ -4886,6 +4931,8 @@ class PrometheusLiveTradingLauncher:
         - Hierarchical Agent Coordinator (17 agents + 3 supervisors)
         - GPT-OSS/CPT-OSS (natural language analysis)
         - Real-World Data Orchestrator (1000+ intelligence sources)
+        - SEC Filings RAG (LlamaIndex 10-K/10-Q sentiment)
+        - Knowledge RAG (19K vectors: 28 textbooks/papers + trade history + patterns)
         """
         try:
             # Get market data first
@@ -5707,17 +5754,47 @@ class PrometheusLiveTradingLauncher:
                                 self._sb3_agent_instance = None
                         if self._sb3_agent_instance is not None:
                             import numpy as np
-                            _change = market_data.get('change_percent', 0.0)
-                            _rsi = market_data.get('rsi', 50.0)
+                            _change    = market_data.get('change_percent', 0.0)
+                            _rsi       = market_data.get('rsi', 50.0)
                             _vol_ratio = market_data.get('volume', 1) / max(market_data.get('avg_volume', 1), 1)
-                            _obs = np.array([
-                                float(current_price) / 1000.0,
-                                float(_change) / 10.0,
-                                float(_rsi) / 100.0,
-                                float(_vol_ratio),
-                                float(market_data.get('macd', 0.0)),
-                                float(market_data.get('volatility', 0.01)),
-                            ], dtype=np.float32)
+                            _macd      = market_data.get('macd', 0.0)
+                            _vola      = market_data.get('volatility', 0.01)
+                            # Regime: use HMM output if available (0=bear, 0.5=neutral, 1=bull)
+                            _regime_map = {'bull': 1.0, 'bear': 0.0, 'sideways': 0.5,
+                                           'volatile': 0.3, 'crisis': 0.1, 'unknown': 0.5}
+                            _regime_raw = market_data.get('regime', 'unknown')
+                            _regime     = _regime_map.get(str(_regime_raw).lower(), 0.5)
+                            # VIX: from FRED cache or market_data fallback (normalised VIX/40)
+                            _vix_raw   = market_data.get('vix', 20.0)
+                            _vix_norm  = min(float(_vix_raw) / 40.0, 1.0)
+
+                            # Detect model obs dimension for backward compatibility
+                            _obs_dim = getattr(
+                                self._sb3_agent_instance.observation_space, 'shape', (6,)
+                            )[0]
+
+                            if _obs_dim >= 8:
+                                # New 8-feature model (multi-asset, 20-year training)
+                                _obs = np.array([
+                                    float(current_price) / 1000.0,
+                                    float(_change) / 10.0,
+                                    float(_rsi) / 100.0,
+                                    float(_vol_ratio),
+                                    float(_macd),
+                                    float(_vola),
+                                    float(_regime),
+                                    float(_vix_norm),
+                                ], dtype=np.float32)
+                            else:
+                                # Legacy 6-feature model
+                                _obs = np.array([
+                                    float(current_price) / 1000.0,
+                                    float(_change) / 10.0,
+                                    float(_rsi) / 100.0,
+                                    float(_vol_ratio),
+                                    float(_macd),
+                                    float(_vola),
+                                ], dtype=np.float32)
                             _action_idx, _ = self._sb3_agent_instance.predict(_obs, deterministic=True)
                             _sb3_map = {0: 'SELL', 1: 'HOLD', 2: 'BUY'}
                             _sb3_action = _sb3_map.get(int(_action_idx), 'HOLD')
@@ -5880,6 +5957,150 @@ class PrometheusLiveTradingLauncher:
                     self.logger.debug(f"SEC RAG skipped for {symbol}: {e}")
 
             # ═══════════════════════════════════════════════════════════════
+            # 📚 KNOWLEDGE RAG — 19K-vector knowledge base (books + papers +
+            #    trade history + learned patterns).  Grounds every signal in
+            #    proven academic theory and Prometheus's own episodic memory.
+            #    Weight: 1.0x (same tier as SEC-RAG).
+            # ═══════════════════════════════════════════════════════════════
+            _kb_context_str = ''
+            if self.systems.get('knowledge_rag'):
+                try:
+                    _kb_oracle = self.systems['knowledge_rag']
+                    # Derive simple market conditions from live market_data
+                    _chg = market_data.get('change_percent', market_data.get('price_change_24h', 0)) or 0
+                    _vol = market_data.get('volatility', 0.02) or 0.02
+                    _mkt_conditions = {
+                        'trend': (
+                            'bullish' if _chg > 0.5
+                            else 'bearish' if _chg < -0.5
+                            else 'neutral'
+                        ),
+                        'volatility': (
+                            'high' if _vol > 0.04
+                            else 'low' if _vol < 0.01
+                            else 'normal'
+                        ),
+                        'patterns': [],
+                    }
+                    # Run synchronous KB query off the event loop to stay non-blocking
+                    _kb_context_str = await asyncio.get_event_loop().run_in_executor(
+                        None, _kb_oracle.get_trading_context, symbol, _mkt_conditions
+                    )
+                    if _kb_context_str:
+                        _ctx_lower = _kb_context_str.lower()
+                        _bull_kw = ['momentum', 'bullish', 'trend following', 'breakout',
+                                    'strength', 'upside', 'long', 'buy signal']
+                        _bear_kw = ['mean reversion', 'overbought', 'bearish', 'reversal',
+                                    'risk management', 'downside', 'short', 'sell signal']
+                        _bull_score = sum(1 for w in _bull_kw if w in _ctx_lower)
+                        _bear_score = sum(1 for w in _bear_kw if w in _ctx_lower)
+                        if _bull_score > _bear_score:
+                            _kb_action = 'BUY'
+                            _kb_conf   = min(0.70, 0.50 + _bull_score * 0.03)
+                        elif _bear_score > _bull_score:
+                            _kb_action = 'SELL'
+                            _kb_conf   = min(0.70, 0.50 + _bear_score * 0.03)
+                        else:
+                            _kb_action, _kb_conf = 'HOLD', 0.0
+                        if _kb_action != 'HOLD':
+                            learned_weight = self._get_ai_weight('KnowledgeRAG')
+                            signal_votes[_kb_action] += _kb_conf * 1.0 * learned_weight
+                            confidence_scores.append(_kb_conf)
+                            reasoning_parts.append(f"KB-RAG:{_kb_action}(b{_bull_score}/s{_bear_score})")
+                            ai_contributions.append('KnowledgeRAG')
+                            self.logger.info(
+                                f"📚 Knowledge RAG for {symbol}: {_kb_action} ({_kb_conf:.0%}) "
+                                f"[bull={_bull_score} bear={_bear_score}]"
+                            )
+                        else:
+                            self.logger.debug(f"📚 Knowledge RAG for {symbol}: neutral (b={_bull_score} s={_bear_score})")
+                except Exception as e:
+                    self.logger.debug(f"Knowledge RAG skipped for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 📊 FRED MACRO REGIME — Deterministic VIX/yield-curve voter (0.8x)
+            #    No LLM — hard rules on real FRED data.  Immune to hallucination.
+            # ═══════════════════════════════════════════════════════════════
+            try:
+                from core.fred_integration import get_fred
+                _fred = get_fred()
+                if _fred.enabled:
+                    _macro = await _fred.get_macro_vote()
+                    if _macro and _macro.get('action', 'HOLD') != 'HOLD':
+                        _mac_action = _macro['action']
+                        _mac_conf   = float(_macro.get('confidence', 0))
+                        if _mac_conf >= 0.45:
+                            learned_weight = self._get_ai_weight('MacroRegime')
+                            signal_votes[_mac_action] += _mac_conf * 0.8 * learned_weight
+                            confidence_scores.append(_mac_conf)
+                            reasoning_parts.append(f"FRED:{_mac_action}({_mac_conf:.0%})")
+                            ai_contributions.append('MacroRegime')
+                            self.logger.info(f"FRED MacroRegime for {symbol}: {_mac_action} ({_mac_conf:.0%})")
+            except Exception as e:
+                self.logger.debug(f"FRED MacroRegime failed for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # 🧠 DEEPSEEK-R1 — Chain-of-thought reasoning LLM (1.0x)
+            #    Local via Ollama (free) or cloud API.  20s timeout so a slow
+            #    Ollama response never blocks the voting loop.
+            # ═══════════════════════════════════════════════════════════════
+            if self.systems.get('deepseek'):
+                try:
+                    _ds_adapter = self.systems['deepseek']
+                    _ds_market = dict(market_data)
+                    _ds_market['symbol'] = symbol
+                    _ds_result = await asyncio.wait_for(
+                        asyncio.get_event_loop().run_in_executor(
+                            None, _ds_adapter.analyze_market, _ds_market
+                        ),
+                        timeout=20.0
+                    )
+                    if _ds_result and _ds_result.get('action', 'HOLD') != 'HOLD':
+                        _ds_action = _ds_result['action'].upper()
+                        _ds_conf   = min(float(_ds_result.get('confidence', 50)) / 100.0, 0.85)
+                        if _ds_action in ('BUY', 'SELL') and _ds_conf >= 0.45:
+                            learned_weight = self._get_ai_weight('DeepSeek')
+                            signal_votes[_ds_action] += _ds_conf * 1.0 * learned_weight
+                            confidence_scores.append(_ds_conf)
+                            reasoning_parts.append(f"DeepSeek:{_ds_action}({_ds_conf:.0%})")
+                            ai_contributions.append('DeepSeek')
+                            self.logger.info(f"DeepSeek-R1 signal for {symbol}: {_ds_action} ({_ds_conf:.0%})")
+                except asyncio.TimeoutError:
+                    self.logger.debug(f"DeepSeek timed out for {symbol} (Ollama slow)")
+                except Exception as e:
+                    self.logger.debug(f"DeepSeek voter failed for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # ✨ GEMINI 2.0 FLASH — Google frontier LLM voter (1.0x)
+            #    Free via Google AI Studio, 1M context, sub-second latency.
+            # ═══════════════════════════════════════════════════════════════
+            if self.systems.get('gemini'):
+                try:
+                    _gem_adapter = self.systems['gemini']
+                    _gem_market  = dict(market_data)
+                    _gem_market['symbol'] = symbol
+                    _gem_result = await asyncio.wait_for(
+                        asyncio.get_event_loop().run_in_executor(
+                            None, _gem_adapter.analyze_market, _gem_market
+                        ),
+                        timeout=15.0
+                    )
+                    if _gem_result and _gem_result.get('action', 'HOLD') != 'HOLD':
+                        _gem_action = _gem_result['action'].upper()
+                        _gem_conf   = min(float(_gem_result.get('confidence', 50)) / 100.0, 0.85)
+                        if _gem_action in ('BUY', 'SELL') and _gem_conf >= 0.45:
+                            learned_weight = self._get_ai_weight('Gemini')
+                            signal_votes[_gem_action] += _gem_conf * 1.0 * learned_weight
+                            confidence_scores.append(_gem_conf)
+                            reasoning_parts.append(f"Gemini:{_gem_action}({_gem_conf:.0%})")
+                            ai_contributions.append('Gemini')
+                            self.logger.info(f"Gemini 2.0 Flash signal for {symbol}: {_gem_action} ({_gem_conf:.0%})")
+                except asyncio.TimeoutError:
+                    self.logger.debug(f"Gemini timed out for {symbol}")
+                except Exception as e:
+                    self.logger.debug(f"Gemini voter failed for {symbol}: {e}")
+
+            # ═══════════════════════════════════════════════════════════════
             # 🎯 SYNTHESIZE FINAL SIGNAL - Weighted Consensus
             # ═══════════════════════════════════════════════════════════════
             if not ai_contributions:
@@ -5958,7 +6179,9 @@ class PrometheusLiveTradingLauncher:
                     'volume': market_data.get('volume', 0),
                     'volatility': market_data.get('volatility', 0.02),
                     'price_change_24h': market_data.get('change_percent', 0)
-                }
+                },
+                # Knowledge context: top RAG chunks that informed this signal
+                'knowledge_context': _kb_context_str[:1000] if _kb_context_str else ''
             }
 
             # Store signal prediction for later learning comparison
@@ -6206,7 +6429,7 @@ class PrometheusLiveTradingLauncher:
             # Alpaca positions come as LINKUSD but APIs need LINK/USD format
             # ═══════════════════════════════════════════════════════════════
             crypto_bases = ['BTC', 'ETH', 'SOL', 'LINK', 'AVAX', 'AAVE', 'DOGE', 'PEPE',
-                           'UNI', 'SUSHI', 'CRV', 'ADA', 'DOT', 'MATIC', 'ATOM', 'XRP',
+                           'UNI', 'CRV', 'ADA', 'DOT', 'MATIC', 'ATOM', 'XRP',
                            'LTC', 'BCH', 'SHIB', 'NEAR', 'FTM', 'ALGO', 'XLM', 'VET']
 
             # If symbol is like LINKUSD (no slash) and ends with USD, convert to LINK/USD
@@ -7012,6 +7235,14 @@ class PrometheusLiveTradingLauncher:
 
             selected_order_type = OrderType.MARKET if ai_order_decision['order_type'] == 'MARKET' else OrderType.LIMIT
             limit_price = ai_order_decision.get('limit_price')
+
+            # Force MARKET for micro-notional orders — fractional limit orders rarely fill
+            # during volatile sessions, causing stale_pending_timeout waste.
+            notional_value = quantity * current_price
+            if notional_value < 50.0 and selected_order_type == OrderType.LIMIT:
+                selected_order_type = OrderType.MARKET
+                limit_price = None
+                self.logger.info(f"   Overriding LIMIT -> MARKET (notional ${notional_value:.2f} < $50 threshold)")
 
             # Create Order object with AI-selected order type
             order_obj = Order(

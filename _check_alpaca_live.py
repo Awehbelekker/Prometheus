@@ -1,8 +1,9 @@
+import os
 import requests
 
 headers = {
-    'APCA-API-KEY-ID': 'AKMMN6U5DXKTM7A2UEAAF4ZQ5Z',
-    'APCA-API-SECRET-KEY': 'At2pPUS7TyGj3vAdjRAA6wuDXQDKkaejxTGL5w3rBhJX'
+    'APCA-API-KEY-ID': os.getenv('ALPACA_API_KEY', ''),
+    'APCA-API-SECRET-KEY': os.getenv('ALPACA_SECRET_KEY', '')
 }
 base = 'https://api.alpaca.markets'
 

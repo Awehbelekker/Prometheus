@@ -68,7 +68,7 @@ async def setup_live_trading():
     print("\n⚠️  THIS WILL TRADE WITH REAL MONEY! ⚠️\n")
     
     # Get API keys
-    api_key = os.getenv('ALPACA_API_KEY', 'AKMMN6U5DXKTM7A2UEAAF4ZQ5Z')
+    api_key = os.getenv('ALPACA_API_KEY', '')
     secret_key = os.getenv('ALPACA_SECRET_KEY')
     
     if not secret_key:

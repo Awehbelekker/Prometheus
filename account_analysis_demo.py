@@ -11,6 +11,7 @@ This script demonstrates:
 5. Daily profit/loss calculations
 """
 
+import os
 import requests
 import json
 from datetime import datetime
@@ -28,8 +29,8 @@ class AlpacaAccountAnalyzer:
             response = requests.post(
                 f"{self.base_url}/api/auth/login",
                 json={
-                    "email": "admin@prometheus-trader.com",
-                    "password": "PrometheusAdmin2024!"
+                    "email": os.getenv("PROMETHEUS_ADMIN_EMAIL", "admin@prometheus-trader.com"),
+                    "password": os.getenv("PROMETHEUS_ADMIN_PASSWORD", "")
                 }
             )
             if response.status_code == 200:

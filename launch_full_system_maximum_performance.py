@@ -47,7 +47,7 @@ class FullSystemLauncher:
         try:
             from brokers.alpaca_broker import AlpacaBroker
             
-            api_key = os.getenv('ALPACA_API_KEY', 'AKMMN6U5DXKTM7A2UEAAF4ZQ5Z')
+            api_key = os.getenv('ALPACA_API_KEY', '')
             secret_key = os.getenv('ALPACA_SECRET_KEY')
             
             if not secret_key:

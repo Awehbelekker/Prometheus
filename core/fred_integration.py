@@ -348,6 +348,70 @@ class FREDIntegration:
         }
 
 
+    async def get_macro_vote(self) -> Dict[str, Any]:
+        """
+        Deterministic macro regime vote for the PROMETHEUS voting loop.
+        Returns {action, confidence, reasoning} based on VIX + yield curve + Fed Funds.
+        No LLM — immune to hallucination, refreshes from FRED cache.
+        """
+        default = {"action": "HOLD", "confidence": 0.0, "reasoning": "FRED data unavailable"}
+        if not self.enabled:
+            return default
+
+        try:
+            vix   = await self.get_indicator(EconomicIndicator.VIX)
+            t10   = await self.get_indicator(EconomicIndicator.TREASURY_10Y)
+            t2    = await self.get_indicator(EconomicIndicator.TREASURY_2Y)
+            fed   = await self.get_indicator(EconomicIndicator.FED_FUNDS_RATE)
+
+            vix_val   = vix.value   if vix   else 20.0
+            t10_val   = t10.value   if t10   else 4.0
+            t2_val    = t2.value    if t2    else 4.0
+            fed_val   = fed.value   if fed   else 4.5
+            spread    = t10_val - t2_val   # positive = normal, negative = inverted
+
+            reasons = []
+
+            # Rule 1: VIX fear spike -> defensive SELL
+            if vix_val > 30:
+                action = "SELL"
+                conf   = min(0.65 + (vix_val - 30) * 0.005, 0.80)
+                reasons.append(f"VIX={vix_val:.0f}(fear)")
+                return {"action": action, "confidence": conf,
+                        "reasoning": f"FRED MacroRegime: {' '.join(reasons)}"}
+
+            # Rule 2: Yield curve deeply inverted -> SELL (recession risk)
+            if spread < -0.5:
+                action = "SELL"
+                conf   = min(0.55 + abs(spread) * 0.05, 0.70)
+                reasons.append(f"YieldCurve={spread:.2f}(inverted)")
+                return {"action": action, "confidence": conf,
+                        "reasoning": f"FRED MacroRegime: {' '.join(reasons)}"}
+
+            # Rule 3: Low VIX + positive yield curve = risk-on
+            if vix_val < 18 and spread > 0.25:
+                action = "BUY"
+                conf   = min(0.50 + (18 - vix_val) * 0.01 + spread * 0.03, 0.65)
+                reasons.append(f"VIX={vix_val:.0f}(calm) curve={spread:.2f}")
+                return {"action": action, "confidence": conf,
+                        "reasoning": f"FRED MacroRegime: {' '.join(reasons)}"}
+
+            # Rule 4: High Fed Funds + rising = tight conditions, dampen BUY
+            if fed_val > 5.0 and spread < 0:
+                action = "SELL"
+                conf   = 0.52
+                reasons.append(f"FedFunds={fed_val:.2f}% tight+inverted")
+                return {"action": action, "confidence": conf,
+                        "reasoning": f"FRED MacroRegime: {' '.join(reasons)}"}
+
+            return {"action": "HOLD", "confidence": 0.0,
+                    "reasoning": f"FRED MacroRegime: neutral VIX={vix_val:.0f} spread={spread:.2f}"}
+
+        except Exception as e:
+            logger.debug(f"FRED get_macro_vote error: {e}")
+            return default
+
+
 # Global instance
 _fred_instance: Optional[FREDIntegration] = None
 
